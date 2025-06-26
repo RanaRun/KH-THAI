@@ -11,6 +11,45 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Custom CSS for basic styling and overrides -->
     <link rel="stylesheet" href="styles/style.css">
+    <style>
+        /* Custom styles for flashcards */
+        .flashcard {
+            perspective: 1000px; /* Needed for 3D flip effect */
+        }
+        .flashcard-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .flashcard-inner.rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .flashcard-front {
+            background-color: #eff6ff; /* blue-50 */
+            color: #1e40af; /* blue-800 */
+        }
+        .flashcard-back {
+            background-color: #dbeafe; /* blue-100 */
+            color: #1f2937; /* gray-800 */
+            transform: rotateY(180deg);
+        }
+    </style>
 </head>
 <body class="bg-gray-100 font-inter min-h-screen flex flex-col">
     <!-- Loading Spinner -->
@@ -117,367 +156,39 @@
                 </div>
             </section>
 
-            <!-- Kindergarten Section (New) -->
+            <!-- Kindergarten Section -->
             <section id="kindergarten-section" class="app-section hidden">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="kindergarten_title">ថ្នាក់មតេយ្យ</h2>
                 <p class="text-gray-600 mb-6" data-translate="kindergarten_intro">សូមស្វាគមន៍មកកាន់មេរៀនថ្នាក់មតេយ្យ! ចូរយើងរៀនពាក្យ និងឃ្លាសាមញ្ញបំផុត។</p>
-
                 <div id="kindergarten-lessons-container" class="space-y-6">
-                    <!-- Hardcoded kindergarten lessons -->
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">แม่</p>
-                            <p class="text-lg text-gray-700">ម៉ែ</p>
-                            <p class="text-lg text-gray-700">ម្ដាយ</p>
-                            <p class="text-md text-gray-500">Mother</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="แม่">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ម៉ែ">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">พ่อ</p>
-                            <p class="text-lg text-gray-700">ប៉ា</p>
-                            <p class="text-lg text-gray-700">ឪពុក</p>
-                            <p class="text-md text-gray-500">Father</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="พ่อ">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ប៉ា">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">น้ำ</p>
-                            <p class="text-lg text-gray-700">ណាំ</p>
-                            <p class="text-lg text-gray-700">ទឹក</p>
-                            <p class="text-md text-gray-500">Water</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="น้ำ">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ណាំ">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">กิน</p>
-                            <p class="text-lg text-gray-700">គីន</p>
-                            <p class="text-lg text-gray-700">ញ៉ាំ/បរិភោគ</p>
-                            <p class="text-md text-gray-500">Eat</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="กิน">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="គីន">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">นอน</p>
-                            <p class="text-lg text-gray-700">ណន</p>
-                            <p class="text-lg text-gray-700">គេង</p>
-                            <p class="text-md text-gray-500">Sleep</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="นอน">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ណន">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <!-- Lessons will be dynamically loaded here -->
                 </div>
             </section>
 
-            <!-- Beginner Section (Updated with lesson content) -->
+            <!-- Beginner Section -->
             <section id="beginner-section" class="app-section hidden">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="beginner_title">កម្រិតចាប់ផ្តើម</h2>
                 <p class="text-gray-600 mb-6" data-translate="beginner_intro">សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតចាប់ផ្តើម! ចូរយើងរៀនឃ្លាថៃមូលដ្ឋានមួយចំនួន។</p>
-
                 <div id="beginner-lessons-container" class="space-y-6">
-                    <!-- Lesson Item 1: Hello -->
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">สวัสดีครับ/ค่ะ</p>
-                            <p class="text-lg text-gray-700">សៈ វ៉ាត់ ឌី ក្រាប់/ខៈ</p>
-                            <p class="text-lg text-gray-700">ជំរាបសួរ</p>
-                            <p class="text-md text-gray-500">Hello/Greetings</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="สวัสดีครับ/ค่ะ">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="សៈ វ៉ាត់ ឌី ក្រាប់/ខៈ">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Lesson Item 2: How are you -->
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">สบายดีไหมครับ/คะ</p>
-                            <p class="text-lg text-gray-700">សៈបាយ ឌី ម៉ៃ ក្រាប់/ខៈ</p>
-                            <p class="text-lg text-gray-700">សុខសប្បាយជាទេ?</p>
-                            <p class="text-md text-gray-500">How are you?</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="สบายดีไหมครับ/คะ">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="សៈបាយ ឌី ម៉ៃ ក្រាប់/ខៈ">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Lesson Item 3: Thank you -->
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">ขอบคุณครับ/ค่ะ</p>
-                            <p class="text-lg text-gray-700">ខប់ ឃុន ក្រាប់/ខៈ</p>
-                            <p class="text-lg text-gray-700">អរគុណ</p>
-                            <p class="text-md text-gray-500">Thank you</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="ขอบคุณครับ/ค่ะ">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ខប់ ឃុន ក្រាប់/ខៈ">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Additional hardcoded beginner lessons -->
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">ขอโทษครับ/ค่ะ</p>
-                            <p class="text-lg text-gray-700">ខរ ថូត ក្រាប់/ខៈ</p>
-                            <p class="text-lg text-gray-700">សូមទោស</p>
-                            <p class="text-md text-gray-500">Excuse me/Sorry</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="ขอโทษครับ/ค่ะ">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ខរ ថូត ក្រាប់/ខៈ">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">ไม่เป็นไร</p>
-                            <p class="text-lg text-gray-700">ម៉ៃ ប៉ិន រ៉ៃ</p>
-                            <p class="text-lg text-gray-700">មិនអីទេ</p>
-                            <p class="text-md text-gray-500">No problem/You're welcome</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="ไม่เป็นไร">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ម៉ៃ ប៉ិន រ៉ៃ">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">ไปไหน</p>
-                            <p class="text-lg text-gray-700">ប៉ៃ ណៃ</p>
-                            <p class="text-lg text-gray-700">ទៅណា</p>
-                            <p class="text-md text-gray-500">Where are you going?</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="ไปไหน">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ប៉ៃ ណៃ">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">กินข้าว</p>
-                            <p class="text-lg text-gray-700">គីន ខាវ</p>
-                            <p class="text-lg text-gray-700">ញ៉ាំបាយ</p>
-                            <p class="text-md text-gray-500">Eat rice/meal</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="กินข้าว">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="គីន ខាវ">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <!-- Lessons will be dynamically loaded here -->
                 </div>
             </section>
 
-            <!-- Intermediate Section (Updated with hardcoded lessons) -->
+            <!-- Intermediate Section -->
             <section id="intermediate-section" class="app-section hidden">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="intermediate_title">កម្រិតកណ្តាល</h2>
                 <p class="text-gray-600 mb-6" data-translate="intermediate_intro">សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតកណ្តាល! នៅទីនេះ អ្នកនឹងរៀនឃ្លាដែលស្មុគស្មាញជាងនេះបន្តិច។</p>
                 <div id="intermediate-lessons-container" class="space-y-6">
-                    <!-- Hardcoded intermediate lessons -->
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">คุณชื่ออะไรครับ/คะ?</p>
-                            <p class="text-lg text-gray-700">ឃុន ឈឺ អៈរ៉ៃ ក្រាប់/ខៈ?</p>
-                            <p class="text-lg text-gray-700">អ្នកឈ្មោះអ្វី?</p>
-                            <p class="text-md text-gray-500">What is your name?</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="คุณชื่ออะไรครับ/คะ?">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ឃុន ឈឺ អៈរ៉ៃ ក្រាប់/ខៈ?">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">ฉันไม่เข้าใจ</p>
-                            <p class="text-lg text-gray-700">ឆាន់ ម៉ៃ ខៅ ចៃ</p>
-                            <p class="text-lg text-gray-700">ខ្ញុំមិនយល់ទេ</p>
-                            <p class="text-md text-gray-500">I don't understand</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="ฉันไม่เข้าใจ">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ឆាន់ ម៉ៃ ខៅ ចៃ">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">คุณพูดภาษาอังกฤษได้ไหมครับ/คะ?</p>
-                            <p class="text-lg text-gray-700">ឃុន ភូត ភាសាអង់គ្លេស ដាយ ម៉ៃ ក្រាប់/ខៈ?</p>
-                            <p class="text-lg text-gray-700">តើអ្នកនិយាយភាសាអង់គ្លេសបានទេ?</p>
-                            <p class="text-md text-gray-500">Can you speak English?</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="คุณพูดภาษาอังกฤษได้ไหมครับ/คะ?">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ឃុន ភូត ភាសាអង់គ្លេស ដាយ ម៉ៃ ក្រាប់/ខៈ?">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">ขอเมนูหน่อยครับ/ค่ะ</p>
-                            <p class="text-lg text-gray-700">ខរ មេនូ ណយ ក្រាប់/ខៈ</p>
-                            <p class="text-lg text-gray-700">សុំម៉ឺនុយ</p>
-                            <p class="text-md text-gray-500">May I have the menu?</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="ขอเมนูหน่อยครับ/ค่ะ">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ខរ មេនូ ណយ ក្រាប់/ខៈ">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">ผม/ดิฉันหิวข้าว</p>
-                            <p class="text-lg text-gray-700">ផុម/ឌីឆាន់ ហ៊ីវ ខាវ</p>
-                            <p class="text-lg text-gray-700">ខ្ញុំឃ្លានបាយ</p>
-                            <p class="text-md text-gray-500">I am hungry (for rice/food)</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="ผม/ดิฉันหิวข้าว">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ផុម/ឌីឆាន់ ហ៊ីវ ខាវ">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <!-- Lessons will be dynamically loaded here -->
                 </div>
             </section>
 
-            <!-- Advanced Section (Added hardcoded lessons) -->
+            <!-- Advanced Section -->
             <section id="advanced-section" class="app-section hidden">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="advanced_title">កម្រិតខ្ពស់</h2>
                 <p class="text-gray-600 mb-6" data-translate="advanced_intro">សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតខ្ពស់! នៅទីនេះ អ្នកនឹងរៀនឃ្លាស្មុគស្មាញ និងកន្សោម idiomatic។</p>
                 <div id="advanced-lessons-container" class="space-y-6">
-                    <!-- Hardcoded advanced lessons -->
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">การเรียนรู้ภาษาใหม่ต้องใช้ความอดทนและเวลา</p>
-                            <p class="text-lg text-gray-700">កាន រៀនរូ ភាសា ម៉ៃ តង ឆៃ ខ្វាម អត់ថុន ឡែ វ៉េឡា</p>
-                            <p class="text-lg text-gray-700">ការរៀនភាសាថ្មីទាមទារការអត់ធ្មត់ និងពេលវេលា</p>
-                            <p class="text-md text-gray-500">Learning a new language requires patience and time.</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="การเรียนรู้ภาษาใหม่ต้องใช้ความอดทนและเวลา">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="កាន រៀនរូ ភាសា ម៉ៃ តង ឆៃ ខ្វាម អត់ថុន ឡែ វ៉េឡា">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">วัฒนธรรมไทยมีเสน่ห์และน่าสนใจมาก</p>
-                            <p class="text-lg text-gray-700">វ៉ាត់ថៈណៈធាំ ថៃ មី សៈណេ ឡែ ណា សន ចៃ ម៉ាក</p>
-                            <p class="text-lg text-gray-700">វប្បធម៌ថៃមានមន្តស្នេហ៍ និងគួរឱ្យចាប់អារម្មណ៍ណាស់</p>
-                            <p class="text-md text-gray-500">Thai culture is very charming and interesting.</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="วัฒนธรรมไทยมีเสน่ห์และน่าสนใจมาก">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="វ៉ាត់ថៈណៈធាំ ថៃ មី សៈណេ ឡែ ណា សន ចៃ ម៉ាក">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-2xl font-bold text-blue-800">การเดินทางทำให้เราเปิดโลกกว้าง</p>
-                            <p class="text-lg text-gray-700">កាន ដឿនថាង ថាំ ហៃ រ៉ៅ ប៉ិត ឡូក ក្វាង</p>
-                            <p class="text-lg text-gray-700">ការធ្វើដំណើរធ្វើឱ្យយើងបើកពិភពលោកធំទូលាយ</p>
-                            <p class="text-md text-gray-500">Traveling broadens our horizons.</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="การเดินทางทำให้เราเปิดโลกกว้าง">
-                                <i class="fas fa-volume-up text-xl"></i>
-                            </button>
-                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="កាន ដឿនថាង ថាំ ហៃ រ៉ៅ ប៉ិត ឡូក ក្វាង">
-                                <i class="fas fa-comment-dots text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <!-- Lessons will be dynamically loaded here -->
                 </div>
             </section>
 
@@ -520,165 +231,56 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-2xl font-bold text-blue-800">ลดราคาได้ไหมครับ/คะ?</p>
+                            <p class="text-lg text-gray-700">ឡុត រ៉ាខា ដាយ ម៉ៃ ក្រាប់/ខៈ?</p>
+                            <p class="text-lg text-gray-700">បញ្ចុះតម្លៃបានទេ?</p>
+                            <p class="text-md text-gray-500">Can I get a discount?</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="ลดราคาได้ไหมครับ/คะ?">
+                                <i class="fas fa-volume-up text-xl"></i>
+                            </button>
+                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ឡុត រ៉ាខា ដាយ ម៉ៃ ក្រាប់/ខៈ?">
+                                <i class="fas fa-comment-dots text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-2xl font-bold text-blue-800">อันนี้เท่าไหร่ครับ/คะ?</p>
+                            <p class="text-lg text-gray-700">អាន់ នី ថៅ រ៉ៃ ក្រាប់/ខៈ?</p>
+                            <p class="text-lg text-gray-700">មួយនេះប៉ុន្មាន?</p>
+                            <p class="text-md text-gray-500">How much is this one?</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="อันนี้เท่าไหร่ครับ/คะ?">
+                                <i class="fas fa-volume-up text-xl"></i>
+                            </button>
+                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="អាន់ នី ថៅ រ៉ៃ ក្រាប់/ខៈ?">
+                                <i class="fas fa-comment-dots text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- Exam Section (Now displays static questions) -->
+            <!-- Exam Section -->
             <section id="exam-section" class="app-section hidden">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="exam_title">ប្រឡង</h2>
                 <p class="text-gray-600 mb-6" data-translate="exam_intro_static">សាកល្បងចំណេះដឹងភាសាថៃរបស់អ្នកជាមួយនឹងសំណួរគំរូ។</p>
                 <div id="exam-questions-container" class="space-y-6">
-                    <!-- Hardcoded exam questions -->
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm space-y-3">
-                        <p class="text-lg font-semibold text-gray-800"><span class="font-bold">សំណួរ:</span> តើ 'สวัสดี' មានន័យដូចម្តេចជាភាសាខ្មែរ?</p>
-                        <p class="text-md text-gray-600"><span class="font-bold">Question:</span> What does 'สวัสดี' mean in Khmer?</p>
-                        <p class="text-xl font-bold text-blue-800"><span class="font-bold">คำถาม:</span> 'สวัสดี' หมายความว่าอะไรในภาษาเขมร?</p>
-                        <div class="options-container space-y-2">
-                            <button class="option-button w-full text-left bg-white hover:bg-blue-100 p-3 rounded-md border border-gray-300 transition-colors duration-200 text-gray-700" data-correct="false" data-index="0">
-                                1. អរគុណ / Thank you / ขอบคุณ
-                            </button>
-                            <button class="option-button w-full text-left bg-white hover:bg-blue-100 p-3 rounded-md border border-gray-300 transition-colors duration-200 text-gray-700" data-correct="true" data-index="1">
-                                2. ជំរាបសួរ / Hello / สวัสดี
-                            </button>
-                            <button class="option-button w-full text-left bg-white hover:bg-blue-100 p-3 rounded-md border border-gray-300 transition-colors duration-200 text-gray-700" data-correct="false" data-index="2">
-                                3. លាហើយ / Goodbye / ลาก่อน
-                            </button>
-                        </div>
-                        <div class="feedback-message mt-2 text-center font-bold"></div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm space-y-3">
-                        <p class="text-lg font-semibold text-gray-800"><span class="font-bold">សំណួរ:</span> តើពាក្យថៃមួយណាមានន័យថា 'ទឹក'?</p>
-                        <p class="text-md text-gray-600"><span class="font-bold">Question:</span> Which Thai word means 'water'?</p>
-                        <p class="text-xl font-bold text-blue-800"><span class="font-bold">คำถาม:</span> คำภาษาไทยคำใดหมายถึง 'น้ำ'?</p>
-                        <div class="options-container space-y-2">
-                            <button class="option-button w-full text-left bg-white hover:bg-blue-100 p-3 rounded-md border border-gray-300 transition-colors duration-200 text-gray-700" data-correct="false" data-index="0">
-                                1. ข้าว / Rice / បាយ
-                            </button>
-                            <button class="option-button w-full text-left bg-white hover:bg-blue-100 p-3 rounded-md border border-gray-300 transition-colors duration-200 text-gray-700" data-correct="true" data-index="1">
-                                2. น้ำ / Water / ទឹក
-                            </button>
-                            <button class="option-button w-full text-left bg-white hover:bg-blue-100 p-3 rounded-md border border-gray-300 transition-colors duration-200 text-gray-700" data-correct="false" data-index="2">
-                                3. ผลไม้ / Fruit / ផ្លែឈើ
-                            </button>
-                        </div>
-                        <div class="feedback-message mt-2 text-center font-bold"></div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm space-y-3">
-                        <p class="text-lg font-semibold text-gray-800"><span class="font-bold">សំណួរ:</span> តើពាក្យថៃមួយណាមានន័យថា 'ឆ្ងាញ់'?</p>
-                        <p class="text-md text-gray-600"><span class="font-bold">Question:</span> Which Thai word means 'delicious'?</p>
-                        <p class="text-xl font-bold text-blue-800"><span class="font-bold">คำถาม:</span> คำภาษาไทยคำใดหมายถึง 'อร่อย'?</p>
-                        <div class="options-container space-y-2">
-                            <button class="option-button w-full text-left bg-white hover:bg-blue-100 p-3 rounded-md border border-gray-300 transition-colors duration-200 text-gray-700" data-correct="true" data-index="0">
-                                1. อร่อย / Delicious / ឆ្ងាញ់
-                            </button>
-                            <button class="option-button w-full text-left bg-white hover:bg-blue-100 p-3 rounded-md border border-gray-300 transition-colors duration-200 text-gray-700" data-correct="false" data-index="1">
-                                2. แพง / Expensive / ថ្លៃ
-                            </button>
-                            <button class="option-button w-full text-left bg-white hover:bg-blue-100 p-3 rounded-md border border-gray-300 transition-colors duration-200 text-gray-700" data-correct="false" data-index="2">
-                                3. ถูก / Cheap / ថោក
-                            </button>
-                        </div>
-                        <div class="feedback-message mt-2 text-center font-bold"></div>
-                    </div>
+                    <!-- Exam questions will be dynamically loaded here -->
                 </div>
             </section>
 
-            <!-- Flashcards Section (Now displays static flashcards) -->
+            <!-- Flashcards Section -->
             <section id="flashcards-section" class="app-section hidden">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="flashcards_title">Flashcards</h2>
                 <p class="text-gray-600 mb-6" data-translate="flashcards_intro_static">រៀនពាក្យ និងឃ្លាថ្មីៗយ៉ាងងាយស្រួលដោយប្រើ Flashcard គំរូ។</p>
                 <div id="flashcards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Hardcoded flashcards -->
-                    <div class="flashcard bg-blue-50 p-6 rounded-lg shadow-md cursor-pointer transform transition-transform duration-500 perspective-1000 relative h-48 flex items-center justify-center" tabindex="0">
-                        <div class="flashcard-inner relative w-full h-full text-center transition-transform duration-500 transform-style-preserve-3d">
-                            <div class="flashcard-face flashcard-front absolute w-full h-full backface-hidden flex flex-col items-center justify-center">
-                                <p class="text-3xl font-bold text-blue-800 mb-2">อร่อย</p>
-                                <p class="text-lg text-gray-600">អៈរ៉យ</p>
-                                <button class="play-khmer-phonetic-button mt-3 bg-purple-500 hover:bg-purple-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="អៈរ៉យ">
-                                    <i class="fas fa-comment-dots text-lg"></i>
-                                </button>
-                            </div>
-                            <div class="flashcard-face flashcard-back absolute w-full h-full backface-hidden flex flex-col items-center justify-center rotate-y-180">
-                                <p class="text-xl font-semibold text-gray-800 mb-1">ឆ្ងាញ់</p>
-                                <p class="text-lg text-gray-700">Delicious</p>
-                                <button class="play-audio-button mt-3 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-thai-text="อร่อย">
-                                    <i class="fas fa-volume-up text-lg"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flashcard bg-blue-50 p-6 rounded-lg shadow-md cursor-pointer transform transition-transform duration-500 perspective-1000 relative h-48 flex items-center justify-center" tabindex="0">
-                        <div class="flashcard-inner relative w-full h-full text-center transition-transform duration-500 transform-style-preserve-3d">
-                            <div class="flashcard-face flashcard-front absolute w-full h-full backface-hidden flex flex-col items-center justify-center">
-                                <p class="text-3xl font-bold text-blue-800 mb-2">ราคาเท่าไหร่</p>
-                                <p class="text-lg text-gray-600">រ៉ាខា ថៅ រ៉ៃ</p>
-                                <button class="play-khmer-phonetic-button mt-3 bg-purple-500 hover:bg-purple-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="រ៉ាខា ថៅ រ៉ៃ">
-                                    <i class="fas fa-comment-dots text-lg"></i>
-                                </button>
-                            </div>
-                            <div class="flashcard-face flashcard-back absolute w-full h-full backface-hidden flex flex-col items-center justify-center rotate-y-180">
-                                <p class="text-xl font-semibold text-gray-800 mb-1">ថ្លៃប៉ុន្មាន?</p>
-                                <p class="text-lg text-gray-700">How much?</p>
-                                <button class="play-audio-button mt-3 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-thai-text="ราคาเท่าไหร่">
-                                    <i class="fas fa-volume-up text-lg"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flashcard bg-blue-50 p-6 rounded-lg shadow-md cursor-pointer transform transition-transform duration-500 perspective-1000 relative h-48 flex items-center justify-center" tabindex="0">
-                        <div class="flashcard-inner relative w-full h-full text-center transition-transform duration-500 transform-style-preserve-3d">
-                            <div class="flashcard-face flashcard-front absolute w-full h-full backface-hidden flex flex-col items-center justify-center">
-                                <p class="text-3xl font-bold text-blue-800 mb-2">ห้องน้ำ</p>
-                                <p class="text-lg text-gray-600">ហង ណាំ</p>
-                                <button class="play-khmer-phonetic-button mt-3 bg-purple-500 hover:bg-purple-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ហង ណាំ">
-                                    <i class="fas fa-comment-dots text-lg"></i>
-                                </button>
-                            </div>
-                            <div class="flashcard-face flashcard-back absolute w-full h-full backface-hidden flex flex-col items-center justify-center rotate-y-180">
-                                <p class="text-xl font-semibold text-gray-800 mb-1">បន្ទប់ទឹក</p>
-                                <p class="text-lg text-gray-700">Restroom</p>
-                                <button class="play-audio-button mt-3 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-thai-text="ห้องน้ำ">
-                                    <i class="fas fa-volume-up text-lg"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flashcard bg-blue-50 p-6 rounded-lg shadow-md cursor-pointer transform transition-transform duration-500 perspective-1000 relative h-48 flex items-center justify-center" tabindex="0">
-                        <div class="flashcard-inner relative w-full h-full text-center transition-transform duration-500 transform-style-preserve-3d">
-                            <div class="flashcard-face flashcard-front absolute w-full h-full backface-hidden flex flex-col items-center justify-center">
-                                <p class="text-3xl font-bold text-blue-800 mb-2">อรุณสวัสดิ์</p>
-                                <p class="text-lg text-gray-600">អៈរុន សៈវ៉ាត់</p>
-                                <button class="play-khmer-phonetic-button mt-3 bg-purple-500 hover:bg-purple-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="អៈរុន សៈវ៉ាត់">
-                                    <i class="fas fa-comment-dots text-lg"></i>
-                                </button>
-                            </div>
-                            <div class="flashcard-face flashcard-back absolute w-full h-full backface-hidden flex flex-col items-center justify-center rotate-y-180">
-                                <p class="text-xl font-semibold text-gray-800 mb-1">អរុណសួស្តី</p>
-                                <p class="text-lg text-gray-700">Good morning</p>
-                                <button class="play-audio-button mt-3 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-thai-text="อรุณสวัสดิ์">
-                                    <i class="fas fa-volume-up text-lg"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flashcard bg-blue-50 p-6 rounded-lg shadow-md cursor-pointer transform transition-transform duration-500 perspective-1000 relative h-48 flex items-center justify-center" tabindex="0">
-                        <div class="flashcard-inner relative w-full h-full text-center transition-transform duration-500 transform-style-preserve-3d">
-                            <div class="flashcard-face flashcard-front absolute w-full h-full backface-hidden flex flex-col items-center justify-center">
-                                <p class="text-3xl font-bold text-blue-800 mb-2">ราตรีสวัสดิ์</p>
-                                <p class="text-lg text-gray-600">រ៉ាត្រី សៈវ៉ាត់</p>
-                                <button class="play-khmer-phonetic-button mt-3 bg-purple-500 hover:bg-purple-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="រ៉ាត្រី សៈវ៉ាត់">
-                                    <i class="fas fa-comment-dots text-lg"></i>
-                                </button>
-                            </div>
-                            <div class="flashcard-face flashcard-back absolute w-full h-full backface-hidden flex flex-col items-center justify-center rotate-y-180">
-                                <p class="text-xl font-semibold text-gray-800 mb-1">រាត្រីសួស្តី</p>
-                                <p class="text-lg text-gray-700">Good night</p>
-                                <button class="play-audio-button mt-3 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-thai-text="ราตรีสวัสดิ์">
-                                    <i class="fas fa-volume-up text-lg"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Flashcards will be dynamically loaded here -->
                 </div>
             </section>
 
@@ -691,10 +293,11 @@
                         សូមអបអរសាទរចំពោះវឌ្ឍនភាពដ៏អស្ចារ្យរបស់អ្នកក្នុងការរៀនភាសាថៃ! អ្នកបានបង្ហាញពីភាពជាប់លាប់ដ៏គួរឱ្យកត់សម្គាល់ក្នុងការអនុវត្តប្រចាំថ្ងៃរបស់អ្នក។
                         វាក្យសព្ទរបស់អ្នកបានរីកចម្រើនយ៉ាងឆាប់រហ័ស ហើយអ្នកកំពុងចាប់ផ្តើមយល់ពីឃ្លាស្មុគស្មាញកាន់តែច្រើន។
                         ការបញ្ចេញសំឡេងរបស់អ្នកបានប្រសើរឡើងគួរឱ្យកត់សម្គាល់ ជាពិសេសនៅក្នុងព្យាង្គដែលមានសម្លេង។
+                        អ្នកបានបញ្ចប់មេរៀនកម្រិតមតេយ្យ និងកម្រិតចាប់ផ្តើមទាំងអស់ដោយជោគជ័យ ហើយបានឆ្លើយសំណួរប្រឡងជាច្រើនបានត្រឹមត្រូវ។
                         ដើម្បីបន្តការរីកចម្រើនរបស់អ្នក សូមពិចារណាផ្តោតលើការកែលម្អការនិយាយឱ្យស្ទាត់ជំនាញដោយការអនុវត្តជាមួយអ្នកនិយាយដើម
                         និងការយល់ដឹងអំពីវេយ្យាករណ៍ស្មុគស្មាញបន្ថែមទៀត ដូចជាការប្រើប្រាស់ភាគល្អិត និងរចនាសម្ព័ន្ធប្រយោគ។
                         ការអានរឿងខ្លីៗ ឬអត្ថបទព័ត៌មានជាភាសាថៃក៏អាចជួយពង្រឹងជំនាញរបស់អ្នកផងដែរ។
-                        បន្តការខិតខំប្រឹងប្រែងរបស់អ្នក!
+                        បន្តការខិតខំប្រឹងប្រែងរបស់អ្នក! អ្នកกำลังทำได้ดีมาก!
                     </p>
                 </div>
             </section>
@@ -719,6 +322,16 @@
                         <p class="text-lg font-semibold text-blue-800"><i class="fas fa-bookmark text-blue-500 mr-2"></i> ឃ្លាសម្រាប់សណ្ឋាគារ</p>
                         <p class="text-md text-gray-700 ml-6">(Hotel Phrases)</p>
                         <p class="text-sm text-gray-500 ml-6">(วลีสำหรับโรงแรม)</p>
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded-lg shadow-sm flex flex-col items-start">
+                        <p class="text-lg font-semibold text-blue-800"><i class="fas fa-bookmark text-blue-500 mr-2"></i> ឃ្លាសម្រាប់ទិញទំនិញ</p>
+                        <p class="text-md text-gray-700 ml-6">(Shopping Phrases)</p>
+                        <p class="text-sm text-gray-500 ml-6">(วลีสำหรับการช้อปปิ้ง)</p>
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded-lg shadow-sm flex flex-col items-start">
+                        <p class="text-lg font-semibold text-blue-800"><i class="fas fa-bookmark text-blue-500 mr-2"></i> លេខ និងពណ៌</p>
+                        <p class="text-md text-gray-700 ml-6">(Numbers and Colors)</p>
+                        <p class="text-sm text-gray-500 ml-6">(ตัวเลขและสี)</p>
                     </div>
                 </div>
             </section>
@@ -778,6 +391,10 @@
                     "kindergarten_intro": "សូមស្វាគមន៍មកកាន់មេរៀនថ្នាក់មតេយ្យ! ចូរយើងរៀនពាក្យ និងឃ្លាសាមញ្ញបំផុត។",
                     "beginner_title": "កម្រិតចាប់ផ្តើម",
                     "beginner_intro": "សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតចាប់ផ្តើម! ចូរយើងរៀនឃ្លាថៃមូលដ្ឋានមួយចំនួន។",
+                    "intermediate_title": "កម្រិតកណ្តាល",
+                    "intermediate_intro": "សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតកណ្តាល! នៅទីនេះ អ្នកនឹងរៀនឃ្លាដែលស្មុគស្មាញជាងនេះបន្តិច។",
+                    "advanced_title": "កម្រិតខ្ពស់",
+                    "advanced_intro": "សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតខ្ពស់! នៅទីនេះ អ្នកនឹងរៀនឃ្លាស្មុគស្មាញ និងកន្សោម idiomatic។",
                     "custom_lesson_title": "មេរៀនតាមតម្រូវការ",
                     "custom_lesson_intro_static": "នេះគឺជាមេរៀនគំរូដែលបានបង្កើតឡើងជាមុន។ អ្នកអាចកែសម្រួលវាដោយផ្ទាល់នៅក្នុងកូដ។",
                     "exam_title": "ប្រឡង",
@@ -824,6 +441,10 @@
                     "kindergarten_intro": "Welcome to the kindergarten lessons! Let's learn the simplest words and phrases.",
                     "beginner_title": "Beginner Level",
                     "beginner_intro": "Welcome to the beginner lessons! Let's learn some basic Thai phrases.",
+                    "intermediate_title": "Intermediate Level",
+                    "intermediate_intro": "Welcome to the intermediate lessons! Here, you'll learn slightly more complex phrases.",
+                    "advanced_title": "Advanced Level",
+                    "advanced_intro": "Welcome to the advanced lessons! Here, you'll learn complex phrases and idiomatic expressions.",
                     "custom_lesson_title": "Custom Lesson",
                     "custom_lesson_intro_static": "This is a sample pre-generated lesson. You can edit it directly in the code.",
                     "exam_title": "Exam",
@@ -870,6 +491,10 @@
                     "kindergarten_intro": "ยินดีต้อนรับสู่บทเรียนระดับอนุบาล! มาเรียนรู้คำศัพท์และวลีที่ง่ายที่สุดกัน",
                     "beginner_title": "ระดับเริ่มต้น",
                     "beginner_intro": "ยินดีต้อนรับสู่บทเรียนระดับเริ่มต้น! มาเรียนรู้ประโยคภาษาไทยพื้นฐานกัน",
+                    "intermediate_title": "ระดับกลาง",
+                    "intermediate_intro": "ยินดีต้อนรับสู่บทเรียนระดับกลาง! ที่นี่ คุณจะได้เรียนรู้วลีที่ซับซ้อนขึ้นเล็กน้อย",
+                    "advanced_title": "ระดับสูง",
+                    "advanced_intro": "ยินดีต้อนรับสู่บทเรียนระดับสูง! ที่นี่ คุณจะได้เรียนรู้วลีที่ซับซ้อนและสำนวนภาษา",
                     "custom_lesson_title": "บทเรียนที่กำหนดเอง",
                     "custom_lesson_intro_static": "นี่คือบทเรียนตัวอย่างที่สร้างไว้ล่วงหน้า คุณสามารถแก้ไขได้โดยตรงในโค้ด",
                     "exam_title": "แบบทดสอบ",
@@ -915,7 +540,30 @@
                 });
             }
 
-            // Function to create an Exam Question HTML element (retained for consistency with hardcoded data)
+            // Function to create a Lesson Item HTML element
+            function createLessonElement(lesson) {
+                const lessonDiv = document.createElement('div');
+                lessonDiv.className = 'bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between';
+                lessonDiv.innerHTML = `
+                    <div>
+                        <p class="text-2xl font-bold text-blue-800">${lesson.thaiWord}</p>
+                        <p class="text-lg text-gray-700">${lesson.phoneticTranscription}</p>
+                        <p class="text-lg text-gray-700">${lesson.khmerTranslation}</p>
+                        <p class="text-md text-gray-500">${lesson.englishTranslation}</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="${lesson.thaiWord}">
+                            <i class="fas fa-volume-up text-xl"></i>
+                        </button>
+                        <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="${lesson.phoneticTranscription}">
+                            <i class="fas fa-comment-dots text-xl"></i>
+                        </button>
+                    </div>
+                `;
+                return lessonDiv;
+            }
+
+            // Function to create an Exam Question HTML element
             function createQuizQuestionElement(question) {
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'bg-blue-50 p-4 rounded-lg shadow-sm space-y-3';
@@ -964,10 +612,10 @@
                 return questionDiv;
             }
 
-            // Function to create a Flashcard HTML element (retained for consistency with hardcoded data)
+            // Function to create a Flashcard HTML element
             function createFlashcardElement(flashcard) {
                 const flashcardDiv = document.createElement('div');
-                flashcardDiv.className = 'flashcard bg-blue-50 p-6 rounded-lg shadow-md cursor-pointer transform transition-transform duration-500 perspective-1000 relative h-48 flex items-center justify-center'; // Added perspective
+                flashcardDiv.className = 'flashcard bg-blue-50 p-6 rounded-lg shadow-md cursor-pointer transform transition-transform duration-500 perspective-1000 relative h-48 flex items-center justify-center';
                 flashcardDiv.setAttribute('tabindex', '0'); // Make it focusable for keyboard users
 
                 flashcardDiv.innerHTML = `
@@ -1008,6 +656,305 @@
             }
 
 
+            // Data for lessons, flashcards, and exams
+            const kindergartenLessonsData = [
+                { thaiWord: "สวัสดี", phoneticTranscription: "សៈ វ៉ាត់ ឌី", khmerTranslation: "ជំរាបសួរ", englishTranslation: "Hello" },
+                { thaiWord: "ลา ก่อน", phoneticTranscription: "ឡា កន", khmerTranslation: "លាហើយ", englishTranslation: "Goodbye" },
+                { thaiWord: "ขอบคุณ", phoneticTranscription: "ខប់ ឃុន", khmerTranslation: "អរគុណ", englishTranslation: "Thank you" },
+                { thaiWord: "ขอโทษ", phoneticTranscription: "ខរ ថូត", khmerTranslation: "សូមទោស", englishTranslation: "Sorry" },
+                { thaiWord: "ใช่", phoneticTranscription: "ឆៃ", khmerTranslation: "បាទ/ចាស៎ (ត្រូវ)", englishTranslation: "Yes" },
+                { thaiWord: "ไม่", phoneticTranscription: "ម៉ៃ", khmerTranslation: "ទេ/មិន", englishTranslation: "No" },
+                { thaiWord: "แม่", phoneticTranscription: "ម៉ែ", khmerTranslation: "ម្ដាយ", englishTranslation: "Mother" },
+                { thaiWord: "พ่อ", phoneticTranscription: "ប៉ា", khmerTranslation: "ឪពុក", englishTranslation: "Father" },
+                { thaiWord: "น้ำ", phoneticTranscription: "ណាំ", khmerTranslation: "ទឹក", englishTranslation: "Water" },
+                { thaiWord: "กิน", phoneticTranscription: "គីន", khmerTranslation: "ញ៉ាំ/បរិភោគ", englishTranslation: "Eat" },
+                { thaiWord: "นอน", phoneticTranscription: "ណន", khmerTranslation: "គេង", englishTranslation: "Sleep" },
+                { thaiWord: "หมา", phoneticTranscription: "ម៉ា", khmerTranslation: "ឆ្កែ", englishTranslation: "Dog" },
+                { thaiWord: "แมว", phoneticTranscription: "ម៉ែវ", khmerTranslation: "ឆ្មា", englishTranslation: "Cat" },
+                { thaiWord: "นก", phoneticTranscription: "ណុក", khmerTranslation: "បក្សី", englishTranslation: "Bird" }
+            ];
+
+            const beginnerLessonsData = [
+                { thaiWord: "สบายดีไหมครับ/คะ", phoneticTranscription: "សៈបាយ ឌី ម៉ៃ ក្រាប់/ខៈ", khmerTranslation: "សុខសប្បាយជាទេ?", englishTranslation: "How are you?" },
+                { thaiWord: "ฉันสบายดี ขอบคุณ", phoneticTranscription: "ឆាន់ សៈបាយ ឌី ខប់ ឃុន", khmerTranslation: "ខ្ញុំសុខសប្បាយ អរគុណ", englishTranslation: "I'm fine, thank you" },
+                { thaiWord: "คุณชื่ออะไรครับ/คะ", phoneticTranscription: "ឃុន ឈឺ អៈរ៉ៃ ក្រាប់/ខៈ", khmerTranslation: "អ្នកឈ្មោះអ្វី?", englishTranslation: "What's your name?" },
+                { thaiWord: "คุณมาจากที่ไหน", phoneticTranscription: "ឃុន ម៉ា ចាក ធី ណៃ", khmerTranslation: "អ្នកមកពីណា?", englishTranslation: "Where are you from?" },
+                { thaiWord: "คุณอายุเท่าไหร่", phoneticTranscription: "ឃុន អាយុ ថៅ រ៉ៃ", khmerTranslation: "អ្នកអាយុប៉ុន្មាន?", englishTranslation: "How old are you?" },
+                { thaiWord: "กี่โมงแล้ว", phoneticTranscription: "គី ម៉ុង ឡែវ", khmerTranslation: "ម៉ោងប៉ុន្មានហើយ?", englishTranslation: "What time is it?" },
+                { thaiWord: "ห้องน้ำอยู่ที่ไหน", phoneticTranscription: "ហង ណាំ យូ ធី ណៃ", khmerTranslation: "បន្ទប់ទឹកនៅឯណា?", englishTranslation: "Where is the restroom?" },
+                { thaiWord: "นี่ราคาเท่าไหร่", phoneticTranscription: "នី រ៉ាខា ថៅ រ៉ៃ", khmerTranslation: "នេះថ្លៃប៉ុន្មាន?", englishTranslation: "How much is this?" },
+                { thaiWord: "ฉันไม่เข้าใจ", phoneticTranscription: "ឆាន់ ម៉ៃ ខៅ ចៃ", khmerTranslation: "ខ្ញុំមិនយល់ទេ", englishTranslation: "I don't understand" },
+                { thaiWord: "คุณพูดภาษาอังกฤษได้ไหม", phoneticTranscription: "ឃុន ភូត ភាសាអង់គ្លេស ដាយ ម៉ៃ", khmerTranslation: "តើអ្នកនិយាយភាសាអង់គ្លេសបានទេ?", englishTranslation: "Can you speak English?" },
+                { thaiWord: "ฉันพูดภาษาไทยได้นิดหน่อย", phoneticTranscription: "ឆាន់ ភូត ភាសាថៃ ដាយ ណិត ណយ", khmerTranslation: "ខ្ញុំនិយាយភាសាថៃបានបន្តិចបន្តួច", englishTranslation: "I can speak a little Thai." },
+                { thaiWord: "นี่เรียกว่าอะไร", phoneticTranscription: "នី រៀក វ៉ា អៈរ៉ៃ", khmerTranslation: "នេះហៅថាអ្វី?", englishTranslation: "What is this called?" },
+                { thaiWord: "คุณช่วยฉันได้ไหม", phoneticTranscription: "ឃុន ឈួយ ឆាន់ ដាយ ម៉ៃ", khmerTranslation: "តើអ្នកអាចជួយខ្ញុំបានទេ?", englishTranslation: "Can you help me?" },
+                { thaiWord: "ฉันต้องการความช่วยเหลือ", phoneticTranscription: "ឆាន់ តង កាន ខ្វាម ឈួយ លឿ", khmerTranslation: "ខ្ញុំត្រូវការជំនួយ", englishTranslation: "I need help" },
+                { thaiWord: "ฉันหลงทาง", phoneticTranscription: "ឆាន់ ហ្លុង ថាង", khmerTranslation: "ខ្ញុំវង្វេងផ្លូវ", englishTranslation: "I'm lost" },
+                { thaiWord: "คุณพูดซ้ำอีกครั้งได้ไหม", phoneticTranscription: "ឃុន ភូត សាំ អីក ឃ្រាំង ដាយ ម៉ៃ", khmerTranslation: "តើអ្នកអាចនិយាយម្តងទៀតបានទេ?", englishTranslation: "Can you repeat that please?" },
+                { thaiWord: "คุณมีไหม", phoneticTranscription: "ឃុន មី ម៉ៃ", khmerTranslation: "តើអ្នកមានទេ?", englishTranslation: "Do you have?" },
+                { thaiWord: "ฉันหิว", phoneticTranscription: "ឆាន់ ហ៊ីវ", khmerTranslation: "ខ្ញុំឃ្លាន", englishTranslation: "I'm hungry" },
+                { thaiWord: "ฉันหิวน้ำ", phoneticTranscription: "ឆាន់ ហ៊ីវ ណាំ", khmerTranslation: "ខ្ញុំស្រេកទឹក", englishTranslation: "I'm thirsty" },
+                { thaiWord: "ฉันเหนื่อย", phoneticTranscription: "ឆាន់ ណឿយ", khmerTranslation: "ខ្ញុំនឿយហត់", englishTranslation: "I'm tired" },
+                { thaiWord: "ฉันหนาว", phoneticTranscription: "ឆាន់ ណាវ", khmerTranslation: "ខ្ញុំរងា", englishTranslation: "I'm cold" },
+                { thaiWord: "ฉันร้อน", phoneticTranscription: "ឆាន់ រ៉ន", khmerTranslation: "ខ្ញុំក្តៅ", englishTranslation: "I'm hot" },
+                { thaiWord: "ฉันป่วย", phoneticTranscription: "ឆាន់ បួយ", khmerTranslation: "ខ្ញុំឈឺ", englishTranslation: "I'm sick" },
+                { thaiWord: "ฉันต้องการหมอ", phoneticTranscription: "ឆាន់ តង កាន ម៉រ", khmerTranslation: "ខ្ញុំត្រូវការពេទ្យ", englishTranslation: "I need a doctor" },
+                { thaiWord: "โทรเรียกรถพยาบาล", phoneticTranscription: "ថូ រៀក រ៉ត់ ផៈយាបាន", khmerTranslation: "ហៅរថយន្តសង្គ្រោះ", englishTranslation: "Call an ambulance" },
+                { thaiWord: "โรงพยาบาลอยู่ที่ไหน", phoneticTranscription: "រ៉ុងផៈយាបាន យូ ធី ណៃ", khmerTranslation: "មន្ទីរពេទ្យនៅឯណា?", englishTranslation: "Where is the hospital?" },
+                { thaiWord: "ฉันแพ้", phoneticTranscription: "ឆាន់ ផែ", khmerTranslation: "ខ្ញុំអាលែកហ្ស៊ី", englishTranslation: "I'm allergic to" },
+                { thaiWord: "ขอเมนูหน่อย", phoneticTranscription: "ខរ មេនូ ណយ", khmerTranslation: "សុំម៉ឺនុយ", englishTranslation: "Can I have the menu please?" },
+                { thaiWord: "อาหารที่คุณชอบมากที่สุดคืออะไร", phoneticTranscription: "អាហារ ធី ឃុន ឆប ម៉ាក ធី ស៊ុត គឺ អៈរ៉ៃ", khmerTranslation: "អាហារដែលអ្នកចូលចិត្តជាងគេគឺអ្វី?", englishTranslation: "What's your favorite food?" },
+                { thaiWord: "มีเมนูมังสวิรัติไหม", phoneticTranscription: "មី មេនូ មាំងសៈវីរ៉ាត់ ម៉ៃ", khmerTranslation: "មានមុខម្ហូបបួសទេ?", englishTranslation: "Is there a vegetarian option?" },
+                { thaiWord: "ฉันจ่ายด้วยบัตรเครดิตได้ไหม", phoneticTranscription: "ឆាន់ ចាយ ដួយ បាត់ ឃ្រេឌិត ដាយ ម៉ៃ", khmerTranslation: "ខ្ញុំអាចបង់ដោយប័ណ្ណឥណទានបានទេ?", englishTranslation: "Can I pay by credit card?" },
+                { thaiWord: "ขอเช็คบิล", phoneticTranscription: "ខរ ឆេក ប៊ីន", khmerTranslation: "សុំវិក័យប័ត្រ", englishTranslation: "Check please" },
+                { thaiWord: "สภาพอากาศวันนี้เป็นยังไง", phoneticTranscription: "សៈផាប អាកាត វ៉ាន់ នី ប៉ិន យ៉ាង ង៉ៃ", khmerTranslation: "អាកាសធាតុថ្ងៃនេះយ៉ាងម៉េច?", englishTranslation: "What's the weather like today?" },
+                { thaiWord: "มีแดด", phoneticTranscription: "មី ដែត", khmerTranslation: "មានថ្ងៃរះ", englishTranslation: "It's sunny" },
+                { thaiWord: "มีเมฆมาก", phoneticTranscription: "មី មេក ម៉ាក", khmerTranslation: "មានពពកច្រើន", englishTranslation: "It's cloudy" },
+                { thaiWord: "ฝนตก", phoneticTranscription: "ហ្វុន តក់", khmerTranslation: "ភ្លៀងធ្លាក់", englishTranslation: "It's raining" },
+                { thaiWord: "มีลมพัด", phoneticTranscription: "មី លម ផាត់", khmerTranslation: "មានខ្យល់បក់", englishTranslation: "It's windy" },
+                { thaiWord: "มีหิมะตก", phoneticTranscription: "មី ហ៊ីម៉ៈ តក់", khmerTranslation: "មានព្រិលធ្លាក់", englishTranslation: "It's snowing" },
+                { thaiWord: "วันนี้เป็นยังไงบ้าง", phoneticTranscription: "វ៉ាន់ នី ប៉ិន យ៉ាង ង៉ៃ បាង", khmerTranslation: "ថ្ងៃនេះយ៉ាងម៉េចដែរ?", englishTranslation: "How was your day?" },
+                { thaiWord: "คุณทำอะไรวันนี้", phoneticTranscription: "ឃុន ថាំ អៈរ៉ៃ វ៉ាន់ នី", khmerTranslation: "ថ្ងៃនេះអ្នកបានធ្វើអ្វីខ្លះ?", englishTranslation: "What did you do today?" },
+                { thaiWord: "คุณตื่นเวลากี่โมง", phoneticTranscription: "ឃុន តឺន វ៉េឡា គី ម៉ុង", khmerTranslation: "អ្នកក្រោកម៉ោងប៉ុន្មាន?", englishTranslation: "What time do you wake up?" },
+                { thaiWord: "คุณนอนเวลากี่โมง", phoneticTranscription: "ឃុន ណន វ៉េឡា គី ម៉ុង", khmerTranslation: "អ្នកចូលគេងម៉ោងប៉ុន្មាន?", englishTranslation: "What time do you go to bed?" },
+                { thaiWord: "งานอดิเรกที่คุณชอบทำมากที่สุดคืออะไร", phoneticTranscription: "ង៉ាន អៈឌីរេក ធី ឃុន ឆប ម៉ាក ធី ស៊ុត គឺ អៈរ៉ៃ", khmerTranslation: "ចំណូលចិត្តដែលអ្នកចូលចិត្តជាងគេគឺអ្វី?", englishTranslation: "What's your favorite hobby?" },
+                { thaiWord: "คุณชอบไปเที่ยวที่ไหนในวันหยุด", phoneticTranscription: "ឃុន ឆប ប៉ៃ ធៀវ ធី ណៃ ណៃ វ៉ាន់ យុត", khmerTranslation: "អ្នកចូលចិត្តទៅលេងកន្លែងណាពេលវិស្សមកាល?", englishTranslation: "Where do you like to go on vacation?" },
+                { thaiWord: "ภาพยนตร์ที่คุณชอบมากที่สุดคืออะไร", phoneticTranscription: "ផាបផៈយុន ធី ឃុន ឆប ម៉ាក ធី ស៊ុត គឺ អៈរ៉ៃ", khmerTranslation: "ភាពយន្តដែលអ្នកចូលចិត្តជាងគេគឺអ្វី?", englishTranslation: "What's your favorite movie?" },
+                { thaiWord: "คุณมีพี่น้องไหม", phoneticTranscription: "ឃុន មី ភី ណង ម៉ៃ", khmerTranslation: "តើអ្នកមានបងប្អូនទេ?", englishTranslation: "Do you have siblings?" },
+                { thaiWord: "คุณมีพี่น้องกี่คน", phoneticTranscription: "ឃុន មី ភី ណង គី ខុន", khmerTranslation: "តើអ្នកមានបងប្អូនប៉ុន្មាននាក់?", englishTranslation: "How many siblings do you have?" },
+                { thaiWord: "คุณเลี้ยงสัตว์ไหม", phoneticTranscription: "ឃុន លៀង សាត់ ម៉ៃ", khmerTranslation: "តើអ្នកចិញ្ចឹមសត្វទេ?", englishTranslation: "Do you have any pets?" },
+                { thaiWord: "สัตว์ที่คุณชอบมากที่สุดคืออะไร", phoneticTranscription: "សាត់ ធី ឃុន ឆប ម៉ាក ធី ស៊ុត គឺ អៈរ៉ៃ", khmerTranslation: "សត្វដែលអ្នកចូលចិត្តជាងគេគឺអ្វី?", englishTranslation: "What's your favorite animal?" },
+                { thaiWord: "สีที่คุณชอบมากที่สุดคืออะไร", phoneticTranscription: "ស៊ី ធី ឃុន ឆប ម៉ាក ធី ស៊ុត គឺ អៈរ៉ៃ", khmerTranslation: "ពណ៌ដែលអ្នកចូលចិត្តជាងគេគឺអ្វី?", englishTranslation: "What's your favorite color?" },
+                { thaiWord: "ฤดูที่คุณชอบมากที่สุดคืออะไร", phoneticTranscription: "រ៉ឺឌូ ធី ឃុន ឆប ម៉ាក ធី ស៊ុត គឺ អៈរ៉ៃ", khmerTranslation: "រដូវដែលអ្នកចូលចិត្តជាងគេគឺអ្វី?", englishTranslation: "What's your favorite season?" },
+                { thaiWord: "กีฬาที่คุณชอบมากที่สุดคืออะไร", phoneticTranscription: "គីឡា ធី ឃុន ឆប ម៉ាក ធី ស៊ុត គឺ អៈរ៉ៃ", khmerTranslation: "កីឡាដែលអ្នកចូលចិត្តជាងគេគឺអ្វី?", englishTranslation: "What's your favorite sport?" },
+                { thaiWord: "คุณชอบทำอาหารไหม", phoneticTranscription: "ឃុន ឆប ថាំ អាហារ ម៉ៃ", khmerTranslation: "តើអ្នកចូលចិត្តធ្វើម្ហូបទេ?", englishTranslation: "Do you like to cook?" },
+                { thaiWord: "คุณชอบเดินทางไหม", phoneticTranscription: "ឃុន ឆប ដឿនថាង ម៉ៃ", khmerTranslation: "តើអ្នកចូលចិត្តធ្វើដំណើរទេ?", englishTranslation: "Do you like to travel?" },
+                { thaiWord: "คุณชอบอ่านหนังสือไหม", phoneticTranscription: "ឃុន ឆប អាន ណាំងស៊ឺ ម៉ៃ", khmerTranslation: "តើអ្នកចូលចិត្តអានសៀវភៅទេ?", englishTranslation: "Do you like to read?" },
+                { thaiWord: "คุณชอบดูภาพยนตร์ไหม", phoneticTranscription: "ឃុន ឆប ដូ ផាបផៈយុន ម៉ៃ", khmerTranslation: "តើអ្នកចូលចិត្តមើលភាពយន្តទេ?", englishTranslation: "Do you like to watch movies?" },
+                { thaiWord: "คุณชอบฟังเพลงไหม", phoneticTranscription: "ឃុន ឆប ហ្វាំង ភ្លេង ម៉ៃ", khmerTranslation: "តើអ្នកចូលចិត្តស្តាប់ចម្រៀងទេ?", englishTranslation: "Do you like to listen to music?" },
+                { thaiWord: "คุณชอบเต้นรำไหม", phoneticTranscription: "ឃុន ឆប តេន រាំ ម៉ៃ", khmerTranslation: "តើអ្នកចូលចិត្តរាំទេ?", englishTranslation: "Do you like to dance?" },
+                { thaiWord: "คุณชอบร้องเพลงไหม", phoneticTranscription: "ឃុន ឆប រ៉ង ភ្លេង ម៉ៃ", khmerTranslation: "តើអ្នកចូលចិត្តច្រៀងទេ?", englishTranslation: "Do you like to sing?" }
+            ];
+
+            const intermediateLessonsData = [
+                { thaiWord: "เพื่อน", phoneticTranscription: "ភឿន", khmerTranslation: "មិត្តភក្តិ", englishTranslation: "Friend" },
+                { thaiWord: "ครอบครัว", phoneticTranscription: "ឃ្រប ឃ្រួ", khmerTranslation: "គ្រួសារ", englishTranslation: "Family" },
+                { thaiWord: "รัก", phoneticTranscription: "រ៉ាក់", khmerTranslation: "ស្រឡាញ់", englishTranslation: "Love" },
+                { thaiWord: "ความสุข", phoneticTranscription: "ខ្វាម ស៊ុក", khmerTranslation: "សុភមង្គល", englishTranslation: "Happiness" },
+                { thaiWord: "ความเศร้า", phoneticTranscription: "ខ្វាម សៅ", khmerTranslation: "ភាពសោកសៅ", englishTranslation: "Sadness" },
+                { thaiWord: "ความโกรธ", phoneticTranscription: "ខ្វាម ក្រូត", khmerTranslation: "កំហឹង", englishTranslation: "Anger" },
+                { thaiWord: "ความกลัว", phoneticTranscription: "ខ្វាម ក្លួ", khmerTranslation: "ការភ័យខ្លាច", englishTranslation: "Fear" },
+                { thaiWord: "ความกล้าหาญ", phoneticTranscription: "ខ្វាម ក្លា ហាន", khmerTranslation: "ភាពក្លាហាន", englishTranslation: "Courage" },
+                { thaiWord: "ความสงบ", phoneticTranscription: "ខ្វាម សៈងប់", khmerTranslation: "សន្តិភាព", englishTranslation: "Peace" },
+                { thaiWord: "ความหวัง", phoneticTranscription: "ខ្វាម វ៉ាំង", khmerTranslation: "ក្តីសង្ឃឹម", englishTranslation: "Hope" },
+                { thaiWord: "ความฝัน", phoneticTranscription: "ខ្វាម ហ្វាន់", khmerTranslation: "ក្តីសុបិន", englishTranslation: "Dream" },
+                { thaiWord: "อนาคต", phoneticTranscription: "អៈណាខុត", khmerTranslation: "អនាគត", englishTranslation: "Future" },
+                { thaiWord: "อดีต", phoneticTranscription: "អៈឌីត", khmerTranslation: "អតីតកាល", englishTranslation: "Past" },
+                { thaiWord: "ปัจจุบัน", phoneticTranscription: "ប៉ាត់ចុបបាន", khmerTranslation: "បច្ចុប្បន្ន", englishTranslation: "Present" },
+                { thaiWord: "ความสำเร็จ", phoneticTranscription: "ខ្វាម សាំរ៉េត", khmerTranslation: "ភាពជោគជ័យ", englishTranslation: "Success" },
+                { thaiWord: "ความล้มเหลว", phoneticTranscription: "ខ្វាម ឡុំ ឡេវ", khmerTranslation: "ភាពបរាជ័យ", englishTranslation: "Failure" },
+                { thaiWord: "การเดินทาง", phoneticTranscription: "កាន ដឿនថាង", khmerTranslation: "ការធ្វើដំណើរ", englishTranslation: "Journey" },
+                { thaiWord: "การผจญภัย", phoneticTranscription: "កាន ផៈចុនភៃ", khmerTranslation: "ការផ្សងព្រេង", englishTranslation: "Adventure" },
+                { thaiWord: "การค้นพบ", phoneticTranscription: "កាន ខុន ភប់", khmerTranslation: "ការរកឃើញ", englishTranslation: "Discovery" },
+                { thaiWord: "ประสบการณ์", phoneticTranscription: "ប្រៈសប់កាន", khmerTranslation: "បទពិសោធន៍", englishTranslation: "Experience" },
+                { thaiWord: "ความรู้", phoneticTranscription: "ខ្វាម រូ", khmerTranslation: "ចំណេះដឹង", englishTranslation: "Knowledge" },
+                { thaiWord: "ปัญญา", phoneticTranscription: "ប៉ាន់យ៉ា", khmerTranslation: "ប្រាជ្ញា", englishTranslation: "Wisdom" },
+                { thaiWord: "การเรียนรู้", phoneticTranscription: "កាន រៀនរូ", khmerTranslation: "ការរៀនសូត្រ", englishTranslation: "Learning" },
+                { thaiWord: "การสอน", phoneticTranscription: "កាន សន", khmerTranslation: "ការបង្រៀន", englishTranslation: "Teaching" },
+                { thaiWord: "โรงเรียน", phoneticTranscription: "រ៉ុងរៀន", khmerTranslation: "សាលារៀន", englishTranslation: "School" },
+                { thaiWord: "มหาวิทยาลัย", phoneticTranscription: "មៈហាវិថៈយាល័យ", khmerTranslation: "សាកលវិទ្យាល័យ", englishTranslation: "University" },
+                { thaiWord: "ห้องเรียน", phoneticTranscription: "ហង រៀន", khmerTranslation: "បន្ទប់រៀន", englishTranslation: "Classroom" },
+                { thaiWord: "นักเรียน", phoneticTranscription: "ណាក់រៀន", khmerTranslation: "សិស្ស", englishTranslation: "Student" },
+                { thaiWord: "ครู", phoneticTranscription: "គ្រូ", khmerTranslation: "គ្រូ", englishTranslation: "Teacher" },
+                { thaiWord: "บทเรียน", phoneticTranscription: "បុតរៀន", khmerTranslation: "មេរៀន", englishTranslation: "Lesson" },
+                { thaiWord: "หนังสือ", phoneticTranscription: "ណាំងស៊ឺ", khmerTranslation: "សៀវភៅ", englishTranslation: "Book" },
+                { thaiWord: "สมุดบันทึก", phoneticTranscription: "សៈមុត បាន់ថឹក", khmerTranslation: "សៀវភៅកត់ត្រា", englishTranslation: "Notebook" },
+                { thaiWord: "ปากกา", phoneticTranscription: "ប៉ាកកា", khmerTranslation: "ប៊ិច", englishTranslation: "Pen" },
+                { thaiWord: "ดินสอ", phoneticTranscription: "ដិនសរ", khmerTranslation: "ខ្មៅដៃ", englishTranslation: "Pencil" },
+                { thaiWord: "ยางลบ", phoneticTranscription: "យ៉ាង លប់", khmerTranslation: "ជ័រលុប", englishTranslation: "Eraser" },
+                { thaiWord: "กระดาษ", phoneticTranscription: "ក្រៈដាត", khmerTranslation: "ក្រដាស", englishTranslation: "Paper" },
+                { thaiWord: "คุณช่วยส่งให้ฉันได้ไหม", phoneticTranscription: "ឃុន ឈួយ សុង ហៃ ឆាន់ ដាយ ម៉ៃ", khmerTranslation: "តើអ្នកអាចហុចឲ្យខ្ញុំបានទេ?", englishTranslation: "Can you pass me?" },
+                { thaiWord: "ฉันกำลังหา", phoneticTranscription: "ឆាន់ កាំលាំង ហា", khmerTranslation: "ខ្ញុំកំពុងរក", englishTranslation: "I'm looking for" },
+                { thaiWord: "เปิดปิดที่เวลากี่โมง", phoneticTranscription: "ប៉ិត ប៉ិត ធី វ៉េឡា គី ម៉ុង", khmerTranslation: "បើកបិទម៉ោងប៉ុន្មាន?", englishTranslation: "What time does it open/close?" },
+                { thaiWord: "คุณแนะนำร้านอาหารที่ดีได้ไหม", phoneticTranscription: "ឃុន ណែណាំ រ៉ាន អាហារ ធី ឌី ដាយ ម៉ៃ", khmerTranslation: "តើអ្នកអាចណែនាំភោជនីយដ្ឋានល្អបានទេ?", englishTranslation: "Can you recommend a good restaurant?" },
+                { thaiWord: "ร้านนี้รับบัตรเครดิตไหม", phoneticTranscription: "រ៉ាន នី រ៉ាប់ បាត់ ឃ្រេឌិត ម៉ៃ", khmerTranslation: "តើហាងនេះទទួលប័ណ្ណឥណទានទេ?", englishTranslation: "Do you accept credit cards?" },
+                { thaiWord: "ฉันจะหาแท็กซี่ที่ไหน", phoneticTranscription: "ឆាន់ ចៈ ហា ថែកស៊ី ធី ណៃ", khmerTranslation: "ខ្ញុំអាចរកតាក់ស៊ីនៅឯណា?", englishTranslation: "Where can I find a taxi?" },
+                { thaiWord: "ค่ารถไปเท่าไหร่", phoneticTranscription: "ខា រ៉ត់ ប៉ៃ ថៅ រ៉ៃ", khmerTranslation: "ថ្លៃឡានទៅប៉ុន្មាន?", englishTranslation: "How much does it cost to get to...?" },
+                { thaiWord: "คุณพาฉันไปได้ไหม", phoneticTranscription: "ឃុន ផា ឆាន់ ប៉ៃ ដាយ ម៉ៃ", khmerTranslation: "តើអ្នកអាចនាំខ្ញុំទៅបានទេ?", englishTranslation: "Can you take me to...?" },
+                { thaiWord: "คุณพูดช้าลงหน่อยได้ไหม", phoneticTranscription: "ឃុន ភូត ឆា ឡុង ណយ ដាយ ម៉ៃ", khmerTranslation: "តើអ្នកអាចនិយាយយឺតៗបន្តិចបានទេ?", englishTranslation: "Could you speak more slowly please?" },
+                { thaiWord: "ขอใบเสร็จหน่อย", phoneticTranscription: "ខរ បៃសេត ណយ", khmerTranslation: "សុំវិក័យប័ត្រ", englishTranslation: "Can I have a receipt please?" },
+                { thaiWord: "รหัสผ่าน Wifi คืออะไร", phoneticTranscription: "រ៉ាត់ផាន វ៉ៃហ្វាយ គឺ អៈរ៉ៃ", khmerTranslation: "លេខសម្ងាត់ Wifi គឺអ្វី?", englishTranslation: "What's the WiFi password?" },
+                { thaiWord: "คุณช่วยเขียนให้ฉันดูได้ไหม", phoneticTranscription: "ឃុន ឈួយ ខៀន ហៃ ឆាន់ ដូ ដាយ ម៉ៃ", khmerTranslation: "តើអ្នកអាចសរសេរវាឲ្យខ្ញុំបានទេ?", englishTranslation: "Could you please write it down for me?" },
+                { thaiWord: "ฉันยืมได้ไหม", phoneticTranscription: "ឆាន់ យឺម ដាយ ម៉ៃ", khmerTranslation: "ខ្ញុំអាចខ្ចីបានទេ?", englishTranslation: "Can I borrow?" }
+            ];
+
+            const advancedLessonsData = [
+                { thaiWord: "ธรรมชาติ", phoneticTranscription: "ថាំម៉ៈឆាត", khmerTranslation: "ធម្មជាតិ", englishTranslation: "Nature" },
+                { thaiWord: "ป่า", phoneticTranscription: "ប៉ា", khmerTranslation: "ព្រៃ", englishTranslation: "Forest" },
+                { thaiWord: "เขา", phoneticTranscription: "ខៅ", khmerTranslation: "ភ្នំ", englishTranslation: "Mountain" },
+                { thaiWord: "แม่น้ำ", phoneticTranscription: "ម៉ែណាំ", khmerTranslation: "ទន្លេ", englishTranslation: "River" },
+                { thaiWord: "ทะเลสาบ", phoneticTranscription: "ថៈលេ សាប", khmerTranslation: "បឹង", englishTranslation: "Lake" },
+                { thaiWord: "ชายหาด", phoneticTranscription: "ឆាយ ហាត", khmerTranslation: "ឆ្នេរ", englishTranslation: "Beach" },
+                { thaiWord: "ฟ้า", phoneticTranscription: "ហ្វា", khmerTranslation: "មេឃ", englishTranslation: "Sky" },
+                { thaiWord: "เมฆ", phoneticTranscription: "មេក", khmerTranslation: "ពពក", englishTranslation: "Cloud" },
+                { thaiWord: "ฝน", phoneticTranscription: "ហ្វុន", khmerTranslation: "ភ្លៀង", englishTranslation: "Rain" },
+                { thaiWord: "หิมะ", phoneticTranscription: "ហ៊ីម៉ៈ", khmerTranslation: "ព្រិល", englishTranslation: "Snow" },
+                { thaiWord: "พระอาทิตย์", phoneticTranscription: "ផ្រៈអាទិត", khmerTranslation: "ព្រះអាទិត្យ", englishTranslation: "Sun" },
+                { thaiWord: "พระจันทร์", phoneticTranscription: "ផ្រៈចាន់", khmerTranslation: "ព្រះច័ន្ទ", englishTranslation: "Moon" },
+                { thaiWord: "ดาว", phoneticTranscription: "ដាវ", khmerTranslation: "ផ្កាយ", englishTranslation: "Star" },
+                { thaiWord: "ดอกไม้", phoneticTranscription: "ដក់ម៉ៃ", khmerTranslation: "ផ្កា", englishTranslation: "Flower" },
+                { thaiWord: "ต้นไม้", phoneticTranscription: "តន់ម៉ៃ", khmerTranslation: "ដើមឈើ", englishTranslation: "Tree" },
+                { thaiWord: "หญ้า", phoneticTranscription: "យ៉ា", khmerTranslation: "ស្មៅ", englishTranslation: "Grass" },
+                { thaiWord: "หิน", phoneticTranscription: "ហ៊ីន", khmerTranslation: "ថ្ម", englishTranslation: "Stone" },
+                { thaiWord: "มหาสมุทร", phoneticTranscription: "មៈហាសៈមុត", khmerTranslation: "មហាសមុទ្រ", englishTranslation: "Ocean" },
+                { thaiWord: "คลื่น", phoneticTranscription: "ឃ្លឿន", khmerTranslation: "រលក", englishTranslation: "Wave" },
+                { thaiWord: "ลม", phoneticTranscription: "លម", khmerTranslation: "ខ្យល់", englishTranslation: "Wind" },
+                { thaiWord: "ไฟ", phoneticTranscription: "ហ្វៃ", khmerTranslation: "ភ្លើង", englishTranslation: "Fire" },
+                { thaiWord: "โลก", phoneticTranscription: "លោក", khmerTranslation: "ផែនដី/ពិភពលោក", englishTranslation: "Earth" },
+                { thaiWord: "สิ่งแวดล้อม", phoneticTranscription: "ស៊ิ่งវ៉ែតលម", khmerTranslation: "បរិស្ថាន", englishTranslation: "Environment" },
+                { thaiWord: "สภาพอากาศ", phoneticTranscription: "សៈផាប អាកាត", khmerTranslation: "អាកាសធាតុ", englishTranslation: "Climate" },
+                { thaiWord: "คุณแนะนำสถานที่ท่องเที่ยวที่ดีได้ไหม", phoneticTranscription: "ឃុន ណែណាំ សៈថានធី ថងធៀវ ធី ឌី ដាយ ម៉ៃ", khmerTranslation: "តើអ្នកអាចណែនាំកន្លែងទេសចរណ៍ល្អបានទេ?", englishTranslation: "Can you recommend a good place to visit?" },
+                { thaiWord: "ATM ที่ใกล้ที่สุดอยู่ที่ไหน", phoneticTranscription: "អេធីអឹម ធី ក្លៃ ធី ស៊ុត យូ ធី ណៃ", khmerTranslation: "ATM ដែលនៅជិតបំផុតនៅឯណា?", englishTranslation: "Where is the nearest ATM?" },
+                { thaiWord: "ใกล้นี้มีธนาคารไหม", phoneticTranscription: "ក្លៃ នី មី ថៈណាខាន ម៉ៃ", khmerTranslation: "នៅក្បែរនេះមានធនាគារទេ?", englishTranslation: "Is there a bank nearby?" },
+                { thaiWord: "อัตราแลกเปลี่ยนสำหรับเท่าไหร่", phoneticTranscription: "អាត់ត្រា លែកប្លៀន សាំរ៉ាប់ ថៅ រ៉ៃ", khmerTranslation: "អត្រាប្តូរប្រាក់សម្រាប់ប៉ុន្មាន?", englishTranslation: "What's the exchange rate for...?" },
+                { thaiWord: "ขอซ่อมช้อนหน่อยได้ไหม", phoneticTranscription: "ខរ សម ឆន ណយ ដាយ ម៉ៃ", khmerTranslation: "សុំសម/ស្លាបព្រាបន្តិចបានទេ?", englishTranslation: "Can I have a fork/spoon please?" }
+            ];
+
+            const examQuestionsData = [
+                {
+                    questionThai: "สวัสดี",
+                    questionKhmer: 'តើ "สวัสดี" មានន័យដូចម្តេចជាភាសាខ្មែរ?',
+                    questionEnglish: 'What does "สวัสดี" mean in Khmer?',
+                    options: [
+                        { textThai: "ขอบคุณ", textKhmer: "អរគុណ", textEnglish: "Thank you" },
+                        { textThai: "สวัสดี", textKhmer: "ជំរាបសួរ", textEnglish: "Hello" },
+                        { textThai: "ลาก่อน", textKhmer: "លាហើយ", textEnglish: "Goodbye" }
+                    ],
+                    correctAnswerIndex: 1
+                },
+                {
+                    questionThai: "น้ำ",
+                    questionKhmer: 'តើពាក្យថៃមួយណាមានន័យថា "ទឹក"?',
+                    questionEnglish: 'Which Thai word means "water"?',
+                    options: [
+                        { textThai: "ข้าว", textKhmer: "បាយ", textEnglish: "Rice" },
+                        { textThai: "น้ำ", textKhmer: "ទឹក", textEnglish: "Water" },
+                        { textThai: "ผลไม้", textKhmer: "ផ្លែឈើ", textEnglish: "Fruit" }
+                    ],
+                    correctAnswerIndex: 1
+                },
+                {
+                    questionThai: "อร่อย",
+                    questionKhmer: 'តើពាក្យថៃមួយណាមានន័យថា "ឆ្ងាញ់"?',
+                    questionEnglish: 'Which Thai word means "delicious"?',
+                    options: [
+                        { textThai: "อร่อย", textKhmer: "ឆ្ងាញ់", textEnglish: "Delicious" },
+                        { textThai: "แพง", textKhmer: "ថ្លៃ", textEnglish: "Expensive" },
+                        { textThai: "ถูก", textKhmer: "ថោក", englishTranslation: "Cheap" }
+                    ],
+                    correctAnswerIndex: 0
+                },
+                {
+                    questionThai: "เท่าไหร่",
+                    questionKhmer: 'តើពាក្យថៃមួយណាមានន័យថា "ប៉ុន្មាន" (តម្លៃ)?',
+                    questionEnglish: 'Which Thai word means "how much" (price)?',
+                    options: [
+                        { textThai: "อะไร", textKhmer: "អ្វី", englishTranslation: "What" },
+                        { textThai: "เมื่อไหร่", textKhmer: "ពេលណា", englishTranslation: "When" },
+                        { textThai: "เท่าไหร่", textKhmer: "ប៉ុន្មាន", englishTranslation: "How much" }
+                    ],
+                    correctAnswerIndex: 2
+                },
+                {
+                    questionThai: "ไปไหน",
+                    questionKhmer: 'តើ "ไปไหน" មានន័យដូចម្តេចជាភាសាខ្មែរ?',
+                    questionEnglish: 'What does "ไปไหน" mean in Khmer?',
+                    options: [
+                        { textThai: "ไปไหน", textKhmer: "ទៅណា", englishTranslation: "Where are you going?" },
+                        { textThai: "มาจากไหน", textKhmer: "មកពីណា", englishTranslation: "Where are you from?" },
+                        { textThai: "ทำอะไร", textKhmer: "ធ្វើអ្វី", englishTranslation: "What are you doing?" }
+                    ],
+                    correctAnswerIndex: 0
+                },
+                {
+                    questionThai: "กินข้าว",
+                    questionKhmer: 'តើ "กินข้าว" មានន័យដូចម្តេចជាភាសាខ្មែរ?',
+                    questionEnglish: 'What does "กินข้าว" mean in Khmer?',
+                    options: [
+                        { textThai: "ดื่มน้ำ", textKhmer: "ផឹកទឹក", englishTranslation: "Drink water" },
+                        { textThai: "กินข้าว", textKhmer: "ញ៉ាំបាយ", englishTranslation: "Eat rice/meal" },
+                        { textThai: "นอนหลับ", textKhmer: "គេង", englishTranslation: "Sleep" }
+                    ],
+                    correctAnswerIndex: 1
+                },
+                {
+                    questionThai: "ขอโทษ",
+                    questionKhmer: 'តើពាក្យថៃមួយណាមានន័យថា "សូមទោស"?',
+                    questionEnglish: 'Which Thai word means "excuse me/sorry"?',
+                    options: [
+                        { textThai: "ขอบคุณ", textKhmer: "អរគុណ", englishTranslation: "Thank you" },
+                        { textThai: "สวัสดี", textKhmer: "ជំរាបសួរ", englishTranslation: "Hello" },
+                        { textThai: "ขอโทษ", textKhmer: "សូមទោស", englishTranslation: "Excuse me/Sorry" }
+                    ],
+                    correctAnswerIndex: 2
+                },
+                {
+                    questionThai: "แม่",
+                    questionKhmer: 'តើពាក្យថៃមួយណាមានន័យថា "ម្ដាយ"?',
+                    questionEnglish: 'Which Thai word means "mother"?',
+                    options: [
+                        { textThai: "พ่อ", textKhmer: "ឪពុក", englishTranslation: "Father" },
+                        { textThai: "แม่", textKhmer: "ម្ដាយ", englishTranslation: "Mother" },
+                        { textThai: "ลูก", textKhmer: "កូន", englishTranslation: "Child" }
+                    ],
+                    correctAnswerIndex: 1
+                },
+                {
+                    questionThai: "ตื่นเช้า",
+                    questionKhmer: 'តើ "ตื่นเช้า" មានន័យដូចម្តេចជាភាសាខ្មែរ?',
+                    questionEnglish: 'What does "ตื่นเช้า" mean in Khmer?',
+                    options: [
+                        { textThai: "เข้านอน", textKhmer: "ចូលគេង", englishTranslation: "Go to bed" },
+                        { textThai: "ភ្ញាក់ពីព្រឹក", textKhmer: "ភ្ញាក់ពីព្រឹក", englishTranslation: "Wake up early" },
+                        { textThai: "กินข้าว", textKhmer: "ញ៉ាំបាយ", englishTranslation: "Eat rice" }
+                    ],
+                    correctAnswerIndex: 1
+                },
+                {
+                    questionThai: "ไปตลาด",
+                    questionKhmer: 'តើ "ไปตลาด" មានន័យដូចម្តេចជាភាសាខ្មែរ?',
+                    questionEnglish: 'What does "ไปตลาด" mean in Khmer?',
+                    options: [
+                        { textThai: "ไปផ្ទះ", textKhmer: "ទៅផ្ទះ", englishTranslation: "Go home" },
+                        { textThai: "ไปสาลารៀน", textKhmer: "ទៅសាលារៀន", englishTranslation: "Go to school" },
+                        { textThai: "ไปផ្សារ", textKhmer: "ទៅផ្សារ", englishTranslation: "Go to market" }
+                    ],
+                    correctAnswerIndex: 2
+                }
+            ];
+
+            const flashcardsData = [
+                ...kindergartenLessonsData, // Include all kindergarten lessons as flashcards
+                ...beginnerLessonsData,    // Include all beginner lessons as flashcards
+                ...intermediateLessonsData, // Include all intermediate lessons as flashcards
+                ...advancedLessonsData,     // Include all advanced lessons as flashcards
+                // Add more specific flashcards if needed
+                { thaiWord: "อรุณสวัสดิ์", khmerTranslation: "អរុណសួស្តី", englishTranslation: "Good morning", phoneticTranscription: "អៈរុន សៈវ៉ាត់" },
+                { thaiWord: "ราตรีสวัสดิ์", khmerTranslation: "រាត្រីសួស្តី", englishTranslation: "Good night", phoneticTranscription: "រ៉ាត្រី សៈវ៉ាត់" },
+                { thaiWord: "โรงพยาบาล", khmerTranslation: "មន្ទីរពេទ្យ", englishTranslation: "Hospital", phoneticTranscription: "រ៉ុងផៈយាបាន" },
+                { thaiWord: "ตำรวจ", khmerTranslation: "ប៉ូលិស", englishTranslation: "Police", phoneticTranscription: "តាំរួត" },
+                { thaiWord: "รถ", khmerTranslation: "ឡាន", englishTranslation: "Car", phoneticTranscription: "រ៉ត់" },
+                { thaiWord: "เครื่องบิน", khmerTranslation: "យន្តហោះ", englishTranslation: "Airplane", phoneticTranscription: "ឃ្រឿងប៊ីន" },
+                { thaiWord: "เรือ", khmerTranslation: "ទូក", englishTranslation: "Boat", phoneticTranscription: "រឿ" },
+                { thaiWord: "สีแดง", khmerTranslation: "ពណ៌ក្រហម", englishTranslation: "Red color", phoneticTranscription: "ស៊ី ដែង" },
+                { thaiWord: "สีน้ำเงิน", khmerTranslation: "ពណ៌ខៀវ", englishTranslation: "Blue color", phoneticTranscription: "ស៊ី ណាំងើន" },
+                { thaiWord: "สีเขียว", khmerTranslation: "ពណ៌បៃតង", englishTranslation: "Green color", phoneticTranscription: "ស៊ី ខៀវ" },
+                { thaiWord: "หนึ่ง", khmerTranslation: "មួយ", englishTranslation: "One", phoneticTranscription: "ណឺង" },
+                { thaiWord: "สอง", khmerTranslation: "ពីរ", englishTranslation: "Two", phoneticTranscription: "សង" },
+                { thaiWord: "สาม", khmerTranslation: "បី", englishTranslation: "Three", phoneticTranscription: "សាម" }
+            ];
+
+
             // Initialize on window load
             window.onload = async function() {
                 showLoadingSpinner();
@@ -1016,7 +963,43 @@
                 document.getElementById('user-id-display').classList.remove('opacity-0'); // Show user ID
                 hideLoadingSpinner();
                 document.querySelector('.nav-button[data-section="home"]').click(); // Activate home section on load
+
+                // Populate sections with data
+                populateLessons('kindergarten-lessons-container', kindergartenLessonsData);
+                populateLessons('beginner-lessons-container', beginnerLessonsData);
+                populateLessons('intermediate-lessons-container', intermediateLessonsData);
+                populateLessons('advanced-lessons-container', advancedLessonsData);
+                populateExamQuestions('exam-questions-container', examQuestionsData);
+                populateFlashcards('flashcards-container', flashcardsData);
             };
+
+            // Function to populate lesson containers
+            function populateLessons(containerId, data) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = ''; // Clear existing content
+                data.forEach(lesson => {
+                    container.appendChild(createLessonElement(lesson));
+                });
+            }
+
+            // Function to populate exam questions container
+            function populateExamQuestions(containerId, data) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = ''; // Clear existing content
+                data.forEach(question => {
+                    container.appendChild(createQuizQuestionElement(question));
+                });
+            }
+
+            // Function to populate flashcards container
+            function populateFlashcards(containerId, data) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = ''; // Clear existing content
+                data.forEach(flashcard => {
+                    container.appendChild(createFlashcardElement(flashcard));
+                });
+            }
+
 
             // UI Logic for section switching
             document.querySelectorAll('.nav-button').forEach(button => {
@@ -1112,71 +1095,6 @@
 
             // Initial application of translations
             applyTranslations();
-
-            // Manually populate exam questions and flashcards using their respective creation functions
-            // This ensures consistency in rendering with the hardcoded data.
-            const examQuestionsData = [
-                {
-                    questionThai: "ตื่นเช้า",
-                    questionKhmer: 'តើ "ตื่นเช้า" មានន័យដូចម្តេចជាភាសាខ្មែរ?',
-                    questionEnglish: 'What does "ตื่นเช้า" mean in Khmer?',
-                    options: [
-                        { textThai: "เข้านอน", textKhmer: "ចូលគេង", textEnglish: "Go to bed" },
-                        { textThai: "ភ្ញាក់ពីព្រឹក", textKhmer: "ភ្ញាក់ពីព្រឹក", textEnglish: "Wake up early" },
-                        { textThai: "กินข้าว", textKhmer: "ញ៉ាំបាយ", textEnglish: "Eat rice" }
-                    ],
-                    correctAnswerIndex: 1
-                },
-                {
-                    questionThai: "ไปตลาด",
-                    questionKhmer: 'តើ "ไปตลาด" មានន័យដូចម្តេចជាភាសាខ្មែរ?',
-                    questionEnglish: 'What does "ไปตลาด" mean in Khmer?',
-                    options: [
-                        { textThai: "ไปផ្ទះ", textKhmer: "ទៅផ្ទះ", textEnglish: "Go home" },
-                        { textThai: "ไปสาลารៀน", textKhmer: "ទៅសាលារៀន", textEnglish: "Go to school" },
-                        { textThai: "ไปផ្សារ", textKhmer: "ទៅផ្សារ", textEnglish: "Go to market" }
-                    ],
-                    correctAnswerIndex: 2
-                },
-                {
-                    questionThai: "อร่อย",
-                    questionKhmer: 'តើពាក្យថៃមួយណាមានន័យថា "ឆ្ងាញ់"?',
-                    questionEnglish: 'Which Thai word means "delicious"?',
-                    options: [
-                        { textThai: "อร่อย", textKhmer: "ឆ្ងាញ់", textEnglish: "Delicious" },
-                        { textThai: "แพง", textKhmer: "ថ្លៃ", textEnglish: "Expensive" },
-                        { textThai: "ถูก", textKhmer: "ថោក", textEnglish: "Cheap" }
-                    ],
-                    correctAnswerIndex: 0
-                },
-                {
-                    questionThai: "เท่าไหร่",
-                    questionKhmer: 'តើពាក្យថៃមួយណាមានន័យថា "ប៉ុន្មាន" (តម្លៃ)?',
-                    questionEnglish: 'Which Thai word means "how much" (price)?',
-                    options: [
-                        { textThai: "อะไร", textKhmer: "អ្វី", textEnglish: "What" },
-                        { textThai: "เมื่อไหร่", textKhmer: "ពេលណា", textEnglish: "When" },
-                        { textThai: "เท่าไหร่", textKhmer: "ប៉ុន្មាន", textEnglish: "How much" }
-                    ],
-                    correctAnswerIndex: 2
-                }
-            ];
-
-            const flashcardsData = [
-                { thaiWord: "อร่อย", khmerTranslation: "ឆ្ងាញ់", englishTranslation: "Delicious", phoneticTranscription: "អៈរ៉យ" },
-                { thaiWord: "ราคาเท่าไหร่", khmerTranslation: "ថ្លៃប៉ុន្មាន?", englishTranslation: "How much?", phoneticTranscription: "រ៉ាខា ថៅ រ៉ៃ" },
-                { thaiWord: "ห้องน้ำ", khmerTranslation: "បន្ទប់ទឹក", englishTranslation: "Restroom", phoneticTranscription: "ហង ណាំ" },
-                { thaiWord: "อรุณสวัสดิ์", khmerTranslation: "អរុណសួស្តី", englishTranslation: "Good morning", phoneticTranscription: "អៈរុន សៈវ៉ាត់" },
-                { thaiWord: "ราตรีสวัสดิ์", khmerTranslation: "រាត្រីសួស្តី", englishTranslation: "Good night", phoneticTranscription: "រ៉ាត្រី សៈវ៉ាត់" },
-                { thaiWord: "สบายดี", khmerTranslation: "សុខសប្បាយ", englishTranslation: "Fine/Well", phoneticTranscription: "សៈបាយ ឌី" },
-                { thaiWord: "ขอโทษ", khmerTranslation: "សូមទោស", englishTranslation: "Excuse me/Sorry", phoneticTranscription: "ខរ ថូត" }
-            ];
-
-            const examQuestionsContainer = document.getElementById('exam-questions-container');
-            examQuestionsData.forEach(q => examQuestionsContainer.appendChild(createQuizQuestionElement(q)));
-
-            const flashcardsContainer = document.getElementById('flashcards-container');
-            flashcardsData.forEach(fc => flashcardsContainer.appendChild(createFlashcardElement(fc)));
 
         } // End of if (typeof window.thaiLanguageAppInitialized === 'undefined')
     </script>
