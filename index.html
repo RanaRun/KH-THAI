@@ -1,16 +1,1479 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km"> <!-- Set default language to Khmer -->
 <head>
-  <meta charset="UTF-8">
-  <title>Thai Language Learning</title>
-  <link rel="stylesheet" href="styles/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>កម្មវិធីរៀនភាសាថៃ</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom CSS for basic styling and overrides -->
+    <link rel="stylesheet" href="styles/style.css">
 </head>
-<body>
-  <h1>Welcome to Thai Language Learning App</h1>
-  <nav>
-    <a href="levels/beginner.html">Beginner</a>
-    <a href="levels/intermediate.html">Intermediate</a>
-    <a href="levels/advanced.html">Advanced</a>
-  </nav>
+<body class="bg-gray-100 font-inter min-h-screen flex flex-col">
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="fixed inset-0 bg-gray-200 bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
+    </div>
+
+    <header class="bg-blue-600 text-white p-4 shadow-md rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold" data-translate="app_title">កម្មវិធីរៀនភាសាថៃ</h1>
+            <div class="flex items-center space-x-4">
+                <!-- User ID Display -->
+                <span id="user-id-display" class="text-sm bg-blue-700 px-3 py-1 rounded-full opacity-0 transition-opacity duration-500">
+                    <span data-translate="user_id_label">ID អ្នកប្រើប្រាស់:</span> <span id="current-user-id"></span>
+                </span>
+                <!-- Language Selector -->
+                <div class="relative">
+                    <select id="language-selector" class="bg-blue-700 text-white px-3 py-1 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        <option value="km">ខ្មែរ</option>
+                        <option value="en">English</option>
+                        <option value="th">ไทย</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto mt-6 p-4 flex-grow">
+        <!-- Navigation Tabs -->
+        <nav class="bg-white p-2 rounded-lg shadow-md mb-6 flex flex-wrap justify-center sm:justify-start">
+            <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="home">
+                <i class="fas fa-home"></i>
+                <span data-translate="home_nav">ទំព័រដើម</span>
+            </button>
+            <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="kindergarten">
+                <i class="fas fa-child"></i>
+                <span data-translate="kindergarten_nav">ថ្នាក់មតេយ្យ</span>
+            </button>
+            <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="beginner">
+                <i class="fas fa-seedling"></i>
+                <span data-translate="beginner_nav">កម្រិតចាប់ផ្តើម</span>
+            </button>
+            <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="intermediate">
+                <i class="fas fa-book-open"></i>
+                <span data-translate="intermediate_nav">កម្រិតកណ្តាល</span>
+            </button>
+            <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="advanced">
+                <i class="fas fa-graduation-cap"></i>
+                <span data-translate="advanced_nav">កម្រិតខ្ពស់</span>
+            </button>
+            <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="custom-lesson">
+                <i class="fas fa-magic"></i>
+                <span data-translate="custom_lesson_nav">មេរៀនតាមតម្រូវការ</span>
+            </button>
+            <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="exam">
+                <i class="fas fa-question-circle"></i>
+                <span data-translate="exam_nav">ប្រឡង</span>
+            </button>
+            <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="flashcards">
+                <i class="fas fa-clone"></i>
+                <span data-translate="flashcards_nav">Flashcards</span>
+            </button>
+            <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="progress">
+                <i class="fas fa-chart-line"></i>
+                <span data-translate="progress_nav">របាយការណ៍</span>
+            </button>
+            <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="bookmarks">
+                <i class="fas fa-bookmark"></i>
+                <span data-translate="bookmarks_nav">មេរៀនចូលចិត្ត</span>
+            </button>
+        </nav>
+
+        <!-- Content Sections -->
+        <div id="content-area" class="bg-white p-6 rounded-lg shadow-md min-h-[500px]">
+            <!-- Home Section (Default View) -->
+            <section id="home-section" class="app-section active">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="welcome_title">សូមស្វាគមន៍មកកាន់កម្មវិធីរៀនភាសាថៃ!</h2>
+                <p class="text-gray-600 leading-relaxed mb-4" data-translate="welcome_text">កម្មវិធីនេះនឹងជួយអ្នកឱ្យរៀនភាសាថៃតាមរយៈមេរៀនអន្តរកម្ម កម្រងសំណួរ Flashcard និងការតាមដានវឌ្ឍនភាព។</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-4 bg-blue-50 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-medium text-blue-700 mb-2 flex items-center"><i class="fas fa-volume-up mr-2"></i><span data-translate="feature_audio_title">ស្តាប់សំឡេងជនជាតិដើម</span></h3>
+                        <p class="text-gray-600 text-sm" data-translate="feature_audio_desc">ស្តាប់ពាក្យ និងឃ្លាដែលបញ្ចេញសំឡេងដោយអ្នកនិយាយភាសាថៃដើម ដើម្បីកែលម្អការបញ្ចេញសំឡេងរបស់អ្នក។</p>
+                    </div>
+                    <div class="p-4 bg-blue-50 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-medium text-blue-700 mb-2 flex items-center"><i class="fas fa-brain mr-2"></i><span data-translate="feature_exam_title">ប្រព័ន្ធប្រឡង</span></h3>
+                        <p class="text-gray-600 text-sm" data-translate="feature_exam_desc">សាកល្បងចំណេះដឹងរបស់អ្នកជាមួយនឹងសំណួរជម្រើសច្រើន និងលំហាត់ផ្គូផ្គងពាក្យ។</p>
+                    </div>
+                    <div class="p-4 bg-blue-50 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-medium text-blue-700 mb-2 flex items-center"><i class="fas fa-address-card mr-2"></i><span data-translate="feature_flashcards_title">Flashcard ពាក្យសំខាន់ៗ</span></h3>
+                        <p class="text-gray-600 text-sm" data-translate="feature_flashcards_desc">រៀនវាក្យស័ព្ទថ្មីៗយ៉ាងងាយស្រួលដោយប្រើ Flashcard អន្តរកម្ម។</p>
+                    </div>
+                    <div class="p-4 bg-blue-50 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-medium text-blue-700 mb-2 flex items-center"><i class="fas fa-chart-bar mr-2"></i><span data-translate="feature_progress_title">តាមដានវឌ្ឍនភាព</span></h3>
+                        <p class="text-gray-600 text-sm" data-translate="feature_progress_desc">មើលពីរបៀបដែលអ្នករីកចម្រើនជាមួយនឹងរបាយការណ៍កម្រិតចំណេះដឹងលម្អិត។</p>
+                    </div>
+                    <div class="p-4 bg-blue-50 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-medium text-blue-700 mb-2 flex items-center"><i class="fas fa-heart mr-2"></i><span data-translate="feature_bookmarks_title">Bookmark មេរៀនចូលចិត្ត</span></h3>
+                        <p class="text-gray-600 text-sm" data-translate="feature_bookmarks_desc">រក្សាទុកមេរៀន និងពាក្យដែលអ្នកចង់រៀនម្តងទៀត។</p>
+                    </div>
+                    <div class="p-4 bg-blue-50 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-medium text-blue-700 mb-2 flex items-center"><i class="fas fa-globe mr-2"></i><span data-translate="feature_language_title">ជម្រើសភាសា</span></h3>
+                        <p class="text-gray-600 text-sm" data-translate="feature_language_desc">ប្តូរភាសាចំណុចប្រទាក់រវាងខ្មែរ អង់គ្លេស និងថៃ។</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Kindergarten Section (New) -->
+            <section id="kindergarten-section" class="app-section hidden">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="kindergarten_title">ថ្នាក់មតេយ្យ</h2>
+                <p class="text-gray-600 mb-6" data-translate="kindergarten_intro">សូមស្វាគមន៍មកកាន់មេរៀនថ្នាក់មតេយ្យ! ចូរយើងរៀនពាក្យ និងឃ្លាសាមញ្ញបំផុត។</p>
+
+                <button id="generate-ai-kindergarten-lessons" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-6 transition-colors duration-200 flex items-center space-x-2">
+                    <i class="fas fa-robot"></i>
+                    <span data-translate="generate_ai_lessons">បង្កើតមេរៀនបន្ថែម (AI)</span>
+                </button>
+
+                <div id="kindergarten-lessons-container" class="space-y-6">
+                    <!-- AI generated kindergarten lessons will be appended here -->
+                </div>
+            </section>
+
+            <!-- Beginner Section (Updated with lesson content and AI generation) -->
+            <section id="beginner-section" class="app-section hidden">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="beginner_title">កម្រិតចាប់ផ្តើម</h2>
+                <p class="text-gray-600 mb-6" data-translate="beginner_intro">សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតចាប់ផ្តើម! ចូរយើងរៀនឃ្លាថៃមូលដ្ឋានមួយចំនួន។</p>
+
+                <button id="generate-ai-lessons" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-6 transition-colors duration-200 flex items-center space-x-2">
+                    <i class="fas fa-robot"></i>
+                    <span data-translate="generate_ai_lessons">បង្កើតមេរៀនបន្ថែម (AI)</span>
+                </button>
+
+                <div id="beginner-lessons-container" class="space-y-6">
+                    <!-- Lesson Item 1: Hello -->
+                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-2xl font-bold text-blue-800">สวัสดีครับ/ค่ะ</p>
+                            <p class="text-lg text-gray-700">សៈ វ៉ាត់ ឌី ក្រាប់/ខៈ</p>
+                            <p class="text-lg text-gray-700">ជំរាបសួរ</p>
+                            <p class="text-md text-gray-500">Hello/Greetings</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="สวัสดีครับ/ค่ะ">
+                                <i class="fas fa-volume-up text-xl"></i>
+                            </button>
+                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="សៈ វ៉ាត់ ឌី ក្រាប់/ខៈ">
+                                <i class="fas fa-comment-dots text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Lesson Item 2: How are you -->
+                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-2xl font-bold text-blue-800">สบายดีไหมครับ/คะ</p>
+                            <p class="text-lg text-gray-700">សៈបាយ ឌី ម៉ៃ ក្រាប់/ខៈ</p>
+                            <p class="text-lg text-gray-700">សុខសប្បាយជាទេ?</p>
+                            <p class="text-md text-gray-500">How are you?</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="สบายดีไหมครับ/คะ">
+                                <i class="fas fa-volume-up text-xl"></i>
+                            </button>
+                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="សៈបាយ ឌី ម៉ៃ ក្រាប់/ខៈ">
+                                <i class="fas fa-comment-dots text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Lesson Item 3: Thank you -->
+                    <div class="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-2xl font-bold text-blue-800">ขอบคุณครับ/ค่ะ</p>
+                            <p class="text-lg text-gray-700">ខប់ ឃុន ក្រាប់/ខៈ</p>
+                            <p class="text-lg text-gray-700">អរគុណ</p>
+                            <p class="text-md text-gray-500">Thank you</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="ขอบคุณครับ/ค่ะ">
+                                <i class="fas fa-volume-up text-xl"></i>
+                            </button>
+                            <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="ខប់ ឃុន ក្រាប់/ខៈ">
+                                <i class="fas fa-comment-dots text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AI generated lessons will be appended here -->
+                </div>
+            </section>
+
+            <!-- Intermediate Section (Updated with AI generation) -->
+            <section id="intermediate-section" class="app-section hidden">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="intermediate_title">កម្រិតកណ្តាល</h2>
+                <p class="text-gray-600 mb-6" data-translate="intermediate_intro">សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតកណ្តាល! នៅទីនេះ អ្នកនឹងរៀនឃ្លាដែលស្មុគស្មាញជាងនេះបន្តិច។</p>
+                <button id="generate-ai-intermediate-lessons" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-6 transition-colors duration-200 flex items-center space-x-2">
+                    <i class="fas fa-robot"></i>
+                    <span data-translate="generate_ai_lessons">បង្កើតមេរៀនបន្ថែម (AI)</span>
+                </button>
+                <div id="intermediate-lessons-container" class="space-y-6">
+                    <!-- Default intermediate content or AI generated lessons will be appended here -->
+                </div>
+            </section>
+
+            <!-- Advanced Section (Added AI generation) -->
+            <section id="advanced-section" class="app-section hidden">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="advanced_title">កម្រិតខ្ពស់</h2>
+                <p class="text-gray-600 mb-6" data-translate="advanced_intro">សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតខ្ពស់! នៅទីនេះ អ្នកនឹងរៀនឃ្លាស្មុគស្មាញ និងកន្សោម idiomatic។</p>
+                <button id="generate-ai-advanced-lessons" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-6 transition-colors duration-200 flex items-center space-x-2">
+                    <i class="fas fa-robot"></i>
+                    <span data-translate="generate_ai_lessons">បង្កើតមេរៀនបន្ថែម (AI)</span>
+                </button>
+                <div id="advanced-lessons-container" class="space-y-6">
+                    <!-- AI generated advanced lessons will be appended here -->
+                </div>
+            </section>
+
+            <!-- Custom Lesson Section (New Advanced Feature) -->
+            <section id="custom-lesson-section" class="app-section hidden">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="custom_lesson_title">មេរៀនតាមតម្រូវការ (AI)</h2>
+                <p class="text-gray-600 mb-6" data-translate="custom_lesson_intro">បញ្ចូលប្រធានបទ ឬឃ្លាដែលអ្នកចង់រៀន ហើយ AI នឹងបង្កើតមេរៀនផ្ទាល់ខ្លួនសម្រាប់អ្នក។</p>
+
+                <div class="mb-6">
+                    <textarea id="custom-lesson-input" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 resize-y min-h-[100px]" placeholder="ឧទាហរណ៍៖ ឃ្លាសម្រាប់បញ្ជាទិញម្ហូបនៅភោជនីយដ្ឋាន ឬ ពាក្យទាក់ទងនឹងអាកាសធាតុ" data-translate="custom_lesson_placeholder"></textarea>
+                </div>
+
+                <button id="generate-ai-custom-lesson" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md mb-6 transition-colors duration-200 flex items-center space-x-2">
+                    <i class="fas fa-magic"></i>
+                    <span data-translate="generate_custom_lesson">បង្កើតមេរៀនតាមតម្រូវការ</span>
+                </button>
+
+                <div id="custom-lesson-output" class="space-y-6">
+                    <!-- Custom AI generated lessons will be appended here -->
+                </div>
+            </section>
+
+            <!-- Exam Section (Added AI generation for quizzes) -->
+            <section id="exam-section" class="app-section hidden">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="exam_title">ប្រឡង</h2>
+                <p class="text-gray-600 mb-6" data-translate="exam_intro">សាកល្បងចំណេះដឹងភាសាថៃរបស់អ្នកជាមួយនឹងសំណួរដែលបង្កើតដោយ AI ។</p>
+                <button id="generate-ai-exam" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-6 transition-colors duration-200 flex items-center space-x-2">
+                    <i class="fas fa-robot"></i>
+                    <span data-translate="generate_ai_exam">បង្កើតសំណួរប្រឡង (AI)</span>
+                </button>
+                <div id="exam-questions-container" class="space-y-6">
+                    <!-- AI generated exam questions will be appended here -->
+                </div>
+            </section>
+
+            <!-- Flashcards Section (Added AI generation) -->
+            <section id="flashcards-section" class="app-section hidden">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="flashcards_title">Flashcards</h2>
+                <p class="text-gray-600 mb-6" data-translate="flashcards_intro">រៀនពាក្យ និងឃ្លាថ្មីៗយ៉ាងងាយស្រួលដោយប្រើ Flashcard ។</p>
+                <button id="generate-ai-flashcards" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-6 transition-colors duration-200 flex items-center space-x-2">
+                    <i class="fas fa-robot"></i>
+                    <span data-translate="generate_ai_flashcards">បង្កើត Flashcard (AI)</span>
+                </button>
+                <div id="flashcards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- AI generated flashcards will be appended here -->
+                </div>
+            </section>
+
+            <!-- Progress Section (Added AI generation for report) -->
+            <section id="progress-section" class="app-section hidden">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="progress_title">របាយការណ៍កម្រិតចំណេះដឹង</h2>
+                <p class="text-gray-600 mb-6" data-translate="progress_intro">មើលពីរបៀបដែលអ្នករីកចម្រើនជាមួយនឹងរបាយការណ៍ផ្ទាល់ខ្លួន។</p>
+                <button id="generate-ai-progress" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-6 transition-colors duration-200 flex items-center space-x-2">
+                    <i class="fas fa-robot"></i>
+                    <span data-translate="generate_ai_progress">បង្កើតរបាយការណ៍វឌ្ឍនភាព (AI)</span>
+                </button>
+                <div id="progress-report-container" class="bg-blue-50 p-4 rounded-lg shadow-sm text-gray-700 leading-relaxed">
+                    <p data-translate="progress_content">របាយការណ៍វឌ្ឍនភាពរបស់អ្នកនឹងបង្ហាញនៅទីនេះ។</p>
+                    <!-- AI generated progress report will be appended here -->
+                </div>
+            </section>
+
+            <!-- Bookmarks Section (Added AI generation for examples) -->
+            <section id="bookmarks-section" class="app-section hidden">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="bookmarks_title">មេរៀនចូលចិត្ត</h2>
+                <p class="text-gray-600 mb-6" data-translate="bookmarks_intro">គ្រប់គ្រងមេរៀន និងពាក្យដែលអ្នកចូលចិត្តនៅទីនេះ។</p>
+                <button id="generate-ai-bookmarks" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-6 transition-colors duration-200 flex items-center space-x-2">
+                    <i class="fas fa-robot"></i>
+                    <span data-translate="generate_ai_bookmarks">បង្កើត Bookmark គំរូ (AI)</span>
+                </button>
+                <div id="bookmarks-list-container" class="space-y-3">
+                    <!-- AI generated bookmarks will be appended here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white p-4 text-center mt-6 rounded-t-lg">
+        <p>&copy; 2025 <span data-translate="app_title_footer">កម្មវិធីរៀនភាសាថៃ</span>. <span data-translate="footer_text">រក្សាសិទ្ធិគ្រប់យ៉ាង។</span></p>
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, collection, query, where, addDoc, getDocs, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Wrap the entire app logic in an IIFE and use a flag to ensure it runs only once
+        // This helps prevent 'Identifier already declared' errors in environments that might re-execute scripts.
+        if (typeof window.thaiLanguageAppInitialized === 'undefined') {
+            window.thaiLanguageAppInitialized = true;
+
+            // Global variables for Firebase and app data
+            let app, db, auth;
+            let currentUserId = null;
+            let isAuthReady = false; // Flag to indicate if auth state is settled
+
+            // Show loading spinner
+            function showLoadingSpinner() {
+                document.getElementById('loading-spinner').classList.remove('hidden');
+            }
+
+            // Hide loading spinner
+            function hideLoadingSpinner() {
+                document.getElementById('loading-spinner').classList.add('hidden');
+            }
+
+            // Language translations
+            const translations = {
+                km: {
+                    "app_title": "កម្មវិធីរៀនភាសាថៃ",
+                    "app_title_footer": "កម្មវិធីរៀនភាសាថៃ",
+                    "home_nav": "ទំព័រដើម",
+                    "kindergarten_nav": "ថ្នាក់មតេយ្យ",
+                    "beginner_nav": "កម្រិតចាប់ផ្តើម",
+                    "intermediate_nav": "កម្រិតកណ្តាល",
+                    "advanced_nav": "កម្រិតខ្ពស់",
+                    "custom_lesson_nav": "មេរៀនតាមតម្រូវការ",
+                    "exam_nav": "ប្រឡង",
+                    "flashcards_nav": "Flashcards",
+                    "progress_nav": "របាយការណ៍",
+                    "bookmarks_nav": "មេរៀនចូលចិត្ត",
+                    "welcome_title": "សូមស្វាគមន៍មកកាន់កម្មវិធីរៀនភាសាថៃ!",
+                    "welcome_text": "កម្មវិធីនេះនឹងជួយអ្នកឱ្យរៀនភាសាថៃតាមរយៈមេរៀនអន្តរកម្ម កម្រងសំណួរ Flashcard និងការតាមដានវឌ្ឍនភាព។",
+                    "feature_audio_title": "ស្តាប់សំឡេងជនជាតិដើម",
+                    "feature_audio_desc": "ស្តាប់ពាក្យ និងឃ្លាដែលបញ្ចេញសំឡេងដោយអ្នកនិយាយភាសាថៃដើម ដើម្បីកែលម្អការបញ្ចេញសំឡេងរបស់អ្នក។",
+                    "feature_exam_title": "ប្រព័ន្ធប្រឡង",
+                    "feature_exam_desc": "សាកល្បងចំណេះដឹងរបស់អ្នកជាមួយនឹងសំណួរជម្រើសច្រើន និងលំហាត់ផ្គូផ្គងពាក្យ។",
+                    "feature_flashcards_title": "Flashcard ពាក្យសំខាន់ៗ",
+                    "feature_flashcards_desc": "រៀនវាក្យស័ព្ទថ្មីៗយ៉ាងងាយស្រួលដោយប្រើ Flashcard អន្តរកម្ម។",
+                    "feature_progress_title": "តាមដានវឌ្ឍនភាព",
+                    "feature_progress_desc": "មើលពីរបៀបដែលអ្នករីកចម្រើនជាមួយនឹងរបាយការណ៍កម្រិតចំណេះដឹងលម្អិត។",
+                    "feature_bookmarks_title": "Bookmark មេរៀនចូលចិត្ត",
+                    "feature_bookmarks_desc": "រក្សាទុកមេរៀន និងពាក្យដែលអ្នកចង់រៀនម្តងទៀត។",
+                    "feature_language_title": "ជម្រើសភាសា",
+                    "feature_language_desc": "ប្តូរភាសាចំណុចប្រទាក់រវាងខ្មែរ អង់គ្លេស និងថៃ។",
+                    "kindergarten_title": "ថ្នាក់មតេយ្យ",
+                    "kindergarten_intro": "សូមស្វាគមន៍មកកាន់មេរៀនថ្នាក់មតេយ្យ! ចូរយើងរៀនពាក្យ និងឃ្លាសាមញ្ញបំផុត។",
+                    "beginner_title": "កម្រិតចាប់ផ្តើម",
+                    "beginner_intro": "សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតចាប់ផ្តើម! ចូរយើងរៀនឃ្លាថៃមូលដ្ឋានមួយចំនួន។",
+                    "generate_ai_lessons": "បង្កើតមេរៀនបន្ថែម (AI)",
+                    "ai_generation_error": "មានបញ្ហាក្នុងការបង្កើតមេរៀនតាមរយៈ AI។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។",
+                    "tts_not_supported_error": "Browser របស់អ្នកមិនគាំទ្រមុខងារសំឡេងអានទេ។",
+                    "tts_error": "មានបញ្ហាក្នុងការអានសំឡេង។",
+                    "intermediate_title": "កម្រិតកណ្តាល",
+                    "intermediate_intro": "សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតកណ្តាល! នៅទីនេះ អ្នកនឹងរៀនឃ្លាដែលស្មុគស្មាញជាងនេះបន្តិច។",
+                    "advanced_title": "កម្រិតខ្ពស់",
+                    "advanced_intro": "សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតខ្ពស់! នៅទីនេះ អ្នកនឹងរៀនឃ្លាស្មុគស្មាញ និងកន្សោម idiom.s",
+                    "custom_lesson_title": "មេរៀនតាមតម្រូវការ (AI)",
+                    "custom_lesson_intro": "បញ្ចូលប្រធានបទ ឬឃ្លាដែលអ្នកចង់រៀន ហើយ AI នឹងបង្កើតមេរៀនផ្ទាល់ខ្លួនសម្រាប់អ្នក។",
+                    "custom_lesson_placeholder": "ឧទាហរណ៍៖ ឃ្លាសម្រាប់បញ្ជាទិញម្ហូបនៅភោជនីយដ្ឋាន ឬ ពាក្យទាក់ទងនឹងអាកាសធាតុ",
+                    "generate_custom_lesson": "បង្កើតមេរៀនតាមតម្រូវការ",
+                    "exam_title": "ប្រឡង",
+                    "exam_intro": "សាកល្បងចំណេះដឹងភាសាថៃរបស់អ្នកជាមួយនឹងសំណួរដែលបង្កើតដោយ AI ។",
+                    "generate_ai_exam": "បង្កើតសំណួរប្រឡង (AI)",
+                    "flashcards_title": "Flashcards",
+                    "flashcards_intro": "រៀនពាក្យ និងឃ្លាថ្មីៗយ៉ាងងាយស្រួលដោយប្រើ Flashcard ។",
+                    "generate_ai_flashcards": "បង្កើត Flashcard (AI)",
+                    "progress_title": "របាយការណ៍កម្រិតចំណេះដឹង",
+                    "progress_intro": "មើលពីរបៀបដែលអ្នករីកចម្រើនជាមួយនឹងរបាយការណ៍ផ្ទាល់ខ្លួន។",
+                    "generate_ai_progress": "បង្កើតរបាយការណ៍វឌ្ឍនភាព (AI)",
+                    "bookmarks_title": "មេរៀនចូលចិត្ត",
+                    "bookmarks_intro": "គ្រប់គ្រងមេរៀន និងពាក្យដែលអ្នកចូលចិត្តនៅទីនេះ។",
+                    "generate_ai_bookmarks": "បង្កើត Bookmark គំរូ (AI)",
+                    "footer_text": "រក្សាសិទ្ធិគ្រប់យ៉ាង។",
+                    "user_id_label": "ID អ្នកប្រើប្រាស់:"
+                },
+                en: {
+                    "app_title": "Thai Language Learning App",
+                    "app_title_footer": "Thai Language Learning App",
+                    "home_nav": "Home",
+                    "kindergarten_nav": "Kindergarten",
+                    "beginner_nav": "Beginner",
+                    "intermediate_nav": "Intermediate",
+                    "advanced_nav": "Advanced",
+                    "custom_lesson_nav": "Custom Lesson",
+                    "exam_nav": "Exam",
+                    "flashcards_nav": "Flashcards",
+                    "progress_nav": "Progress Report",
+                    "bookmarks_nav": "Favorite Lessons",
+                    "welcome_title": "Welcome to the Thai Language Learning App!",
+                    "welcome_text": "This app will help you learn Thai through interactive lessons, quizzes, flashcards, and progress tracking.",
+                    "feature_audio_title": "Native Speaker Audio",
+                    "feature_audio_desc": "Listen to words and phrases pronounced by native Thai speakers to improve your pronunciation.",
+                    "feature_exam_title": "Exam System",
+                    "feature_exam_desc": "Test your knowledge with multiple-choice questions and word matching exercises.",
+                    "feature_flashcards_title": "Essential Word Flashcards",
+                    "feature_flashcards_desc": "Learn new vocabulary easily using interactive flashcards.",
+                    "feature_progress_title": "Track Progress",
+                    "feature_progress_desc": "See how you're improving with detailed knowledge level reports.",
+                    "feature_bookmarks_title": "Bookmark Favorite Lessons",
+                    "feature_bookmarks_desc": "Save lessons and words you want to revisit.",
+                    "feature_language_title": "Language Options",
+                    "feature_language_desc": "Switch the interface language between Khmer, English, and Thai.",
+                    "kindergarten_title": "Kindergarten Level",
+                    "kindergarten_intro": "Welcome to the kindergarten lessons! Let's learn the simplest words and phrases.",
+                    "beginner_title": "Beginner Level",
+                    "beginner_intro": "Welcome to the beginner lessons! Let's learn some basic Thai phrases.",
+                    "generate_ai_lessons": "Generate More Lessons (AI)",
+                    "ai_generation_error": "Error generating AI lessons. Please try again later.",
+                    "tts_not_supported_error": "Your browser does not support text-to-speech.",
+                    "tts_error": "Error speaking text.",
+                    "intermediate_title": "Intermediate Level",
+                    "intermediate_intro": "Welcome to the intermediate lessons! Here, you'll learn slightly more complex phrases.",
+                    "advanced_title": "Advanced Level",
+                    "advanced_intro": "Welcome to the advanced lessons! Here, you'll learn complex phrases and idiomatic expressions.",
+                    "custom_lesson_title": "Custom Lesson (AI)",
+                    "custom_lesson_intro": "Enter a topic or phrase you want to learn, and the AI will generate a personalized lesson for you.",
+                    "custom_lesson_placeholder": "Example: Phrases for ordering food at a restaurant, or words related to weather",
+                    "generate_custom_lesson": "Generate Custom Lesson",
+                    "exam_title": "Exam",
+                    "exam_intro": "Test your Thai language knowledge with AI-generated questions.",
+                    "generate_ai_exam": "Generate Exam Questions (AI)",
+                    "flashcards_title": "Flashcards",
+                    "flashcards_intro": "Easily learn new words and phrases using flashcards.",
+                    "generate_ai_flashcards": "Generate Flashcards (AI)",
+                    "progress_title": "Knowledge Progress Report",
+                    "progress_intro": "See how you're improving with a personalized report.",
+                    "generate_ai_progress": "Generate Progress Report (AI)",
+                    "bookmarks_title": "Favorite Lessons",
+                    "bookmarks_intro": "Manage your favorite lessons and words here.",
+                    "generate_ai_bookmarks": "Generate Sample Bookmarks (AI)",
+                    "footer_text": "All rights reserved.",
+                    "user_id_label": "User ID:"
+                },
+                th: {
+                    "app_title": "แอปพลิเคชันเรียนภาษาไทย",
+                    "app_title_footer": "แอปพลิเคชันเรียนภาษาไทย",
+                    "home_nav": "หน้าหลัก",
+                    "kindergarten_nav": "ระดับอนุบาล",
+                    "beginner_nav": "ระดับเริ่มต้น",
+                    "intermediate_nav": "ระดับกลาง",
+                    "advanced_nav": "ระดับสูง",
+                    "custom_lesson_nav": "บทเรียนที่กำหนดเอง",
+                    "exam_nav": "แบบทดสอบ",
+                    "flashcards_nav": "แฟลชการ์ด",
+                    "progress_nav": "รายงานความคืบหน้า",
+                    "bookmarks_nav": "บทเรียนที่ชื่นชอบ",
+                    "welcome_title": "ยินดีต้อนรับสู่แอปพลิเคชันเรียนภาษาไทย!",
+                    "welcome_text": "แอปพลิเคชันนี้จะช่วยให้คุณเรียนภาษาไทยผ่านบทเรียนแบบโต้ตอบ แบบทดสอบ แฟลชการ์ด และการติดตามความคืบหน้า",
+                    "feature_audio_title": "เสียงจากเจ้าของภาษา",
+                    "feature_audio_desc": "ฟังคำและวลีที่ออกเสียงโดยเจ้าของภาษาไทยเพื่อปรับปรุงการออกเสียงของคุณ",
+                    "feature_exam_title": "ระบบแบบทดสอบ",
+                    "feature_exam_desc": "ทดสอบความรู้ของคุณด้วยคำถามปรนัยและแบบฝึกหัดจับคู่คำศัพท์",
+                    "feature_flashcards_title": "แฟลชการ์ดคำศัพท์ที่สำคัญ",
+                    "feature_flashcards_desc": "เรียนรู้คำศัพท์ใหม่ได้อย่างง่ายดายโดยใช้แฟลชการ์ดแบบโต้ตอบ",
+                    "feature_progress_title": "ติดตามความคืบหน้า",
+                    "feature_progress_desc": "ดูว่าคุณกำลังพัฒนาขึ้นอย่างไรด้วยรายงานระดับความรู้โดยละเอียด",
+                    "feature_bookmarks_title": "บุ๊กมาร์กบทเรียนที่ชื่นชอบ",
+                    "feature_bookmarks_desc": "บันทึกบทเรียนและคำศัพท์ที่คุณต้องการทบทวน",
+                    "feature_language_title": "ตัวเลือกภาษา",
+                    "feature_language_desc": "เปลี่ยนภาษาของอินเทอร์เฟซระหว่าง เขมร อังกฤษ และไทย",
+                    "kindergarten_title": "ระดับอนุบาล",
+                    "kindergarten_intro": "ยินดีต้อนรับสู่บทเรียนระดับอนุบาล! มาเรียนรู้คำศัพท์และวลีที่ง่ายที่สุดกัน",
+                    "beginner_title": "ระดับเริ่มต้น",
+                    "beginner_intro": "ยินดีต้อนรับสู่บทเรียนระดับเริ่มต้น! มาเรียนรู้ประโยคภาษาไทยพื้นฐานกัน",
+                    "generate_ai_lessons": "สร้างบทเรียนเพิ่มเติม (AI)",
+                    "ai_generation_error": "ข้อผิดพลาดในการสร้างบทเรียนด้วย AI โปรดลองอีกครั้งในภายหลัง",
+                    "tts_not_supported_error": "เบราว์เซอร์ของคุณไม่รองรับคุณสมบัติการแปลงข้อความเป็นคำพูด",
+                    "tts_error": "เกิดข้อผิดพลาดในการออกเสียงข้อความ",
+                    "intermediate_title": "ระดับกลาง",
+                    "intermediate_intro": "ยินดีต้อนรับสู่บทเรียนระดับกลาง! ที่นี่ คุณจะได้เรียนรู้วลีที่ซับซ้อนขึ้นเล็กน้อย",
+                    "advanced_title": "ระดับสูง",
+                    "advanced_intro": "ยินดีต้อนรับสู่บทเรียนระดับสูง! ที่นี่ คุณจะได้เรียนรู้วลีที่ซับซ้อนและสำนวน",
+                    "custom_lesson_title": "บทเรียนที่กำหนดเอง (AI)",
+                    "custom_lesson_intro": "ป้อนหัวข้อหรือวลีที่คุณต้องการเรียนรู้ แล้ว AI จะสร้างบทเรียนส่วนตัวให้คุณ",
+                    "custom_lesson_placeholder": "ตัวอย่าง: วลีสำหรับการสั่งอาหารที่ร้านอาหาร หรือคำศัพท์เกี่ยวกับสภาพอากาศ",
+                    "generate_custom_lesson": "สร้างบทเรียนที่กำหนดเอง",
+                    "exam_title": "แบบทดสอบ",
+                    "exam_intro": "ทดสอบความรู้ภาษาไทยของคุณด้วยคำถามที่สร้างโดย AI",
+                    "generate_ai_exam": "สร้างคำถามแบบทดสอบ (AI)",
+                    "flashcards_title": "แฟลชการ์ด",
+                    "flashcards_intro": "เรียนรู้คำศัพท์และวลีใหม่ ๆ ได้อย่างง่ายดายโดยใช้แฟลชการ์ด",
+                    "generate_ai_flashcards": "สร้างแฟลชการ์ด (AI)",
+                    "progress_title": "รายงานความคืบหน้าของความรู้",
+                    "progress_intro": "ดูว่าคุณกำลังพัฒนาขึ้นอย่างไรด้วยรายงานส่วนบุคคล",
+                    "generate_ai_progress": "สร้างรายงานความคืบหน้า (AI)",
+                    "bookmarks_title": "บทเรียนที่ชื่นชอบ",
+                    "bookmarks_intro": "จัดการบทเรียนและคำศัพท์ที่คุณชื่นชอบที่นี่",
+                    "generate_ai_bookmarks": "สร้างตัวอย่างบุ๊กมาร์ก (AI)",
+                    "footer_text": "สงวนลิขสิทธิ์ทุกประการ",
+                    "user_id_label": "รหัสผู้ใช้:"
+                }
+            };
+
+            let currentLang = 'km'; // Default language
+
+            // Function to apply translations based on currentLang
+            function applyTranslations() {
+                const currentTranslation = translations[currentLang];
+
+                // Update specific elements that don't use data-translate or need special handling
+                document.querySelector('h1').textContent = currentTranslation['app_title'];
+                document.querySelector('footer p').innerHTML = `&copy; 2025 <span data-translate="app_title_footer">${currentTranslation['app_title_footer']}</span>. <span data-translate="footer_text">${currentTranslation['footer_text']}</span>`;
+                document.querySelector('#user-id-display span[data-translate="user_id_label"]').textContent = currentTranslation['user_id_label'];
+
+                // Update elements with data-translate attribute
+                document.querySelectorAll('[data-translate]').forEach(element => {
+                    const key = element.dataset.translate;
+                    // Exclude elements where content is handled by child elements (e.g., spans inside h3 or footer)
+                    if (element.tagName === 'SPAN' || element.tagName === 'P' || element.tagName === 'H2' || element.tagName === 'BUTTON' || element.tagName === 'TEXTAREA') {
+                        if (currentTranslation[key]) {
+                            // For textarea, update placeholder
+                            if (element.tagName === 'TEXTAREA' && element.hasAttribute('placeholder')) {
+                                element.setAttribute('placeholder', currentTranslation[key]);
+                            } else {
+                                element.textContent = currentTranslation[key];
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Function to create a lesson HTML element
+            function createLessonElement(thaiPhrase, phoneticTranscription, kmTranslation, enTranslation) {
+                const lessonDiv = document.createElement('div');
+                lessonDiv.className = 'bg-blue-50 p-4 rounded-lg shadow-sm flex items-center justify-between';
+                lessonDiv.innerHTML = `
+                    <div>
+                        <p class="text-2xl font-bold text-blue-800">${thaiPhrase}</p>
+                        <p class="text-lg text-gray-700">${phoneticTranscription}</p>
+                        <p class="text-lg text-gray-700">${kmTranslation}</p>
+                        <p class="text-md text-gray-500">${enTranslation}</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-thai-text="${thaiPhrase}">
+                            <i class="fas fa-volume-up text-xl"></i>
+                        </button>
+                        <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="${phoneticTranscription}">
+                            <i class="fas fa-comment-dots text-xl"></i>
+                        </button>
+                    </div>
+                `;
+                return lessonDiv;
+            }
+
+            // Function to create an Exam Question HTML element
+            function createQuizQuestionElement(question) {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'bg-blue-50 p-4 rounded-lg shadow-sm space-y-3';
+                questionDiv.innerHTML = `
+                    <p class="text-lg font-semibold text-gray-800"><span class="font-bold">សំណួរ:</span> ${question.questionKhmer}</p>
+                    <p class="text-md text-gray-600"><span class="font-bold">Question:</span> ${question.questionEnglish}</p>
+                    <p class="text-xl font-bold text-blue-800"><span class="font-bold">คำถาม:</span> ${question.questionThai}</p>
+                    <div class="options-container space-y-2">
+                        ${question.options.map((option, index) => `
+                            <button class="option-button w-full text-left bg-white hover:bg-blue-100 p-3 rounded-md border border-gray-300 transition-colors duration-200 text-gray-700"
+                                data-correct="${index === question.correctAnswerIndex ? 'true' : 'false'}"
+                                data-index="${index}">
+                                ${index + 1}. ${option.textKhmer} / ${option.textEnglish} / ${option.textThai}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="feedback-message mt-2 text-center font-bold"></div>
+                `;
+
+                // Add event listeners for options
+                questionDiv.querySelectorAll('.option-button').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const isCorrect = button.dataset.correct === 'true';
+                        const feedbackDiv = questionDiv.querySelector('.feedback-message');
+                        // Reset all buttons
+                        questionDiv.querySelectorAll('.option-button').forEach(btn => {
+                            btn.classList.remove('bg-green-200', 'bg-red-200', 'border-green-500', 'border-red-500');
+                        });
+
+                        if (isCorrect) {
+                            button.classList.add('bg-green-200', 'border-green-500');
+                            feedbackDiv.textContent = currentLang === 'km' ? 'ត្រឹមត្រូវ!' : currentLang === 'en' ? 'Correct!' : 'ถูกต้อง!';
+                            feedbackDiv.classList.remove('text-red-500');
+                            feedbackDiv.classList.add('text-green-500');
+                        } else {
+                            button.classList.add('bg-red-200', 'border-red-500');
+                            feedbackDiv.textContent = currentLang === 'km' ? 'ខុសហើយ!' : currentLang === 'en' ? 'Incorrect!' : 'ผิด!';
+                            feedbackDiv.classList.remove('text-green-500');
+                            feedbackDiv.classList.add('text-red-500');
+                            // Highlight correct answer
+                            questionDiv.querySelector(`.option-button[data-correct="true"]`).classList.add('bg-green-200', 'border-green-500');
+                        }
+                    });
+                });
+
+                return questionDiv;
+            }
+
+            // Function to create a Flashcard HTML element
+            function createFlashcardElement(flashcard) {
+                const flashcardDiv = document.createElement('div');
+                flashcardDiv.className = 'flashcard bg-blue-50 p-6 rounded-lg shadow-md cursor-pointer transform transition-transform duration-500 perspective-1000 relative h-48 flex items-center justify-center'; // Added perspective
+                flashcardDiv.setAttribute('tabindex', '0'); // Make it focusable for keyboard users
+
+                flashcardDiv.innerHTML = `
+                    <div class="flashcard-inner relative w-full h-full text-center transition-transform duration-500 transform-style-preserve-3d">
+                        <div class="flashcard-face flashcard-front absolute w-full h-full backface-hidden flex flex-col items-center justify-center">
+                            <p class="text-3xl font-bold text-blue-800 mb-2">${flashcard.thaiWord}</p>
+                            <p class="text-lg text-gray-600">${flashcard.phoneticTranscription}</p>
+                             <button class="play-khmer-phonetic-button mt-3 bg-purple-500 hover:bg-purple-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="${flashcard.phoneticTranscription}">
+                                <i class="fas fa-comment-dots text-lg"></i>
+                            </button>
+                        </div>
+                        <div class="flashcard-face flashcard-back absolute w-full h-full backface-hidden flex flex-col items-center justify-center rotate-y-180">
+                            <p class="text-xl font-semibold text-gray-800 mb-1">${flashcard.khmerTranslation}</p>
+                            <p class="text-lg text-gray-700">${flashcard.englishTranslation}</p>
+                            <button class="play-audio-button mt-3 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-thai-text="${flashcard.thaiWord}">
+                                <i class="fas fa-volume-up text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                flashcardDiv.addEventListener('click', () => {
+                    flashcardDiv.querySelector('.flashcard-inner').classList.toggle('rotate-y-180');
+                });
+                return flashcardDiv;
+            }
+
+            // Function to create a Bookmark HTML element
+            function createBookmarkElement(bookmark) {
+                const bookmarkDiv = document.createElement('div');
+                bookmarkDiv.className = 'bg-blue-50 p-3 rounded-lg shadow-sm flex flex-col items-start';
+                bookmarkDiv.innerHTML = `
+                    <p class="text-lg font-semibold text-blue-800"><i class="fas fa-bookmark text-blue-500 mr-2"></i> ${bookmark.titleKhmer}</p>
+                    <p class="text-md text-gray-700 ml-6">(${bookmark.titleEnglish})</p>
+                    <p class="text-sm text-gray-500 ml-6">(${bookmark.titleThai})</p>
+                `;
+                return bookmarkDiv;
+            }
+
+            // Function to fetch AI generated lessons for Kindergarten level
+            async function fetchAIKindergartenLessons() {
+                showLoadingSpinner();
+                const kindergartenLessonsContainer = document.getElementById('kindergarten-lessons-container');
+                kindergartenLessonsContainer.innerHTML = ''; // Clear previous lessons
+                try {
+                    const prompt = "Generate 3 very simple Thai words or short phrases suitable for kindergarten children, focusing on common objects, animals, or simple greetings. Include their Thai text, Khmer phonetic transcription, Khmer translation, and English translation. Provide the output as a JSON array where each object has 'thaiPhrase', 'phoneticTranscription', 'khmerTranslation', 'englishTranslation'.";
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = {
+                        contents: chatHistory,
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        "thaiPhrase": { "type": "STRING" },
+                                        "phoneticTranscription": { "type": "STRING" },
+                                        "khmerTranslation": { "type": "STRING" },
+                                        "englishTranslation": { "type": "STRING" }
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const json = result.candidates[0].content.parts[0].text;
+                        try { // Added try-catch for JSON parsing
+                            const parsedJson = JSON.parse(json);
+
+                            if (Array.isArray(parsedJson)) {
+                                parsedJson.forEach(lesson => {
+                                    const newLessonElement = createLessonElement(
+                                        lesson.thaiPhrase,
+                                        lesson.phoneticTranscription,
+                                        lesson.khmerTranslation,
+                                        lesson.englishTranslation
+                                    );
+                                    kindergartenLessonsContainer.appendChild(newLessonElement);
+                                });
+                            } else {
+                                console.error("AI response for kindergarten is not an array:", parsedJson);
+                                alert(translations[currentLang]['ai_generation_error']);
+                            }
+                        } catch (jsonError) {
+                            console.error("JSON parsing error for kindergarten lessons:", jsonError);
+                            console.error("Raw AI response for kindergarten lessons:", json); // Log raw response for debugging
+                            alert(translations[currentLang]['ai_generation_error'] + ` (JSON Error: ${jsonError.message})`);
+                        }
+                    } else {
+                        console.error("Unexpected AI response structure for kindergarten:", result);
+                        alert(translations[currentLang]['ai_generation_error']);
+                    }
+                } catch (error) {
+                    console.error("Error fetching AI generated kindergarten lessons:", error);
+                    alert(translations[currentLang]['ai_generation_error'] + ` (${error.message})`);
+                } finally {
+                    hideLoadingSpinner();
+                }
+            }
+
+
+            // Function to fetch AI generated lessons for Beginner level
+            async function fetchAIGeneratedLessons() {
+                showLoadingSpinner();
+                const beginnerLessonsContainer = document.getElementById('beginner-lessons-container');
+                try {
+                    const prompt = "Generate 3 basic Thai phrases suitable for beginners, including their Thai text, Khmer phonetic transcription, Khmer translation, and English translation. Provide the output as a JSON array where each object has 'thaiPhrase', 'phoneticTranscription', 'khmerTranslation', 'englishTranslation'."; // Adjusted prompt for TTS
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = {
+                        contents: chatHistory,
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        "thaiPhrase": { "type": "STRING" },
+                                        "phoneticTranscription": { "type": "STRING" },
+                                        "khmerTranslation": { "type": "STRING" },
+                                        "englishTranslation": { "type": "STRING" }
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    const apiKey = ""; // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const json = result.candidates[0].content.parts[0].text;
+                        try { // Added try-catch for JSON parsing
+                            const parsedJson = JSON.parse(json);
+
+                            if (Array.isArray(parsedJson)) {
+                                parsedJson.forEach(lesson => {
+                                    const newLessonElement = createLessonElement(
+                                        lesson.thaiPhrase,
+                                        lesson.phoneticTranscription,
+                                        lesson.khmerTranslation,
+                                        lesson.englishTranslation
+                                    );
+                                    beginnerLessonsContainer.appendChild(newLessonElement);
+                                });
+                            } else {
+                                console.error("AI response is not an array:", parsedJson);
+                                alert(translations[currentLang]['ai_generation_error']);
+                            }
+                        } catch (jsonError) {
+                            console.error("JSON parsing error for beginner lessons:", jsonError);
+                            console.error("Raw AI response for beginner lessons:", json); // Log raw response for debugging
+                            alert(translations[currentLang]['ai_generation_error'] + ` (JSON Error: ${jsonError.message})`);
+                        }
+                    } else {
+                        console.error("Unexpected AI response structure:", result);
+                        alert(translations[currentLang]['ai_generation_error']);
+                    }
+                } catch (error) {
+                    console.error("Error fetching AI generated lessons:", error);
+                    alert(translations[currentLang]['ai_generation_error'] + ` (${error.message})`);
+                } finally {
+                    hideLoadingSpinner();
+                }
+            }
+
+            // Function to fetch AI generated lessons for Intermediate level
+            async function fetchAIIntermediateLessons() {
+                showLoadingSpinner();
+                const intermediateLessonsContainer = document.getElementById('intermediate-lessons-container');
+                try {
+                    const prompt = "Generate 3 intermediate Thai phrases, including their Thai text, Khmer phonetic transcription, Khmer translation, and English translation. Provide the output as a JSON array where each object has 'thaiPhrase', 'phoneticTranscription', 'khmerTranslation', 'englishTranslation'. Focus on phrases suitable for someone who knows basic greetings.";
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = {
+                        contents: chatHistory,
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        "thaiPhrase": { "type": "STRING" },
+                                        "phoneticTranscription": { "type": "STRING" },
+                                        "khmerTranslation": { "type": "STRING" },
+                                        "englishTranslation": { "type": "STRING" }
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    const apiKey = ""; // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const json = result.candidates[0].content.parts[0].text;
+                        try { // Added try-catch for JSON parsing
+                            const parsedJson = JSON.parse(json);
+
+                            if (Array.isArray(parsedJson)) {
+                                parsedJson.forEach(lesson => {
+                                    const newLessonElement = createLessonElement(
+                                        lesson.thaiPhrase,
+                                        lesson.phoneticTranscription,
+                                        lesson.khmerTranslation,
+                                        lesson.englishTranslation
+                                    );
+                                    intermediateLessonsContainer.appendChild(newLessonElement);
+                                });
+                            } else {
+                                console.error("AI response for intermediate is not an array:", parsedJson);
+                                alert(translations[currentLang]['ai_generation_error']);
+                            }
+                        } catch (jsonError) {
+                            console.error("JSON parsing error for intermediate lessons:", jsonError);
+                            console.error("Raw AI response for intermediate lessons:", json); // Log raw response for debugging
+                            alert(translations[currentLang]['ai_generation_error'] + ` (JSON Error: ${jsonError.message})`);
+                        }
+                    } else {
+                        console.error("Unexpected AI response structure for intermediate:", result);
+                        alert(translations[currentLang]['ai_generation_error']);
+                    }
+                } catch (error) {
+                    console.error("Error fetching AI generated intermediate lessons:", error);
+                    alert(translations[currentLang]['ai_generation_error'] + ` (${error.message})`);
+                } finally {
+                    hideLoadingSpinner();
+                }
+            }
+
+            // Function to fetch AI generated lessons for Advanced level
+            async function fetchAIAdvancedLessons() {
+                showLoadingSpinner();
+                const advancedLessonsContainer = document.getElementById('advanced-lessons-container');
+                try {
+                    const prompt = "Generate 3 advanced Thai phrases, including their Thai text, Khmer phonetic transcription, Khmer translation, and English translation. Focus on complex sentences or idioms. Provide the output as a JSON array where each object has 'thaiPhrase', 'phoneticTranscription', 'khmerTranslation', 'englishTranslation'.";
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = {
+                        contents: chatHistory,
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        "thaiPhrase": { "type": "STRING" },
+                                        "phoneticTranscription": { "type": "STRING" },
+                                        "khmerTranslation": { "type": "STRING" },
+                                        "englishTranslation": { "type": "STRING" }
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const json = result.candidates[0].content.parts[0].text;
+                        try { // Added try-catch for JSON parsing
+                            const parsedJson = JSON.parse(json);
+
+                            if (Array.isArray(parsedJson)) {
+                                parsedJson.forEach(lesson => {
+                                    const newLessonElement = createLessonElement(
+                                        lesson.thaiPhrase,
+                                        lesson.phoneticTranscription,
+                                        lesson.khmerTranslation,
+                                        lesson.englishTranslation
+                                    );
+                                    advancedLessonsContainer.appendChild(newLessonElement);
+                                });
+                            } else {
+                                console.error("AI response for advanced is not an array:", parsedJson);
+                                alert(translations[currentLang]['ai_generation_error']);
+                            }
+                        } catch (jsonError) {
+                            console.error("JSON parsing error for advanced lessons:", jsonError);
+                            console.error("Raw AI response for advanced lessons:", json); // Log raw response for debugging
+                            alert(translations[currentLang]['ai_generation_error'] + ` (JSON Error: ${jsonError.message})`);
+                        }
+                    } else {
+                        console.error("Unexpected AI response structure for advanced:", result);
+                        alert(translations[currentLang]['ai_generation_error']);
+                    }
+                } catch (error) {
+                    console.error("Error fetching AI generated advanced lessons:", error);
+                    alert(translations[currentLang]['ai_generation_error'] + ` (${error.message})`);
+                } finally {
+                    hideLoadingSpinner();
+                }
+            }
+
+            // Function to fetch AI generated Custom Lesson
+            async function fetchAICustomLesson() {
+                showLoadingSpinner();
+                const customLessonInput = document.getElementById('custom-lesson-input').value;
+                const customLessonOutputContainer = document.getElementById('custom-lesson-output');
+                customLessonOutputContainer.innerHTML = ''; // Clear previous lessons
+
+                if (!customLessonInput.trim()) {
+                    alert(translations[currentLang]['custom_lesson_placeholder']); // Reuse placeholder text for alert
+                    hideLoadingSpinner();
+                    return;
+                }
+
+                try {
+                    const prompt = `Generate 3 Thai phrases related to "${customLessonInput}". For each phrase, include:
+                    1. The Thai text.
+                    2. Its Khmer phonetic transcription.
+                    3. Its Khmer translation.
+                    4. Its English translation.
+                    Provide the output as a JSON array where each object has 'thaiPhrase', 'phoneticTranscription', 'khmerTranslation', 'englishTranslation'. Ensure all strings are properly escaped for JSON.`; // Added emphasis on proper escaping
+
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = {
+                        contents: chatHistory,
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        "thaiPhrase": { "type": "STRING" },
+                                        "phoneticTranscription": { "type": "STRING" },
+                                        "khmerTranslation": { "type": "STRING" },
+                                        "englishTranslation": { "type": "STRING" }
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const json = result.candidates[0].content.parts[0].text;
+                        console.log("Raw AI response for custom lesson:", json); // Log raw response for debugging
+                        try {
+                            const parsedJson = JSON.parse(json);
+
+                            if (Array.isArray(parsedJson)) {
+                                parsedJson.forEach(lesson => {
+                                    const newLessonElement = createLessonElement(
+                                        lesson.thaiPhrase,
+                                        lesson.phoneticTranscription,
+                                        lesson.khmerTranslation,
+                                        lesson.englishTranslation
+                                    );
+                                    customLessonOutputContainer.appendChild(newLessonElement);
+                                });
+                            } else {
+                                console.error("AI response for custom lesson is not an array:", parsedJson);
+                                alert(translations[currentLang]['ai_generation_error'] + ` (Invalid JSON format)`);
+                            }
+                        } catch (jsonError) {
+                            console.error("JSON parsing error for custom lesson:", jsonError);
+                            console.error("Raw AI response for custom lesson (causing error):", json); // Log raw response for debugging
+                            alert(translations[currentLang]['ai_generation_error'] + ` (JSON Error: ${jsonError.message}). Please try a different prompt.`);
+                        }
+                    } else {
+                        console.error("Unexpected AI response structure for custom lesson:", result);
+                        alert(translations[currentLang]['ai_generation_error'] + ` (Empty or malformed response)`);
+                    }
+                } catch (error) {
+                    console.error("Error fetching AI generated custom lesson:", error);
+                    alert(translations[currentLang]['ai_generation_error'] + ` (Fetch Error: ${error.message})`);
+                } finally {
+                    hideLoadingSpinner();
+                }
+            }
+
+
+            // Function to fetch AI generated Exam Questions
+            async function fetchAIExamQuestions() {
+                showLoadingSpinner();
+                const examQuestionsContainer = document.getElementById('exam-questions-container');
+                examQuestionsContainer.innerHTML = ''; // Clear previous questions
+                try {
+                    const prompt = "Generate 3 multiple-choice questions for Thai language beginners. Each question should include 'questionThai', 'questionKhmer', 'questionEnglish', an array of 'options' (each with 'textThai', 'textKhmer', 'textEnglish'), and 'correctAnswerIndex' (0-indexed). Provide the output as a JSON array.";
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = {
+                        contents: chatHistory,
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        "questionThai": { "type": "STRING" },
+                                        "questionKhmer": { "type": "STRING" },
+                                        "questionEnglish": { "type": "STRING" },
+                                        "options": {
+                                            "type": "ARRAY",
+                                            "items": {
+                                                "type": "OBJECT",
+                                                "properties": {
+                                                    "textThai": { "type": "STRING" },
+                                                    "textKhmer": { "type": "STRING" },
+                                                    "textEnglish": { "type": "STRING" }
+                                                }
+                                            }
+                                        },
+                                        "correctAnswerIndex": { "type": "NUMBER" }
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const json = result.candidates[0].content.parts[0].text;
+                        try { // Added try-catch for JSON parsing
+                            const parsedJson = JSON.parse(json);
+
+                            if (Array.isArray(parsedJson)) {
+                                parsedJson.forEach(question => {
+                                    const newQuestionElement = createQuizQuestionElement(question);
+                                    examQuestionsContainer.appendChild(newQuestionElement);
+                                });
+                            } else {
+                                console.error("AI response for exam is not an array:", parsedJson);
+                                alert(translations[currentLang]['ai_generation_error']);
+                            }
+                        } catch (jsonError) {
+                            console.error("JSON parsing error for exam questions:", jsonError);
+                            console.error("Raw AI response for exam questions:", json); // Log raw response for debugging
+                            alert(translations[currentLang]['ai_generation_error'] + ` (JSON Error: ${jsonError.message})`);
+                        }
+                    } else {
+                        console.error("Unexpected AI response structure for exam:", result);
+                        alert(translations[currentLang]['ai_generation_error']);
+                    }
+                } catch (error) {
+                    console.error("Error fetching AI generated exam questions:", error);
+                    alert(translations[currentLang]['ai_generation_error'] + ` (${error.message})`);
+                } finally {
+                    hideLoadingSpinner();
+                }
+            }
+
+            // Function to fetch AI generated Flashcards
+            async function fetchAIFlashcards() {
+                showLoadingSpinner();
+                const flashcardsContainer = document.getElementById('flashcards-container');
+                flashcardsContainer.innerHTML = ''; // Clear previous flashcards
+                try {
+                    const prompt = "Generate 3 Thai flashcards for beginners. Each flashcard should have a 'thaiWord', 'khmerTranslation', 'englishTranslation', and a 'phoneticTranscription' (e.g., 'Sa-wat-dee krap/ka'). Provide the output as a JSON array.";
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = {
+                        contents: chatHistory,
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        "thaiWord": { "type": "STRING" },
+                                        "khmerTranslation": { "type": "STRING" },
+                                        "englishTranslation": { "type": "STRING" },
+                                        "phoneticTranscription": { "type": "STRING" }
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const json = result.candidates[0].content.parts[0].text;
+                        try { // Added try-catch for JSON parsing
+                            const parsedJson = JSON.parse(json);
+
+                            if (Array.isArray(parsedJson)) {
+                                parsedJson.forEach(flashcard => {
+                                    const newFlashcardElement = createFlashcardElement(flashcard);
+                                    flashcardsContainer.appendChild(newFlashcardElement);
+                                });
+                            } else {
+                                console.error("AI response for flashcards is not an array:", parsedJson);
+                                alert(translations[currentLang]['ai_generation_error']);
+                            }
+                        } catch (jsonError) {
+                            console.error("JSON parsing error for flashcards:", jsonError);
+                            console.error("Raw AI response for flashcards:", json); // Log raw response for debugging
+                            alert(translations[currentLang]['ai_generation_error'] + ` (JSON Error: ${jsonError.message})`);
+                        }
+                    } else {
+                        console.error("Unexpected AI response structure for flashcards:", result);
+                        alert(translations[currentLang]['ai_generation_error']);
+                    }
+                } catch (error) {
+                    console.error("Error fetching AI generated flashcards:", error);
+                    alert(translations[currentLang]['ai_generation_error'] + ` (${error.message})`);
+                } finally {
+                    hideLoadingSpinner();
+                }
+            }
+
+            // Function to fetch AI generated Progress Report
+            async function fetchAIProgressReport() {
+                showLoadingSpinner();
+                const progressReportContainer = document.getElementById('progress-report-container');
+                progressReportContainer.innerHTML = ''; // Clear previous content
+                try {
+                    const prompt = "Write a short, encouraging progress report for a Thai language learner who is at an intermediate level. Mention their consistency, vocabulary growth, and suggest 2-3 areas for improvement (e.g., speaking fluency, understanding complex grammar, reading comprehension). Keep it concise, around 100-150 words. Provide the output as plain text.";
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = {
+                        contents: chatHistory,
+                        generationConfig: {
+                            responseMimeType: "text/plain" // Request plain text
+                        }
+                    };
+
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const reportText = result.candidates[0].content.parts[0].text;
+                        progressReportContainer.innerHTML = `<p class="text-gray-700 leading-relaxed">${reportText.replace(/\n/g, '<br>')}</p>`; // Display as paragraphs
+                    } else {
+                        console.error("Unexpected AI response structure for progress report:", result);
+                        alert(translations[currentLang]['ai_generation_error']);
+                    }
+                } catch (error) {
+                    console.error("Error fetching AI generated progress report:", error);
+                    alert(translations[currentLang]['ai_generation_error'] + ` (${error.message})`);
+                } finally {
+                    hideLoadingSpinner();
+                }
+            }
+
+            // Function to fetch AI generated Bookmarks
+            async function fetchAIBookmarks() {
+                showLoadingSpinner();
+                const bookmarksListContainer = document.getElementById('bookmarks-list-container');
+                bookmarksListContainer.innerHTML = ''; // Clear previous bookmarks
+                try {
+                    const prompt = "Generate 3 example bookmarked Thai lesson titles/topics. Each should have a 'titleThai', 'titleKhmer', and 'titleEnglish'. Provide the output as a JSON array.";
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = {
+                        contents: chatHistory,
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        "titleThai": { "type": "STRING" },
+                                        "titleKhmer": { "type": "STRING" },
+                                        "titleEnglish": { "type": "STRING" }
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const json = result.candidates[0].content.parts[0].text;
+                        try { // Added try-catch for JSON parsing
+                            const parsedJson = JSON.parse(json);
+
+                            if (Array.isArray(parsedJson)) {
+                                parsedJson.forEach(bookmark => {
+                                    const newBookmarkElement = createBookmarkElement(bookmark);
+                                    bookmarksListContainer.appendChild(newBookmarkElement);
+                                });
+                            } else {
+                                console.error("AI response for bookmarks is not an array:", parsedJson);
+                                alert(translations[currentLang]['ai_generation_error']);
+                            }
+                        } catch (jsonError) {
+                            console.error("JSON parsing error for bookmarks:", jsonError);
+                            console.error("Raw AI response for bookmarks:", json); // Log raw response for debugging
+                            alert(translations[currentLang]['ai_generation_error'] + ` (JSON Error: ${jsonError.message})`);
+                        }
+                    } else {
+                        console.error("Unexpected AI response structure for bookmarks:", result);
+                        alert(translations[currentLang]['ai_generation_error']);
+                    }
+                } catch (error) {
+                    console.error("Error fetching AI generated bookmarks:", error);
+                    alert(translations[currentLang]['ai_generation_error'] + ` (${error.message})`);
+                } finally {
+                    hideLoadingSpinner();
+                }
+            }
+
+
+            // Initialize Firebase on window load
+            window.onload = async function() {
+                showLoadingSpinner();
+                try {
+                    // Mandatory Firebase Config and App ID
+                    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                    const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+
+                    app = initializeApp(firebaseConfig);
+                    db = getFirestore(app);
+                    auth = getAuth(app);
+
+                    // Mandatory Authentication
+                    if (typeof __initial_auth_token !== 'undefined') {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+
+                    // Listen for auth state changes
+                    onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            currentUserId = user.uid;
+                            document.getElementById('current-user-id').textContent = currentUserId;
+                            document.getElementById('user-id-display').classList.remove('opacity-0'); // Show user ID
+                        } else {
+                            currentUserId = null;
+                            document.getElementById('current-user-id').textContent = 'N/A';
+                            document.getElementById('user-id-display').classList.add('opacity-0'); // Hide user ID
+                        }
+                        isAuthReady = true; // Auth state is settled
+                        hideLoadingSpinner(); // Hide spinner after auth
+                        // Initial content load or data fetch can happen here
+                        document.querySelector('.nav-button[data-section="home"]').click(); // Activate home section on load
+                    });
+
+                } catch (error) {
+                    console.error("Error initializing Firebase or authenticating:", error);
+                    // Handle error: e.g., display a message to the user
+                    hideLoadingSpinner();
+                    document.getElementById('content-area').innerHTML = `<p class="text-red-500">Error loading app. Please try again later. Details: ${error.message}</p>`;
+                }
+            };
+
+            // UI Logic for section switching
+            document.querySelectorAll('.nav-button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
+                    // Add active class to clicked button
+                    event.currentTarget.classList.add('bg-blue-500', 'text-white');
+
+                    // Hide all sections
+                    document.querySelectorAll('.app-section').forEach(section => section.classList.add('hidden'));
+                    // Show the selected section
+                    const targetSectionId = event.currentTarget.dataset.section + '-section';
+                    document.getElementById(targetSectionId).classList.remove('hidden');
+                });
+            });
+
+            // Audio playback logic (now using Web Speech API)
+            document.addEventListener('click', (event) => {
+                // Handle Thai audio playback
+                if (event.target.closest('.play-audio-button')) {
+                    const button = event.target.closest('.play-audio-button');
+                    const thaiText = button.dataset.thaiText; // Get Thai text from data attribute
+
+                    if ('speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(thaiText);
+                        // Try to find a Thai voice
+                        let thaiVoice = speechSynthesis.getVoices().find(voice => voice.lang === 'th-TH' || voice.lang.startsWith('th-') && voice.name.includes('Thai'));
+                        // If a Thai voice is not immediately available, try again after voices are loaded
+                        if (!thaiVoice) {
+                            speechSynthesis.onvoiceschanged = () => {
+                                thaiVoice = speechSynthesis.getVoices().find(voice => voice.lang === 'th-TH' || voice.lang.startsWith('th-') && voice.name.includes('Thai'));
+                                if (thaiVoice) utterance.voice = thaiVoice;
+                                speechSynthesis.speak(utterance); // Speak once voice is found
+                            };
+                        } else {
+                             utterance.voice = thaiVoice;
+                        }
+
+                        // Optional: Add visual feedback for playing audio
+                        button.classList.add('animate-pulse');
+                        utterance.onend = () => {
+                            button.classList.remove('animate-pulse');
+                        };
+                        utterance.onerror = (e) => {
+                            button.classList.remove('animate-pulse');
+                            console.error("Speech synthesis error (Thai):", e);
+                            alert(translations[currentLang]['tts_error'] || "Error speaking text.");
+                        };
+                        // Speak immediately if voice is already found, otherwise wait for onvoiceschanged
+                        if (thaiVoice) {
+                            speechSynthesis.speak(utterance);
+                        }
+                    } else {
+                        alert(translations[currentLang]['tts_not_supported_error'] || "Your browser does not support text-to-speech.");
+                        console.error("Web Speech API not supported.");
+                    }
+                }
+
+                // Handle Khmer phonetic audio playback
+                if (event.target.closest('.play-khmer-phonetic-button')) {
+                    const button = event.target.closest('.play-khmer-phonetic-button');
+                    const khmerPhoneticText = button.dataset.khmerPhoneticText; // Get Khmer phonetic text from data attribute
+
+                    if ('speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(khmerPhoneticText);
+                        // Explicitly set language to English for phonetic transcriptions
+                        utterance.lang = 'en-US'; // Use an English voice for phonetic pronunciation
+
+                        // Optional: Add visual feedback for playing audio
+                        button.classList.add('animate-pulse');
+                        utterance.onend = () => {
+                            button.classList.remove('animate-pulse');
+                        };
+                        utterance.onerror = (e) => {
+                            button.classList.remove('animate-pulse');
+                            console.error("Speech synthesis error (Khmer phonetic):", e);
+                            alert(translations[currentLang]['tts_error'] || "Error speaking text.");
+                        };
+                        speechSynthesis.speak(utterance);
+                    } else {
+                        alert(translations[currentLang]['tts_not_supported_error'] || "Your browser does not support text-to-speech.");
+                        console.error("Web Speech API not supported.");
+                    }
+                }
+            });
+
+            // Event listeners for AI content generation buttons
+            document.getElementById('generate-ai-lessons').addEventListener('click', fetchAIGeneratedLessons);
+            document.getElementById('generate-ai-intermediate-lessons').addEventListener('click', fetchAIIntermediateLessons);
+            document.getElementById('generate-ai-advanced-lessons').addEventListener('click', fetchAIAdvancedLessons);
+            document.getElementById('generate-ai-exam').addEventListener('click', fetchAIExamQuestions);
+            document.getElementById('generate-ai-flashcards').addEventListener('click', fetchAIFlashcards);
+            document.getElementById('generate-ai-progress').addEventListener('click', fetchAIProgressReport);
+            document.getElementById('generate-ai-bookmarks').addEventListener('click', fetchAIBookmarks);
+            document.getElementById('generate-ai-kindergarten-lessons').addEventListener('click', fetchAIKindergartenLessons);
+            document.getElementById('generate-ai-custom-lesson').addEventListener('click', fetchAICustomLesson);
+
+
+            // Language selector logic
+            document.getElementById('language-selector').addEventListener('change', (event) => {
+                currentLang = event.target.value;
+                applyTranslations();
+            });
+
+            // Initial application of translations
+            applyTranslations();
+
+        } // End of if (typeof window.thaiLanguageAppInitialized === 'undefined')
+    </script>
 </body>
 </html>
