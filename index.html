@@ -1361,12 +1361,16 @@
                         // If parsing fails, firebaseConfig remains an empty object, which is handled below.
                     }
 
-                    // Crucial: Ensure projectId is always present to prevent firebase.initializeApp errors.
-                    // If not provided by the environment, use a generic placeholder.
-                    // Note: For full Firebase functionality, a valid projectId must be provided by the environment.
+                    // Crucial: Ensure projectId and apiKey are always present to prevent firebase.initializeApp errors.
+                    // If not provided by the environment, use generic placeholders.
+                    // Note: For full Firebase functionality, valid credentials must be provided by the hosting environment.
                     if (!firebaseConfig.projectId) {
-                        console.warn("Firebase 'projectId' is missing from the environment configuration (__firebase_config). Using a placeholder 'your-firebase-project-id'. Please ensure your hosting environment provides a complete and valid Firebase configuration for full functionality.");
-                        firebaseConfig.projectId = 'your-firebase-project-id'; // Placeholder to prevent the app from crashing on initialization
+                        console.warn("Firebase 'projectId' is missing from the environment configuration (__firebase_config). Using a placeholder 'your-firebase-project-id'.");
+                        firebaseConfig.projectId = 'your-firebase-project-id';
+                    }
+                    if (!firebaseConfig.apiKey) {
+                        console.warn("Firebase 'apiKey' is missing from the environment configuration (__firebase_config). Using an empty string placeholder. For full Firebase functionality, please ensure your hosting environment provides a valid Firebase API key.");
+                        firebaseConfig.apiKey = ''; // Placeholder, an empty string might still cause auth errors but prevents init crash.
                     }
 
                     app = initializeApp(firebaseConfig);
