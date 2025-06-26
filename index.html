@@ -230,9 +230,15 @@
             <!-- Custom Lesson Section (New Advanced Feature) -->
             <section id="custom-lesson-section" class="app-section hidden">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="custom_lesson_title">មេរៀនតាមតម្រូវការ (AI)</h2>
-                <p class="text-gray-600 mb-6" data-translate="custom_lesson_intro">បញ្ចូលប្រធានបទ ឬឃ្លាដែលអ្នកចង់រៀន ហើយ AI នឹងបង្កើតមេរៀនផ្ទាល់ខ្លួនសម្រាប់អ្នក។</p>
+                <p class="text-gray-600 mb-6" data-translate="custom_lesson_intro">បញ្ចូលប្រធានបទ ឬឃ្លាដែលអ្នកចង់រៀន ឬ URL គេហទំព័រ ហើយ AI នឹងបង្កើតមេរៀនផ្ទាល់ខ្លួនសម្រាប់អ្នក។</p>
+
+                <div class="mb-4">
+                    <label for="custom-lesson-url-input" class="block text-gray-700 text-sm font-bold mb-2" data-translate="custom_lesson_url_label">បញ្ចូល URL គេហទំព័រ (ស្រេចចិត្ត):</label>
+                    <input type="url" id="custom-lesson-url-input" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="ឧទាហរណ៍៖ https://en.wikipedia.org/wiki/Thailand" data-translate="custom_lesson_url_placeholder">
+                </div>
 
                 <div class="mb-6">
+                    <label for="custom-lesson-input" class="block text-gray-700 text-sm font-bold mb-2" data-translate="custom_lesson_topic_label">បញ្ចូលប្រធានបទ ឬឃ្លា (ប្រសិនបើគ្មាន URL):</label>
                     <textarea id="custom-lesson-input" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 resize-y min-h-[100px]" placeholder="ឧទាហរណ៍៖ ឃ្លាសម្រាប់បញ្ជាទិញម្ហូបនៅភោជនីយដ្ឋាន ឬ ពាក្យទាក់ទងនឹងអាកាសធាតុ" data-translate="custom_lesson_placeholder"></textarea>
                 </div>
 
@@ -373,7 +379,10 @@
                     "advanced_title": "កម្រិតខ្ពស់",
                     "advanced_intro": "សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតខ្ពស់! នៅទីនេះ អ្នកនឹងរៀនឃ្លាស្មុគស្មាញ និងកន្សោម idiom.s",
                     "custom_lesson_title": "មេរៀនតាមតម្រូវការ (AI)",
-                    "custom_lesson_intro": "បញ្ចូលប្រធានបទ ឬឃ្លាដែលអ្នកចង់រៀន ហើយ AI នឹងបង្កើតមេរៀនផ្ទាល់ខ្លួនសម្រាប់អ្នក។",
+                    "custom_lesson_intro": "បញ្ចូលប្រធានបទ ឬឃ្លាដែលអ្នកចង់រៀន ឬ URL គេហទំព័រ ហើយ AI នឹងបង្កើតមេរៀនផ្ទាល់ខ្លួនសម្រាប់អ្នក។",
+                    "custom_lesson_url_label": "បញ្ចូល URL គេហទំព័រ (ស្រេចចិត្ត):",
+                    "custom_lesson_url_placeholder": "ឧទាហរណ៍៖ https://en.wikipedia.org/wiki/Thailand",
+                    "custom_lesson_topic_label": "បញ្ចូលប្រធានបទ ឬឃ្លា (ប្រសិនបើគ្មាន URL):",
                     "custom_lesson_placeholder": "ឧទាហរណ៍៖ ឃ្លាសម្រាប់បញ្ជាទិញម្ហូបនៅភោជនីយដ្ឋាន ឬ ពាក្យទាក់ទងនឹងអាកាសធាតុ",
                     "generate_custom_lesson": "បង្កើតមេរៀនតាមតម្រូវការ",
                     "exam_title": "ប្រឡង",
@@ -431,7 +440,10 @@
                     "advanced_title": "Advanced Level",
                     "advanced_intro": "Welcome to the advanced lessons! Here, you'll learn complex phrases and idiomatic expressions.",
                     "custom_lesson_title": "Custom Lesson (AI)",
-                    "custom_lesson_intro": "Enter a topic or phrase you want to learn, and the AI will generate a personalized lesson for you.",
+                    "custom_lesson_intro": "Enter a topic or phrase you want to learn, or a website URL, and the AI will generate a personalized lesson for you.",
+                    "custom_lesson_url_label": "Enter Website URL (optional):",
+                    "custom_lesson_url_placeholder": "Example: https://en.wikipedia.org/wiki/Thailand",
+                    "custom_lesson_topic_label": "Enter Topic or Phrase (if no URL):",
                     "custom_lesson_placeholder": "Example: Phrases for ordering food at a restaurant, or words related to weather",
                     "generate_custom_lesson": "Generate Custom Lesson",
                     "exam_title": "Exam",
@@ -489,7 +501,10 @@
                     "advanced_title": "ระดับสูง",
                     "advanced_intro": "ยินดีต้อนรับสู่บทเรียนระดับสูง! ที่นี่ คุณจะได้เรียนรู้วลีที่ซับซ้อนและสำนวน",
                     "custom_lesson_title": "บทเรียนที่กำหนดเอง (AI)",
-                    "custom_lesson_intro": "ป้อนหัวข้อหรือวลีที่คุณต้องการเรียนรู้ แล้ว AI จะสร้างบทเรียนส่วนตัวให้คุณ",
+                    "custom_lesson_intro": "ป้อนหัวข้อหรือวลีที่คุณต้องการเรียนรู้ หรือ URL เว็บไซต์ แล้ว AI จะสร้างบทเรียนส่วนตัวให้คุณ",
+                    "custom_lesson_url_label": "ป้อน URL เว็บไซต์ (ไม่บังคับ):",
+                    "custom_lesson_url_placeholder": "ตัวอย่าง: https://en.wikipedia.org/wiki/Thailand",
+                    "custom_lesson_topic_label": "ป้อนหัวข้อหรือวลี (หากไม่มี URL):",
                     "custom_lesson_placeholder": "ตัวอย่าง: วลีสำหรับการสั่งอาหารที่ร้านอาหาร หรือคำศัพท์เกี่ยวกับสภาพอากาศ",
                     "generate_custom_lesson": "สร้างบทเรียนที่กำหนดเอง",
                     "exam_title": "แบบทดสอบ",
@@ -502,7 +517,7 @@
                     "progress_intro": "ดูว่าคุณกำลังพัฒนาขึ้นอย่างไรด้วยรายงานส่วนบุคคล",
                     "generate_ai_progress": "สร้างรายงานความคืบหน้า (AI)",
                     "bookmarks_title": "บทเรียนที่ชื่นชอบ",
-                    "bookmarks_intro": "จัดการบทเรียนและคำศัพท์ที่คุณชื่นชอบที่นี่",
+                    "bookmarks_intro": "គ្រប់គ្រងមេរៀន និងពាក្យដែលអ្នកចូលចិត្តនៅទីនេះ។",
                     "generate_ai_bookmarks": "สร้างตัวอย่างบุ๊กมาร์ก (AI)",
                     "footer_text": "สงวนลิขสิทธิ์ทุกประการ",
                     "user_id_label": "รหัสผู้ใช้:"
@@ -524,10 +539,10 @@
                 document.querySelectorAll('[data-translate]').forEach(element => {
                     const key = element.dataset.translate;
                     // Exclude elements where content is handled by child elements (e.g., spans inside h3 or footer)
-                    if (element.tagName === 'SPAN' || element.tagName === 'P' || element.tagName === 'H2' || element.tagName === 'BUTTON' || element.tagName === 'TEXTAREA') {
+                    if (element.tagName === 'SPAN' || element.tagName === 'P' || element.tagName === 'H2' || element.tagName === 'BUTTON' || element.tagName === 'TEXTAREA' || element.tagName === 'INPUT' || element.tagName === 'LABEL') {
                         if (currentTranslation[key]) {
-                            // For textarea, update placeholder
-                            if (element.tagName === 'TEXTAREA' && element.hasAttribute('placeholder')) {
+                            // For textarea and input, update placeholder
+                            if ((element.tagName === 'TEXTAREA' || element.tagName === 'INPUT') && element.hasAttribute('placeholder')) {
                                 element.setAttribute('placeholder', currentTranslation[key]);
                             } else {
                                 element.textContent = currentTranslation[key];
@@ -962,23 +977,31 @@
             async function fetchAICustomLesson() {
                 showLoadingSpinner();
                 const customLessonInput = document.getElementById('custom-lesson-input').value;
+                const customLessonUrlInput = document.getElementById('custom-lesson-url-input').value; // Get URL input
                 const customLessonOutputContainer = document.getElementById('custom-lesson-output');
                 customLessonOutputContainer.innerHTML = ''; // Clear previous lessons
 
-                if (!customLessonInput.trim()) {
+                if (!customLessonInput.trim() && !customLessonUrlInput.trim()) {
                     alert(translations[currentLang]['custom_lesson_placeholder']); // Reuse placeholder text for alert
                     hideLoadingSpinner();
                     return;
                 }
 
-                try {
-                    const prompt = `Generate 3 Thai phrases related to "${customLessonInput}". For each phrase, include:
+                let prompt;
+                if (customLessonUrlInput.trim()) {
+                    // If URL is provided, instruct AI to base the lesson on the URL's topic
+                    prompt = `Imagine you are an expert in Thai language and have just read a webpage from the URL: "${customLessonUrlInput}". Based on the general topic and likely content of this webpage, generate 3 Thai phrases that would be relevant to a learner. For each phrase, include: Thai text, Khmer phonetic transcription, Khmer translation, and English translation. Provide the output as a JSON array where each object has 'thaiPhrase', 'phoneticTranscription', 'khmerTranslation', 'englishTranslation'. Ensure all strings are properly escaped for JSON.`;
+                } else {
+                    // If no URL, use the topic input as before
+                    prompt = `Generate 3 Thai phrases related to "${customLessonInput}". For each phrase, include:
                     1. The Thai text.
                     2. Its Khmer phonetic transcription.
                     3. Its Khmer translation.
                     4. Its English translation.
-                    Provide the output as a JSON array where each object has 'thaiPhrase', 'phoneticTranscription', 'khmerTranslation', 'englishTranslation'. Ensure all strings are properly escaped for JSON.`; // Added emphasis on proper escaping
+                    Provide the output as a JSON array where each object has 'thaiPhrase', 'phoneticTranscription', 'khmerTranslation', 'englishTranslation'. Ensure all strings are properly escaped for JSON.`;
+                }
 
+                try {
                     let chatHistory = [];
                     chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
@@ -1328,7 +1351,23 @@
                 try {
                     // Mandatory Firebase Config and App ID
                     const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-                    const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+                    let firebaseConfig = {};
+                    try {
+                        // Attempt to parse the firebase config string from the environment
+                        const firebaseConfigString = typeof __firebase_config !== 'undefined' ? __firebase_config : '{}';
+                        firebaseConfig = JSON.parse(firebaseConfigString);
+                    } catch (e) {
+                        console.error("Error parsing __firebase_config from environment. Using a default empty config. Error:", e);
+                        // If parsing fails, firebaseConfig remains an empty object, which is handled below.
+                    }
+
+                    // Crucial: Ensure projectId is always present to prevent firebase.initializeApp errors.
+                    // If not provided by the environment, use a generic placeholder.
+                    // Note: For full Firebase functionality, a valid projectId must be provided by the environment.
+                    if (!firebaseConfig.projectId) {
+                        console.warn("Firebase 'projectId' is missing from the environment configuration (__firebase_config). Using a placeholder 'your-firebase-project-id'. Please ensure your hosting environment provides a complete and valid Firebase configuration for full functionality.");
+                        firebaseConfig.projectId = 'your-firebase-project-id'; // Placeholder to prevent the app from crashing on initialization
+                    }
 
                     app = initializeApp(firebaseConfig);
                     db = getFirestore(app);
