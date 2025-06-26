@@ -100,6 +100,10 @@
                 <i class="fas fa-graduation-cap"></i>
                 <span data-translate="advanced_nav">កម្រិតខ្ពស់</span>
             </button>
+            <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="alphabet">
+                <i class="fas fa-spell-check"></i>
+                <span data-translate="alphabet_nav">អក្ខរក្រម</span>
+            </button>
             <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="custom-lesson">
                 <i class="fas fa-magic"></i>
                 <span data-translate="custom_lesson_nav">មេរៀនតាមតម្រូវការ</span>
@@ -189,6 +193,20 @@
                 <p class="text-gray-600 mb-6" data-translate="advanced_intro">សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតខ្ពស់! នៅទីនេះ អ្នកនឹងរៀនឃ្លាស្មុគស្មាញ និងកន្សោម idiomatic។</p>
                 <div id="advanced-lessons-container" class="space-y-6">
                     <!-- Lessons will be dynamically loaded here -->
+                </div>
+            </section>
+
+            <!-- Alphabet Section (New) -->
+            <section id="alphabet-section" class="app-section hidden">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="alphabet_title">អក្ខរក្រមថៃ</h2>
+                <p class="text-gray-600 mb-6" data-translate="alphabet_intro">ចូរយើងរៀនព្យញ្ជនៈ និងស្រៈថៃ។</p>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3" data-translate="consonants_title">ព្យញ្ជនៈ</h3>
+                <div id="consonants-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
+                    <!-- Consonants will be dynamically loaded here -->
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3" data-translate="vowels_title">ស្រៈ</h3>
+                <div id="vowels-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <!-- Vowels will be dynamically loaded here -->
                 </div>
             </section>
 
@@ -368,6 +386,7 @@
                     "beginner_nav": "កម្រិតចាប់ផ្តើម",
                     "intermediate_nav": "កម្រិតកណ្តាល",
                     "advanced_nav": "កម្រិតខ្ពស់",
+                    "alphabet_nav": "អក្ខរក្រម",
                     "custom_lesson_nav": "មេរៀនតាមតម្រូវការ",
                     "exam_nav": "ប្រឡង",
                     "flashcards_nav": "Flashcards",
@@ -395,6 +414,10 @@
                     "intermediate_intro": "សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតកណ្តាល! នៅទីនេះ អ្នកនឹងរៀនឃ្លាដែលស្មុគស្មាញជាងនេះបន្តិច។",
                     "advanced_title": "កម្រិតខ្ពស់",
                     "advanced_intro": "សូមស្វាគមន៍មកកាន់មេរៀនកម្រិតខ្ពស់! នៅទីនេះ អ្នកនឹងរៀនឃ្លាស្មុគស្មាញ និងកន្សោម idiomatic។",
+                    "alphabet_title": "អក្ខរក្រមថៃ",
+                    "alphabet_intro": "ចូរយើងរៀនព្យញ្ជនៈ និងស្រៈថៃ។",
+                    "consonants_title": "ព្យញ្ជនៈ",
+                    "vowels_title": "ស្រៈ",
                     "custom_lesson_title": "មេរៀនតាមតម្រូវការ",
                     "custom_lesson_intro_static": "នេះគឺជាមេរៀនគំរូដែលបានបង្កើតឡើងជាមុន។ អ្នកអាចកែសម្រួលវាដោយផ្ទាល់នៅក្នុងកូដ។",
                     "exam_title": "ប្រឡង",
@@ -418,6 +441,7 @@
                     "beginner_nav": "Beginner",
                     "intermediate_nav": "Intermediate",
                     "advanced_nav": "Advanced",
+                    "alphabet_nav": "Alphabet",
                     "custom_lesson_nav": "Custom Lesson",
                     "exam_nav": "Exam",
                     "flashcards_nav": "Flashcards",
@@ -445,6 +469,10 @@
                     "intermediate_intro": "Welcome to the intermediate lessons! Here, you'll learn slightly more complex phrases.",
                     "advanced_title": "Advanced Level",
                     "advanced_intro": "Welcome to the advanced lessons! Here, you'll learn complex phrases and idiomatic expressions.",
+                    "alphabet_title": "Thai Alphabet",
+                    "alphabet_intro": "Let's learn the Thai consonants and vowels.",
+                    "consonants_title": "Consonants",
+                    "vowels_title": "Vowels",
                     "custom_lesson_title": "Custom Lesson",
                     "custom_lesson_intro_static": "This is a sample pre-generated lesson. You can edit it directly in the code.",
                     "exam_title": "Exam",
@@ -468,6 +496,7 @@
                     "beginner_nav": "ระดับเริ่มต้น",
                     "intermediate_nav": "ระดับกลาง",
                     "advanced_nav": "ระดับสูง",
+                    "alphabet_nav": "ตัวอักษร",
                     "custom_lesson_nav": "บทเรียนที่กำหนดเอง",
                     "exam_nav": "แบบทดสอบ",
                     "flashcards_nav": "แฟลชการ์ด",
@@ -495,6 +524,10 @@
                     "intermediate_intro": "ยินดีต้อนรับสู่บทเรียนระดับกลาง! ที่นี่ คุณจะได้เรียนรู้วลีที่ซับซ้อนขึ้นเล็กน้อย",
                     "advanced_title": "ระดับสูง",
                     "advanced_intro": "ยินดีต้อนรับสู่บทเรียนระดับสูง! ที่นี่ คุณจะได้เรียนรู้วลีที่ซับซ้อนและสำนวนภาษา",
+                    "alphabet_title": "ตัวอักษรไทย",
+                    "alphabet_intro": "มาเรียนรู้พยัญชนะและสระไทยกัน",
+                    "consonants_title": "พยัญชนะ",
+                    "vowels_title": "สระ",
                     "custom_lesson_title": "บทเรียนที่กำหนดเอง",
                     "custom_lesson_intro_static": "นี่คือบทเรียนตัวอย่างที่สร้างไว้ล่วงหน้า คุณสามารถแก้ไขได้โดยตรงในโค้ด",
                     "exam_title": "แบบทดสอบ",
@@ -562,6 +595,28 @@
                 `;
                 return lessonDiv;
             }
+
+            // Function to create an Alphabet Item HTML element (similar to lesson but adapted for alphabet)
+            function createAlphabetElement(alphabetChar) {
+                const alphabetDiv = document.createElement('div');
+                alphabetDiv.className = 'bg-blue-50 p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center';
+                alphabetDiv.innerHTML = `
+                    <p class="text-4xl font-bold text-blue-800 mb-2">${alphabetChar.thaiChar}</p>
+                    <p class="text-lg text-gray-700">${alphabetChar.phoneticTranscription}</p>
+                    <p class="text-md text-gray-600">${alphabetChar.khmerMeaning}</p>
+                    <p class="text-sm text-gray-500">${alphabetChar.englishMeaning}</p>
+                    <div class="flex items-center space-x-2 mt-3">
+                        <button class="play-audio-button bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-thai-text="${alphabetChar.thaiChar}">
+                            <i class="fas fa-volume-up text-lg"></i>
+                        </button>
+                        <button class="play-khmer-phonetic-button bg-purple-500 hover:bg-purple-600 text-white p-2 rounded-full shadow-md transition-colors duration-200" data-khmer-phonetic-text="${alphabetChar.phoneticTranscription}">
+                            <i class="fas fa-comment-dots text-lg"></i>
+                        </button>
+                    </div>
+                `;
+                return alphabetDiv;
+            }
+
 
             // Function to create an Exam Question HTML element
             function createQuizQuestionElement(question) {
@@ -820,6 +875,85 @@
                 { thaiWord: "ขอซ่อมช้อนหน่อยได้ไหม", phoneticTranscription: "ខរ សម ឆន ណយ ដាយ ម៉ៃ", khmerTranslation: "សុំសម/ស្លាបព្រាបន្តិចបានទេ?", englishTranslation: "Can I have a fork/spoon please?" }
             ];
 
+            const alphabetConsonantsData = [
+                { thaiChar: "ก", phoneticTranscription: "ក (ក៑)", khmerMeaning: "មាន់", englishMeaning: "Chicken" },
+                { thaiChar: "ข", phoneticTranscription: "ខ (ខ៑)", khmerMeaning: "ពងមាន់", englishMeaning: "Egg" },
+                { thaiChar: "ฃ", phoneticTranscription: "ឃ (ឃ៑)", khmerMeaning: "ដប (លែងប្រើ)", englishMeaning: "Bottle (obsolete)" },
+                { thaiChar: "ค", phoneticTranscription: "គ (គ៑)", khmerMeaning: "ក្របី", englishMeaning: "Buffalo" },
+                { thaiChar: "ฅ", phoneticTranscription: "ឝ (ឝ៑)", khmerMeaning: "មនុស្ស (លែងប្រើ)", englishMeaning: "Person (obsolete)" },
+                { thaiChar: "ฆ", phoneticTranscription: "ឃ (ឃ៑)", khmerMeaning: "កណ្ដឹង", englishMeaning: "Bell" },
+                { thaiChar: "ง", phoneticTranscription: "ង (ង៑)", khmerMeaning: "ពស់", englishMeaning: "Snake" },
+                { thaiChar: "จ", phoneticTranscription: "ច (ច៑)", khmerMeaning: "ចាន", englishMeaning: "Plate" },
+                { thaiChar: "ฉ", phoneticTranscription: "ឆ (ឆ៑)", khmerMeaning: "ឈិង", englishMeaning: "Cymbals" },
+                { thaiChar: "ช", phoneticTranscription: "ឈ (ឈ៑)", khmerMeaning: "ដំរី", englishMeaning: "Elephant" },
+                { thaiChar: "ซ", phoneticTranscription: "ស (ស៑)", khmerMeaning: "ច្រវ៉ាក់", englishMeaning: "Chain" },
+                { thaiChar: "ฌ", phoneticTranscription: "ឈ (ឈ៑)", khmerMeaning: "ដើមឈើ", englishMeaning: "Tree" },
+                { thaiChar: "ญ", phoneticTranscription: "ញ (ញ៑)", khmerMeaning: "ស្ត្រី", englishMeaning: "Woman" },
+                { thaiChar: "ฎ", phoneticTranscription: "ដ (ដ៑)", khmerMeaning: "រូបរាំ", englishMeaning: "Dancing figure" },
+                { thaiChar: "ฏ", phoneticTranscription: "ត (ត៑)", khmerMeaning: "ដំបង", englishMeaning: "Goad" },
+                { thaiChar: "ฐ", phoneticTranscription: "ឋ (ឋ៑)", khmerMeaning: "ជើងទម្រ", englishMeaning: "Pedestal" },
+                { thaiChar: "ฑ", phoneticTranscription: "ឌ (ឌ៑)", khmerMeaning: "មន្ទោ", englishMeaning: "Mandodari" },
+                { thaiChar: "ฒ", phoneticTranscription: "ឍ (ឍ៑)", khmerMeaning: "មនុស្សចាស់", englishMeaning: "Old person" },
+                { thaiChar: "ณ", phoneticTranscription: "ណ (ណ៑)", khmerMeaning: "សាមណេរ", englishMeaning: "Novice monk" },
+                { thaiChar: "ด", phoneticTranscription: "ដ (ដ៑)", khmerMeaning: "ក្មេង", englishMeaning: "Child" },
+                { thaiChar: "ต", phoneticTranscription: "ត (ត៑)", khmerMeaning: "អណ្តើក", englishMeaning: "Turtle" },
+                { thaiChar: "ถ", phoneticTranscription: "ថ (ថ៑)", khmerMeaning: "កាបូប", englishMeaning: "Bag" },
+                { thaiChar: "ท", phoneticTranscription: "ទ (ទ៑)", khmerMeaning: "ទាហាន", englishMeaning: "Soldier" },
+                { thaiChar: "ธ", phoneticTranscription: "ធ (ធ៑)", khmerMeaning: "ទង់ជាតិ", englishMeaning: "Flag" },
+                { thaiChar: "น", phoneticTranscription: "ន (ន៑)", khmerMeaning: "កណ្ដុរ", englishMeaning: "Mouse" },
+                { thaiChar: "บ", phoneticTranscription: "ប (ប៑)", khmerMeaning: "ស្លឹកឈើ", englishMeaning: "Leaf" },
+                { thaiChar: "ป", phoneticTranscription: "ប (ប៑)", khmerMeaning: "ត្រី", englishMeaning: "Fish" },
+                { thaiChar: "ผ", phoneticTranscription: "ផ (ផ៑)", khmerMeaning: "ឃ្មុំ", englishMeaning: "Bee" },
+                { thaiChar: "ฝ", phoneticTranscription: "ហ្វ (ហ្វ៑)", khmerMeaning: "គម្រប", englishMeaning: "Lid" },
+                { thaiChar: "พ", phoneticTranscription: "ភ (ភ៑)", khmerMeaning: "ថាស", englishMeaning: "Tray" },
+                { thaiChar: "ฟ", phoneticTranscription: "ហ្វ (ហ្វ៑)", khmerMeaning: "ធ្មេញ", englishMeaning: "Tooth" },
+                { thaiChar: "ภ", phoneticTranscription: "ភ (ភ៑)", khmerMeaning: "ទូកសំពៅ", englishMeaning: "Junk (boat)" },
+                { thaiChar: "ม", phoneticTranscription: "ម (ម៑)", khmerMeaning: "សេះ", englishMeaning: "Horse" },
+                { thaiChar: "ย", phoneticTranscription: "យ (យ៑)", khmerMeaning: "យក្ស", englishMeaning: "Giant" },
+                { thaiChar: "ร", phoneticTranscription: "រ (រ៑)", khmerMeaning: "ទូក", englishMeaning: "Boat" },
+                { thaiChar: "ล", phoneticTranscription: "ល (ល៑)", khmerMeaning: "ស្វា", englishMeaning: "Monkey" },
+                { thaiChar: "ว", phoneticTranscription: "វ (វ៑)", khmerMeaning: "ចិញ្ចៀន", englishMeaning: "Ring" },
+                { thaiChar: "ศ", phoneticTranscription: "ស (ស៑)", khmerMeaning: "សាលា", englishMeaning: "Pavilion" },
+                { thaiChar: "ษ", phoneticTranscription: "ស (ស៑)", khmerMeaning: "ឥសី", englishMeaning: "Hermit" },
+                { thaiChar: "ส", phoneticTranscription: "ស (ស៑)", khmerMeaning: "ខ្លា", englishMeaning: "Tiger" },
+                { thaiChar: "ห", phoneticTranscription: "ហ (ហ៑)", khmerMeaning: "ប្រអប់", englishMeaning: "Box" },
+                { thaiChar: "ฬ", phoneticTranscription: "ឡ (ឡ៑)", khmerMeaning: "ខ្លែង", englishMeaning: "Kite" },
+                { thaiChar: "อ", phoneticTranscription: "អ (អ៑)", khmerMeaning: "អាង", englishMeaning: "Basin" },
+                { thaiChar: "ฮ", phoneticTranscription: "ហ (ហ៑)", khmerMeaning: "សត្វទីទុយ", englishMeaning: "Owl" }
+            ];
+
+            const alphabetVowelsData = [
+                { thaiChar: "อะ", phoneticTranscription: "អៈ", khmerMeaning: "short 'a'", englishMeaning: "short 'a'" },
+                { thaiChar: "อา", phoneticTranscription: "អា", khmerMeaning: "long 'aa'", englishMeaning: "long 'aa'" },
+                { thaiChar: "อิ", phoneticTranscription: "អិ", khmerMeaning: "short 'i'", englishMeaning: "short 'i'" },
+                { thaiChar: "อี", phoneticTranscription: "អី", khmerMeaning: "long 'ee'", englishMeaning: "long 'ee'" },
+                { thaiChar: "อึ", phoneticTranscription: "អឹ", khmerMeaning: "short 'ue'", englishMeaning: "short 'ue'" },
+                { thaiChar: "อือ", phoneticTranscription: "អឺ", khmerMeaning: "long 'eu'", englishMeaning: "long 'eu'" },
+                { thaiChar: "อุ", phoneticTranscription: "អុ", khmerMeaning: "short 'u'", englishMeaning: "short 'u'" },
+                { thaiChar: "อู", phoneticTranscription: "អូ", khmerMeaning: "long 'oo'", englishMeaning: "long 'oo'" },
+                { thaiChar: "เอะ", phoneticTranscription: "អេៈ", khmerMeaning: "short 'e'", englishMeaning: "short 'e'" },
+                { thaiChar: "เอ", phoneticTranscription: "អេ", khmerMeaning: "long 'eh'", englishMeaning: "long 'eh'" },
+                { thaiChar: "แอะ", phoneticTranscription: "អែៈ", khmerMeaning: "short 'ae'", englishMeaning: "short 'ae'" },
+                { thaiChar: "แอ", phoneticTranscription: "អែ", khmerMeaning: "long 'aae'", englishMeaning: "long 'aae'" },
+                { thaiChar: "โอะ", phoneticTranscription: "អូៈ", khmerMeaning: "short 'o'", englishMeaning: "short 'o'" },
+                { thaiChar: "โอ", phoneticTranscription: "អូ", khmerMeaning: "long 'oh'", englishMeaning: "long 'oh'" },
+                { thaiChar: "เอาะ", phoneticTranscription: "អោះ", khmerMeaning: "short 'aw'", englishMeaning: "short 'aw'" },
+                { thaiChar: "ออ", phoneticTranscription: "អរ", khmerMeaning: "long 'aaw'", englishMeaning: "long 'aaw'" },
+                { thaiChar: "เออะ", phoneticTranscription: "អើៈ", khmerMeaning: "short 'oe'", englishMeaning: "short 'oe'" },
+                { thaiChar: "เออ", phoneticTranscription: "អឺ", khmerMeaning: "long 'eu'", englishMeaning: "long 'eu'" },
+                { thaiChar: "เอียะ", phoneticTranscription: "អៀៈ", khmerMeaning: "short 'ia'", englishMeaning: "short 'ia'" },
+                { thaiChar: "เอีย", phoneticTranscription: "អៀ", khmerMeaning: "long 'ia'", englishMeaning: "long 'ia'" },
+                { thaiChar: "เอือะ", phoneticTranscription: "អឿៈ", khmerMeaning: "short 'uea'", englishMeaning: "short 'uea'" },
+                { thaiChar: "เอือ", phoneticTranscription: "អឿ", khmerMeaning: "long 'uea'", englishMeaning: "long 'uea'" },
+                { thaiChar: "อัวะ", phoneticTranscription: "អួៈ", khmerMeaning: "short 'ua'", englishMeaning: "short 'ua'" },
+                { thaiChar: "อัว", phoneticTranscription: "អួ", khmerMeaning: "long 'ua'", englishMeaning: "long 'ua'" },
+                { thaiChar: "อำ", phoneticTranscription: "អាំ", khmerMeaning: "'am'", englishMeaning: "'am'" },
+                { thaiChar: "ไอ", phoneticTranscription: "អៃ", khmerMeaning: "'ai'", englishMeaning: "'ai'" },
+                { thaiChar: "ใอ", phoneticTranscription: "អៃ", khmerMeaning: "'ai' (another form)", englishMeaning: "'ai' (another form)" },
+                { thaiChar: "เอา", phoneticTranscription: "អៅ", khmerMeaning: "'ao'", englishMeaning: "'ao'" }
+            ];
+
+
             const examQuestionsData = [
                 {
                     questionThai: "สวัสดี",
@@ -969,6 +1103,8 @@
                 populateLessons('beginner-lessons-container', beginnerLessonsData);
                 populateLessons('intermediate-lessons-container', intermediateLessonsData);
                 populateLessons('advanced-lessons-container', advancedLessonsData);
+                populateAlphabet('consonants-container', alphabetConsonantsData); // Populate consonants
+                populateAlphabet('vowels-container', alphabetVowelsData);       // Populate vowels
                 populateExamQuestions('exam-questions-container', examQuestionsData);
                 populateFlashcards('flashcards-container', flashcardsData);
             };
@@ -979,6 +1115,15 @@
                 container.innerHTML = ''; // Clear existing content
                 data.forEach(lesson => {
                     container.appendChild(createLessonElement(lesson));
+                });
+            }
+
+            // Function to populate alphabet containers
+            function populateAlphabet(containerId, data) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = ''; // Clear existing content
+                data.forEach(char => {
+                    container.appendChild(createAlphabetElement(char));
                 });
             }
 
