@@ -47,6 +47,50 @@
             color: #1f2937; /* gray-800 */
             transform: rotateY(180deg);
         }
+        /* Chat specific styles */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 400px; /* Fixed height for chat area */
+            border: 1px solid #e2e8f0; /* gray-200 */
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .chat-messages {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background-color: #f8fafc; /* gray-50 */
+        }
+        .chat-input-area {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0; /* gray-200 */
+            background-color: #ffffff;
+        }
+        .chat-message {
+            margin-bottom: 0.75rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            max-width: 80%;
+        }
+        .chat-message.user {
+            background-color: #3b82f6; /* blue-500 */
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .chat-message.ai {
+            background-color: #e0f2fe; /* light blue */
+            color: #1f2937; /* gray-800 */
+            align-self: flex-start;
+            margin-right: auto;
+        }
+        .chat-message.loading {
+            background-color: #e5e7eb; /* gray-200 */
+            color: #4b5563; /* gray-700 */
+            font-style: italic;
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-inter min-h-screen flex flex-col">
@@ -105,6 +149,10 @@
             <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="custom-lesson">
                 <i class="fas fa-magic"></i>
                 <span data-translate="custom_lesson_nav">មេរៀនតាមតម្រូវការ</span>
+            </button>
+            <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="ai-chat">
+                <i class="fas fa-comments"></i>
+                <span data-translate="ai_chat_nav">សន្ទនា AI ភាសាថៃ</span>
             </button>
             <button class="nav-button p-3 rounded-lg text-gray-700 hover:bg-blue-100 hover:text-blue-700 focus:outline-none transition-colors duration-200 flex items-center space-x-2 mr-2 mb-2 sm:mb-0" data-section="exam">
                 <i class="fas fa-question-circle"></i>
@@ -302,6 +350,24 @@
                 </div>
             </section>
 
+            <!-- AI Chat Section (New) -->
+            <section id="ai-chat-section" class="app-section hidden">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="ai_chat_title">សន្ទនា AI ភាសាថៃ</h2>
+                <p class="text-gray-600 mb-6" data-translate="ai_chat_intro">អនុវត្តការសន្ទនាជាភាសាថៃជាមួយ AI ។</p>
+
+                <div class="chat-container">
+                    <div id="chat-messages" class="chat-messages flex flex-col">
+                        <!-- Chat messages will be appended here -->
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input" class="flex-grow border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="វាយសាររបស់អ្នកជាភាសាថៃ..." data-translate="chat_input_placeholder">
+                        <button id="send-chat-button" class="ml-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md transition-colors duration-200" data-translate="chat_send_button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
             <!-- Exam Section -->
             <section id="exam-section" class="app-section hidden">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4" data-translate="exam_title">ប្រឡង</h2>
@@ -406,6 +472,7 @@
                     "advanced_nav": "កម្រិតខ្ពស់",
                     "alphabet_nav": "អក្ខរក្រម",
                     "custom_lesson_nav": "មេរៀនតាមតម្រូវការ",
+                    "ai_chat_nav": "សន្ទនា AI ភាសាថៃ",
                     "exam_nav": "ប្រឡង",
                     "flashcards_nav": "Flashcards",
                     "progress_nav": "របាយការណ៍",
@@ -444,6 +511,10 @@
                     "sort_english_meaning": "អត្ថន័យអង់គ្លេស",
                     "custom_lesson_title": "មេរៀនតាមតម្រូវការ",
                     "custom_lesson_intro_static": "នេះគឺជាមេរៀនគំរូដែលបានបង្កើតឡើងជាមុន។ អ្នកអាចកែសម្រួលវាដោយផ្ទាល់នៅក្នុងកូដ។",
+                    "ai_chat_title": "សន្ទនា AI ភាសាថៃ",
+                    "ai_chat_intro": "អនុវត្តការសន្ទនាជាភាសាថៃជាមួយ AI ។",
+                    "chat_input_placeholder": "វាយសាររបស់អ្នកជាភាសាថៃ...",
+                    "chat_send_button": "ផ្ញើ",
                     "exam_title": "ប្រឡង",
                     "exam_intro_static": "សាកល្បងចំណេះដឹងភាសាថៃរបស់អ្នកជាមួយនឹងសំណួរគំរូ។",
                     "flashcards_title": "Flashcards",
@@ -484,7 +555,8 @@
                     "long_vowel": "វែង",
                     "diphthong": "ស្រៈផ្សំ",
                     "play_thai_audio": "លេងសំឡេងថៃ",
-                    "play_khmer_phonetic_audio": "លេងសំឡេងសូរស័ព្ទខ្មែរ"
+                    "play_khmer_phonetic_audio": "លេងសំឡេងសូរស័ព្ទខ្មែរ",
+                    "ai_chat_loading": "AI កំពុងវាយ..."
                 },
                 en: {
                     "app_title": "Thai Language Learning App",
@@ -496,6 +568,7 @@
                     "advanced_nav": "Advanced",
                     "alphabet_nav": "Alphabet",
                     "custom_lesson_nav": "Custom Lesson",
+                    "ai_chat_nav": "Thai AI Chat",
                     "exam_nav": "Exam",
                     "flashcards_nav": "Flashcards",
                     "progress_nav": "Progress",
@@ -534,6 +607,10 @@
                     "sort_english_meaning": "English Meaning",
                     "custom_lesson_title": "Custom Lesson",
                     "custom_lesson_intro_static": "This is a sample pre-generated lesson. You can modify it directly in the code.",
+                    "ai_chat_title": "Thai AI Chat",
+                    "ai_chat_intro": "Practice conversational Thai with an AI.",
+                    "chat_input_placeholder": "Type your message in Thai...",
+                    "chat_send_button": "Send",
                     "exam_title": "Exam",
                     "exam_intro_static": "Test your Thai language knowledge with sample questions.",
                     "flashcards_title": "Flashcards",
@@ -574,7 +651,8 @@
                     "long_vowel": "Long",
                     "diphthong": "Diphthong",
                     "play_thai_audio": "Play Thai Audio",
-                    "play_khmer_phonetic_audio": "Play Khmer Phonetic Audio"
+                    "play_khmer_phonetic_audio": "Play Khmer Phonetic Audio",
+                    "ai_chat_loading": "AI is typing..."
                 },
                 th: {
                     "app_title": "แอปพลิเคชันเรียนภาษาไทย",
@@ -586,6 +664,7 @@
                     "advanced_nav": "ระดับสูง",
                     "alphabet_nav": "ตัวอักษร",
                     "custom_lesson_nav": "บทเรียนกำหนดเอง",
+                    "ai_chat_nav": "แชท AI ภาษาไทย",
                     "exam_nav": "แบบทดสอบ",
                     "flashcards_nav": "แฟลชการ์ด",
                     "progress_nav": "ความคืบหน้า",
@@ -624,6 +703,10 @@
                     "sort_english_meaning": "ความหมายอังกฤษ",
                     "custom_lesson_title": "บทเรียนที่กำหนดเอง",
                     "custom_lesson_intro_static": "นี่คือบทเรียนตัวอย่างที่สร้างไว้ล่วงหน้า คุณสามารถแก้ไขได้โดยตรงในโค้ด",
+                    "ai_chat_title": "แชท AI ภาษาไทย",
+                    "ai_chat_intro": "ฝึกการสนทนาภาษาไทยกับ AI",
+                    "chat_input_placeholder": "พิมพ์ข้อความของคุณเป็นภาษาไทย...",
+                    "chat_send_button": "ส่ง",
                     "exam_title": "แบบทดสอบ",
                     "exam_intro_static": "ทดสอบความรู้ภาษาไทยของคุณด้วยคำถามตัวอย่าง",
                     "flashcards_title": "แฟลชการ์ด",
@@ -690,32 +773,27 @@
                     { thai: "หนาว", khmerPhonetic: "ត្រជាក់", khmerMeaning: "Cold", englishMeaning: "Cold" },
                     { thai: "ใหญ่", khmerPhonetic: "ធំ", khmerMeaning: "Big", englishMeaning: "Big" },
                     { thai: "เล็ก", khmerPhonetic: "តូច", khmerMeaning: "Small", englishMeaning: "Small" },
-                    { thai: "สวย", khmerPhonetic: "ស្អាត", khmerMeaning: "Beautiful", englishMeaning: "Beautiful" }
-                ],
-                beginner: [
+                    { thai: "สวย", khmerPhonetic: "ស្អាត", englishMeaning: "Beautiful" },
                     { thai: "คุณสบายดีไหมครับ/คะ?", khmerPhonetic: "អ្នកសុខសប្បាយជាទេ?", khmerMeaning: "How are you?", englishMeaning: "How are you?" },
                     { thai: "ผม/ฉันสบายดีครับ/ค่ะ", khmerPhonetic: "ខ្ញុំសុខសប្បាយ", khmerMeaning: "I'm fine", englishMeaning: "I'm fine" },
                     { thai: "คุณชื่ออะไรครับ/คะ?", khmerPhonetic: "អ្នកឈ្មោះអ្វី?", khmerMeaning: "What's your name?", englishMeaning: "What's your name?" },
                     { thai: "ผม/ฉันชื่อ...", khmerPhonetic: "ខ្ញុំឈ្មោះ...", khmerMeaning: "My name is...", englishMeaning: "My name is..." },
-                    { thai: "คุณมาจากไหนครับ/คะ?", khmerPhonetic: "អ្នកមកពីណា?", khmerMeaning: "Where are you from?", englishMeaning: "Where are you from?" },
+                    { thai: "คุณมาจากไหนครับ/คะ?", khmerPhonetic: "អ្នកមកពីណា?", khmerMeaning: "Where are you from?", englishMeaning: "Where are you from?" }
+                ],
+                beginner: [
                     { thai: "ผม/ฉันมาจาก...", khmerPhonetic: "ខ្ញុំមកពី...", khmerMeaning: "I am from...", englishMeaning: "I am from..." },
                     { thai: "เท่าไหร่ครับ/คะ?", khmerPhonetic: "ប៉ុន្មាន?", khmerMeaning: "How much?", englishMeaning: "How much?" },
                     { thai: "อยู่ที่ไหนครับ/คะ?", khmerPhonetic: "នៅឯណា?", khmerMeaning: "Where is it?", englishMeaning: "Where is it?" },
-                    { thai: "ขอเมนูครับ/ค่ะ", khmerPhonetic: "សូមម៉ឺនុយ", khmerMeaning: "May I have the menu?", englishMeaning: "May I have the menu?" },
-                    { thai: "เช็คบิลครับ/ค่ะ", khmerPhonetic: "គិតលុយ", khmerMeaning: "Check, please (bill)", englishMeaning: "Check, please (bill)" },
-                    { thai: "ไม่เผ็ดครับ/ค่ะ", khmerPhonetic: "មិនហិរ", khmerMeaning: "Not spicy", englishMeaning: "Not spicy" },
-                    { thai: "เผ็ดน้อยครับ/ค่ะ", khmerPhonetic: "ហិរបន្តិច", khmerMeaning: "A little spicy", englishMeaning: "A little spicy" },
-                    { thai: "เลี้ยวซ้ายครับ/ค่ะ", khmerPhonetic: "បត់ឆ្វេង", khmerMeaning: "Turn left", englishMeaning: "Turn left" },
-                    { thai: "เลี้ยวขวาครับ/ค่ะ", khmerPhonetic: "បត់ស្តាំ", khmerMeaning: "Turn right", englishMeaning: "Turn right" },
-                    { thai: "ตรงไปครับ/ค่ะ", khmerPhonetic: "ទៅត្រង់", khmerMeaning: "Go straight", englishMeaning: "Go straight" },
-                    { thai: "กี่โมงแล้วครับ/คะ?", khmerPhonetic: "ម៉ោងប៉ុន្មានហើយ?", khmerMeaning: "What time is it?", englishMeaning: "What time is it?" },
-                    { thai: "วันนี้", khmerPhonetic: "ថ្ងៃនេះ", khmerMeaning: "Today", englishMeaning: "Today" },
-                    { thai: "พรุ่งนี้", khmerPhonetic: "ថ្ងៃស្អែក", khmerMeaning: "Tomorrow", englishMeaning: "Tomorrow" },
-                    { thai: "เมื่อวาน", khmerPhonetic: "ម្សិលមិញ", khmerMeaning: "Yesterday", englishMeaning: "Yesterday" },
-                    { thai: "ตอนนี้", khmerPhonetic: "ឥឡូវនេះ", khmerMeaning: "Now", englishMeaning: "Now" }
-                ],
-                intermediate: [
+                    { thai: "อะไรครับ/คะ?", khmerPhonetic: "អ្វី?", khmerMeaning: "What?", englishMeaning: "What?" },
+                    { thai: "เมื่อไหร่ครับ/คะ?", khmerPhonetic: "ពេលណា?", khmerMeaning: "When?", englishMeaning: "When?" },
+                    { thai: "ทำไมครับ/คะ?", khmerPhonetic: "ហេតុអ្វី?", khmerMeaning: "Why?", englishMeaning: "Why?" },
+                    { thai: "อย่างไรครับ/คะ?", khmerPhonetic: "យ៉ាងណា?", khmerMeaning: "How?", englishMeaning: "How?" },
+                    { thai: "ใครครับ/คะ?", khmerPhonetic: "នរណា?", khmerMeaning: "Who?", englishMeaning: "Who?" },
+                    { thai: "อันไหนครับ/คะ?", khmerPhonetic: "មួយណា?", khmerMeaning: "Which one?", englishMeaning: "Which one?" },
+                    { thai: "ขอ...หน่อยครับ/ค่ะ", khmerPhonetic: "សូម...បន្តិច", khmerMeaning: "May I have...?/Please give me...", englishMeaning: "May I have...?/Please give me..." },
+                    { thai: "ช่วยด้วยครับ/ค่ะ!", khmerPhonetic: "ជួយផង!", khmerMeaning: "Help!", englishMeaning: "Help!" },
                     { thai: "ผม/ฉันไม่เข้าใจครับ/ค่ะ", khmerPhonetic: "ខ្ញុំមិនយល់ទេ", khmerMeaning: "I don't understand", englishMeaning: "I don't understand" },
+                    { thai: "พูดภาษาอังกฤษได้ไหมครับ/คะ?", khmerPhonetic: "និយាយភាសាអង់គ្លេសបានទេ?", khmerMeaning: "Can you speak English?", englishMeaning: "Can you speak English?" },
                     { thai: "พูดช้าๆ หน่อยครับ/ค่ะ", khmerPhonetic: "និយាយយឺតៗបន្តិច", khmerMeaning: "Please speak slowly", englishMeaning: "Please speak slowly" },
                     { thai: "กรุณาเขียนให้หน่อยครับ/ค่ะ", khmerPhonetic: "សូមសរសេរបន្តិច", khmerMeaning: "Please write it down", englishMeaning: "Please write it down" },
                     { thai: "คุณมี...ไหมครับ/คะ?", khmerPhonetic: "អ្នកមាន...ទេ?", khmerMeaning: "Do you have...?", englishMeaning: "Do you have...?" },
@@ -724,6 +802,19 @@
                     { thai: "คุณต้องการอะไรครับ/คะ?", khmerPhonetic: "អ្នកត្រូវការអ្វី?", khmerMeaning: "What do you need?", englishMeaning: "What do you need?" },
                     { thai: "ไม่เป็นไรครับ/ค่ะ", khmerPhonetic: "មិនអីទេ", khmerMeaning: "Never mind", englishMeaning: "Never mind" },
                     { thai: "คุณแน่ใจไหมครับ/คะ?", khmerPhonetic: "អ្នកប្រាកដទេ?", khmerMeaning: "Are you sure?", englishMeaning: "Are you sure?" },
+                    { thai: "หิวครับ/ค่ะ", khmerPhonetic: "ឃ្លាន", khmerMeaning: "I'm hungry", englishMeaning: "I'm hungry" },
+                    { thai: "กระหายน้ำครับ/ค่ะ", khmerPhonetic: "ស្រេកទឹក", khmerMeaning: "I'm thirsty", englishMeaning: "I'm thirsty" },
+                    { thai: "กินข้าวครับ/ค่ะ", khmerPhonetic: "ញ៉ាំបាយ", khmerMeaning: "Eat rice/meal", englishMeaning: "Eat rice/meal" },
+                    { thai: "อร่อยมากครับ/ค่ะ", khmerPhonetic: "ឆ្ងាញ់ណាស់", khmerMeaning: "Very delicious", englishMeaning: "Very delicious" }
+                ],
+                intermediate: [
+                    { thai: "ขอเมนูครับ/ค่ะ", khmerPhonetic: "សូមម៉ឺនុយ", khmerMeaning: "May I have the menu?", englishMeaning: "May I have the menu?" },
+                    { thai: "เช็คบิลครับ/ค่ะ", khmerPhonetic: "គិតលុយ", khmerMeaning: "Check, please (bill)", englishMeaning: "Check, please (bill)" },
+                    { thai: "ขอเบียร์ครับ/ค่ะ", khmerPhonetic: "សូមប៊ីយែរ", khmerMeaning: "May I have a beer?", englishMeaning: "May I have a beer?" },
+                    { thai: "ขอชา/กาแฟครับ/ค่ะ", khmerPhonetic: "សូមតែ/កាហ្វេ", khmerMeaning: "May I have tea/coffee?", englishMeaning: "May I have tea/coffee?" },
+                    { thai: "ไม่เผ็ดครับ/ค่ะ", khmerPhonetic: "មិនហិរ", khmerMeaning: "Not spicy", englishMeaning: "Not spicy" },
+                    { thai: "เผ็ดน้อยครับ/ค่ะ", khmerPhonetic: "ហិរបន្តិច", khmerMeaning: "A little spicy", englishMeaning: "A little spicy" },
+                    { thai: "ราคานี้เท่าไหร่ครับ/คะ?", khmerPhonetic: "តម្លៃនេះប៉ុន្មាន?", khmerMeaning: "How much is this price?", englishMeaning: "How much is this price?" },
                     { thai: "ลดราคาได้ไหมครับ/คะ?", khmerPhonetic: "បញ្ចុះតម្លៃបានទេ?", khmerMeaning: "Can you give a discount?", englishMeaning: "Can you give a discount?" },
                     { thai: "แพงไปครับ/ค่ะ", khmerPhonetic: "ថ្លៃពេក", khmerMeaning: "Too expensive", englishMeaning: "Too expensive" },
                     { thai: "เอาอันนี้ครับ/ค่ะ", khmerPhonetic: "យកមួយនេះ", khmerMeaning: "I'll take this one", englishMeaning: "I'll take this one" },
@@ -733,11 +824,36 @@
                     { thai: "ปิดกี่โมงครับ/คะ?", khmerPhonetic: "បិទម៉ោងប៉ុន្មាន?", khmerMeaning: "What time do you close?", englishMeaning: "What time do you close?" },
                     { thai: "รับบัตรเครดิตไหมครับ/คะ?", khmerPhonetic: "ទទួលប័ណ្ណឥណទានទេ?", khmerMeaning: "Do you accept credit cards?", englishMeaning: "Do you accept credit cards?" },
                     { thai: "เงินสดครับ/ค่ะ", khmerPhonetic: "លុយសុទ្ធ", khmerMeaning: "Cash", englishMeaning: "Cash" },
+                    { thai: "ไปทางไหนครับ/คะ?", khmerPhonetic: "ទៅផ្លូវណា?", khmerMeaning: "Which way to go?", englishMeaning: "Which way to go?" },
+                    { thai: "เลี้ยวซ้ายครับ/ค่ะ", khmerPhonetic: "បត់ឆ្វេង", khmerMeaning: "Turn left", englishMeaning: "Turn left" },
+                    { thai: "เลี้ยวขวาครับ/ค่ะ", khmerPhonetic: "បត់ស្តាំ", khmerMeaning: "Turn right", englishMeaning: "Turn right" },
+                    { thai: "ตรงไปครับ/ค่ะ", khmerPhonetic: "ទៅត្រង់", khmerMeaning: "Go straight", englishMeaning: "Go straight" },
+                    { thai: "อยู่ตรงนี้ครับ/ค่ะ", khmerPhonetic: "នៅត្រង់នេះ", khmerMeaning: "It's here", englishMeaning: "It's here" },
                     { thai: "ไกลไหมครับ/คะ?", khmerPhonetic: "ឆ្ងាយទេ?", khmerMeaning: "Is it far?", englishMeaning: "Is it far?" },
-                    { thai: "ใกล้ครับ/ค่ะ", khmerPhonetic: "ជិត", khmerMeaning: "Near", englishMeaning: "Near" }
+                    { thai: "ใกล้ครับ/ค่ะ", khmerPhonetic: "ជិត", khmerMeaning: "Near", englishMeaning: "Near" },
+                    { thai: "ไม่ไกลครับ/ค่ะ", khmerPhonetic: "មិនឆ្ងាយទេ", khmerMeaning: "Not far", englishMeaning: "Not far" },
+                    { thai: "สถานีรถไฟอยู่ที่ไหนครับ/คะ?", khmerPhonetic: "ស្ថានីយ៍រថភ្លើងនៅឯណា?", khmerMeaning: "Where is the train station?", englishMeaning: "Where is the train station?" }
                 ],
                 advanced: [
-                    { thai: "ผม/ฉันปวดหัวครับ/ค่ะ", khmerPhonetic: "ខ្ញុំឈឺក្បាល", khmerMeaning: "I have a headache", englishMeaning: "I have a headache" },
+                    { thai: "สนามบินอยู่ที่ไหนครับ/คะ?", khmerPhonetic: "អាកាសយានដ្ឋាននៅឯណា?", khmerMeaning: "Where is the airport?", englishMeaning: "Where is the airport?" },
+                    { thai: "ไป...ครับ/ค่ะ", khmerPhonetic: "ទៅ...", khmerMeaning: "Go to...", englishMeaning: "Go to..." },
+                    { thai: "เรียกแท็กซี่ครับ/ค่ะ", khmerPhonetic: "ហៅតាក់ស៊ី", khmerMeaning: "Call a taxi", englishMeaning: "Call a taxi" },
+                    { thai: "จอดตรงนี้ครับ/ค่ะ", khmerPhonetic: "ឈប់ត្រង់នេះ", khmerMeaning: "Stop here", englishMeaning: "Stop here" },
+                    { thai: "ช้าๆ หน่อยครับ/ค่ะ", khmerPhonetic: "យឺតៗបន្តិច", khmerMeaning: "Slowly, please", englishMeaning: "Slowly, please" },
+                    { thai: "เร็วๆ หน่อยครับ/ค่ะ", khmerPhonetic: "លឿនៗបន្តិច", khmerMeaning: "Quickly, please", englishMeaning: "Quickly, please" },
+                    { thai: "กี่โมงแล้วครับ/คะ?", khmerPhonetic: "ម៉ោងប៉ុន្មានហើយ?", khmerMeaning: "What time is it?", englishMeaning: "What time is it?" },
+                    { thai: "วันนี้", khmerPhonetic: "ថ្ងៃនេះ", khmerMeaning: "Today", englishMeaning: "Today" },
+                    { thai: "พรุ่งนี้", khmerPhonetic: "ថ្ងៃស្អែក", khmerMeaning: "Tomorrow", englishMeaning: "Tomorrow" },
+                    { thai: "เมื่อวาน", khmerPhonetic: "ម្សិលមិញ", khmerMeaning: "Yesterday", englishMeaning: "Yesterday" },
+                    { thai: "ตอนนี้", khmerPhonetic: "ឥឡូវនេះ", khmerMeaning: "Now", englishMeaning: "Now" },
+                    { thai: "สายแล้วครับ/ค่ะ", khmerPhonetic: "យឺតហើយ", khmerMeaning: "It's late", englishMeaning: "It's late" },
+                    { thai: "เช้า", khmerPhonetic: "ពេលព្រឹក", khmerMeaning: "Morning", englishMeaning: "Morning" },
+                    { thai: "บ่าย", khmerPhonetic: "ពេលរសៀល", khmerMeaning: "Afternoon", englishMeaning: "Afternoon" },
+                    { thai: "เย็น", khmerPhonetic: "ពេលល្ងាច", khmerMeaning: "Evening", englishMeaning: "Evening" },
+                    { thai: "กลางคืน", khmerPhonetic: "ពេលយប់", khmerMeaning: "Night", englishMeaning: "Night" },
+                    { thai: "ผม/ฉันไม่สบายครับ/ค่ะ", khmerPhonetic: "ខ្ញុំមិនស្រួលខ្លួនទេ", khmerMeaning: "I don't feel well", englishMeaning: "I don't feel well" },
+                    { thai: "ปวดท้องครับ/ค่ะ", khmerPhonetic: "ឈឺពោះ", khmerMeaning: "Stomach ache", englishMeaning: "Stomach ache" },
+                    { thai: "ปวดหัวครับ/ค่ะ", khmerPhonetic: "ខ្ញុំឈឺក្បាល", khmerMeaning: "I have a headache", englishMeaning: "I have a headache" },
                     { thai: "ช่วยโทรศัพท์หาหมอให้หน่อยครับ/ค่ะ", khmerPhonetic: "សូមជួយទូរស័ព្ទហៅពេទ្យឲ្យខ្ញុំផង", khmerMeaning: "Please call a doctor for me", englishMeaning: "Please call a doctor for me" },
                     { thai: "โรงพยาบาลอยู่ที่ไหนครับ/คะ?", khmerPhonetic: "មន្ទីរពេទ្យនៅឯណា?", khmerMeaning: "Where is the hospital?", englishMeaning: "Where is the hospital?" },
                     { thai: "ตำรวจอยู่ที่ไหนครับ/คะ?", khmerPhonetic: "ប៉ូលិសនៅឯណា?", khmerMeaning: "Where is the police station?", englishMeaning: "Where is the police station?" },
@@ -749,14 +865,7 @@
                     { thai: "ผม/ฉันรักคุณครับ/ค่ะ", khmerPhonetic: "ខ្ញុំស្រឡាញ់អ្នក", khmerMeaning: "I love you", englishMeaning: "I love you" },
                     { thai: "โชคดีครับ/ค่ะ!", khmerPhonetic: "សំណាងល្អ!", khmerMeaning: "Good luck!", englishMeaning: "Good luck!" },
                     { thai: "ดูแลตัวเองด้วยครับ/ค่ะ", khmerPhonetic: "ថែរក្សាខ្លួនផង", khmerMeaning: "Take care of yourself", englishMeaning: "Take care of yourself" },
-                    { thai: "มีความสุขมากๆ ครับ/ค่ะ!", khmerPhonetic: "សូមមានសេចក្តីសុខច្រើនៗ!", khmerMeaning: "Be very happy!", englishMeaning: "Be very happy!" },
-                    { thai: "คุณช่วยผม/ฉันได้ไหมครับ/คะ?", khmerPhonetic: "អ្នកជួយខ្ញុំបានទេ?", khmerMeaning: "Can you help me?", englishMeaning: "Can you help me?" },
-                    { thai: "ผม/ฉันอยากไปเที่ยวครับ/ค่ะ", khmerPhonetic: "ខ្ញុំចង់ទៅលេង", khmerMeaning: "I want to travel", englishMeaning: "I want to travel" },
-                    { thai: "อากาศเป็นอย่างไรบ้างครับ/คะ?", khmerPhonetic: "អាកាសធាតុយ៉ាងម៉េចដែរ?", khmerMeaning: "How is the weather?", englishMeaning: "How is the weather?" },
-                    { thai: "ฝนตกครับ/ค่ะ", khmerPhonetic: "ភ្លៀងធ្លាក់", khmerMeaning: "It's raining", englishMeaning: "It's raining" },
-                    { thai: "แดดออกครับ/ค่ะ", khmerPhonetic: "ថ្ងៃរះ", khmerMeaning: "It's sunny", englishMeaning: "It's sunny" },
-                    { thai: "ลมแรงครับ/ค่ะ", khmerPhonetic: "ខ្យល់ខ្លាំង", khmerMeaning: "It's windy", englishMeaning: "It's windy" },
-                    { thai: "ผม/ฉันขอตัวก่อนครับ/ค่ะ", khmerPhonetic: "ខ្ញុំសូមលាហើយ", khmerMeaning: "I'll take my leave now", englishMeaning: "I'll take my leave now" }
+                    { thai: "มีความสุขมากๆ ครับ/ค่ะ!", khmerPhonetic: "សូមមានសេចក្តីសុខច្រើនៗ!", khmerMeaning: "Be very happy!", englishMeaning: "Be very happy!" }
                 ]
             };
 
@@ -775,7 +884,7 @@
                 { thaiChar: "ซ", phoneticTranscription: "ស", khmerMeaning: "โซ่ (ច្រវាក់)", englishMeaning: "So (Chain)", consonantClass: "low" },
                 { thaiChar: "ฌ", phoneticTranscription: "ឈ", khmerMeaning: "เฌอ (ដើមឈើ)", englishMeaning: "Cher (Tree)", consonantClass: "low" },
                 { thaiChar: "ญ", phoneticTranscription: "ញ", khmerMeaning: "หญิง (ស្រី)", englishMeaning: "Ying (Woman)", consonantClass: "low" },
-                { thaiChar: "ฎ", phoneticTranscription: "ដ", khmerMeaning: "ชฎา (មកុដ)", englishMeaning: "Cha-da (Headdress)", consonantClass: "mid" },
+                { thaiChar: "ฎ", phoneticTranscription: "ដ", khmerMeaning: "ชฎา (មកุដ)", englishMeaning: "Cha-da (Headdress)", consonantClass: "mid" },
                 { thaiChar: "ฏ", phoneticTranscription: "ត", khmerMeaning: "ปฏัก (លំពែង)", englishMeaning: "Pa-tak (Goad)", consonantClass: "mid" },
                 { thaiChar: "ฐ", phoneticTranscription: "ឋ", khmerMeaning: "ฐาน (មូលដ្ឋាន)", englishMeaning: "Than (Base)", consonantClass: "high" },
                 { thaiChar: "ฑ", phoneticTranscription: "ឍ", khmerMeaning: "มณโฑ (មណ្ឋោ)", englishMeaning: "Mon-tho (Character name)", consonantClass: "low" },
@@ -805,7 +914,7 @@
                 { thaiChar: "ห", phoneticTranscription: "ហ", khmerMeaning: "หีบ (ទ្រុង)", englishMeaning: "Heep (Chest)", consonantClass: "high" },
                 { thaiChar: "ฬ", phoneticTranscription: "ឡ", khmerMeaning: "จุฬา (ខ្លែង)", englishMeaning: "Ju-la (Kite)", consonantClass: "low" },
                 { thaiChar: "อ", phoneticTranscription: "អ", khmerMeaning: "อ่าง (អាង)", englishMeaning: "Ang (Basin)", consonantClass: "mid" },
-                { thaiChar: "ฮ", phoneticTranscription: "ហ", khmerMeaning: "นกฮูก (សត្វទីទុយ)", englishMeaning: "Nok Hook (Owl)", consonantClass: "low" }
+                { thaiChar: "ฮ", phoneticTranscription: "ហ", khmerMeaning: "นกฮูก (សត្វទីទุយ)", englishMeaning: "Nok Hook (Owl)", consonantClass: "low" }
             ];
 
             const thaiVowels = [
@@ -826,7 +935,7 @@
                 { thaiChar: "เอาะ", phoneticTranscription: "អោះ", khmerMeaning: "ស្រៈអោះ (ខ្លី)", englishMeaning: "aw (short)", vowelType: "short" },
                 { thaiChar: "ออ", phoneticTranscription: "អ", khmerMeaning: "ស្រៈអ (វែង)", englishMeaning: "or (long)", vowelType: "long" },
                 { thaiChar: "เออะ", phoneticTranscription: "អឺៈ", khmerMeaning: "ស្រៈអឺៈ (ខ្លី)", englishMeaning: "er (short)", vowelType: "short" },
-                { thaiChar: "เออ", phoneticTranscription: "អឺ", khmerMeaning: "ស្រៈអឺ (វែង)", englishMeaning: "eu (long)", vowelType: "long" },
+                { thaiChar: "เออ", phoneticTranscription: "អឺ", khmerMeaning: "ស្រៈអឺ (វែង)", englishMeaning: "eu (long)", vowelType: "diphthong" },
                 { thaiChar: "เอียะ", phoneticTranscription: "អៀៈ", khmerMeaning: "ស្រៈអៀៈ (ខ្លី)", englishMeaning: "ia (short)", vowelType: "diphthong" },
                 { thaiChar: "เอีย", phoneticTranscription: "អៀ", khmerMeaning: "ស្រៈអៀ (វែង)", englishMeaning: "ia (long)", vowelType: "diphthong" },
                 { thaiChar: "เอือะ", phoneticTranscription: "អឿៈ", khmerMeaning: "ស្រៈអឿៈ (ខ្លី)", englishMeaning: "uea (short)", vowelType: "diphthong" },
@@ -971,6 +1080,7 @@
             let currentLanguage = 'km'; // Default language
             let currentFlashcardIndex = 0;
             let synth = window.speechSynthesis;
+            let chatHistory = []; // To store conversation history for AI chat
 
             // Function to update content based on selected language
             function updateContentLanguage(lang) {
@@ -982,6 +1092,12 @@
                         element.textContent = translations[lang][key];
                     }
                 });
+
+                // Update placeholder for chat input
+                const chatInput = document.getElementById('chat-input');
+                if (chatInput) {
+                    chatInput.placeholder = translations[currentLanguage].chat_input_placeholder;
+                }
 
                 // Special handling for static content that might contain dynamic parts or need re-rendering
                 renderLessons('kindergarten');
@@ -1242,6 +1358,71 @@
                 };
             }
 
+            // Function to add a message to the chat display
+            function addChatMessage(message, type) {
+                const chatMessagesDiv = document.getElementById('chat-messages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${type}`;
+                messageDiv.textContent = message;
+                chatMessagesDiv.appendChild(messageDiv);
+                chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight; // Scroll to bottom
+            }
+
+            // Function to send message to AI
+            async function sendChatMessage() {
+                const chatInput = document.getElementById('chat-input');
+                const userMessage = chatInput.value.trim();
+
+                if (userMessage === '') return;
+
+                addChatMessage(userMessage, 'user');
+                chatInput.value = ''; // Clear input
+
+                // Add user message to chat history
+                chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
+
+                // Add a loading indicator for AI response
+                const loadingMessageDiv = document.createElement('div');
+                loadingMessageDiv.className = 'chat-message ai loading';
+                loadingMessageDiv.textContent = translations[currentLanguage].ai_chat_loading;
+                document.getElementById('chat-messages').appendChild(loadingMessageDiv);
+                document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+
+                try {
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""; // Canvas will automatically provide this in runtime
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+
+                    // Remove loading indicator
+                    loadingMessageDiv.remove();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const aiResponseText = result.candidates[0].content.parts[0].text;
+                        addChatMessage(aiResponseText, 'ai');
+                        playAudio(aiResponseText, 'th-TH'); // Play AI response in Thai
+                        chatHistory.push({ role: "model", parts: [{ text: aiResponseText }] });
+                    } else {
+                        addChatMessage("ขออภัยค่ะ มีข้อผิดพลาดในการตอบกลับของ AI (Sorry, there was an error in AI response).", 'ai');
+                        console.error("AI response structure unexpected:", result);
+                    }
+                } catch (error) {
+                    // Remove loading indicator
+                    loadingMessageDiv.remove();
+                    addChatMessage("ขออภัยค่ะ ไม่สามารถเชื่อมต่อกับ AI ได้ (Sorry, could not connect to AI).", 'ai');
+                    console.error("Error communicating with AI:", error);
+                }
+            }
+
 
             // Initial setup on DOMContentLoaded
             document.addEventListener('DOMContentLoaded', () => {
@@ -1286,6 +1467,12 @@
                         } else if (sectionId === 'flashcards') {
                             currentFlashcardIndex = 0; // Reset to first card
                             renderFlashcards();
+                        } else if (sectionId === 'ai-chat') {
+                            // Initialize chat history when entering AI chat section
+                            chatHistory = [{ role: "user", parts: [{ text: "สวัสดี ฉันต้องการฝึกภาษาไทย" }] }];
+                            document.getElementById('chat-messages').innerHTML = ''; // Clear previous messages
+                            addChatMessage("สวัสดีครับ/ค่ะ ฉันคือ AI សម្រាប់ជួយអ្នកអនុវត្តភាសាថៃ។ តើអ្នកចង់និយាយអ្វី?", 'ai'); // Initial AI greeting
+                            playAudio("สวัสดีครับ/ค่ะ ฉันคือ AI สำหรับช่วยคุณฝึกภาษาไทย. คุณต้องการพูดอะไร?", 'th-TH');
                         }
                     });
                 });
@@ -1296,6 +1483,14 @@
                 });
                 document.getElementById('vowel-sort-by').addEventListener('change', (event) => {
                     renderAlphabet('vowels', event.target.value);
+                });
+
+                // Event listeners for AI Chat input and send button
+                document.getElementById('send-chat-button').addEventListener('click', sendChatMessage);
+                document.getElementById('chat-input').addEventListener('keypress', (event) => {
+                    if (event.key === 'Enter') {
+                        sendChatMessage();
+                    }
                 });
 
                 // Initialize the home section as active
